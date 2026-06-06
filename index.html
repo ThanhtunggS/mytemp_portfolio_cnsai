@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM.PORTFOLIO // PHAN_THANH_TUNG</title>
+    <title>STOLY.AI // PORTFOLIO // PHAN_THANH_TUNG</title>
     
     <!-- Tích hợp Font Gaming Sci-Fi -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -16,70 +16,274 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <style>
-        /* === BẢNG MÀU ICE BLUE & CYBER ORANGE === */
+        /* === BẢNG MÀU STOLY TECH BRANDING === */
         :root {
-            --neon-primary: #00e5ff; /* Ice Blue */
-            --neon-secondary: #ff3c00; /* Cyber Orange */
-            --neon-accent: #eaff00; /* Electric Yellow */
-            --bg-dark: rgba(8, 12, 18, 0.85);
-            --text-main: #e0f8ff;
-            --text-secondary: #8fa3b0;
+            --neon-primary: #76b900; /* STOLY Green */
+            --neon-secondary: #00e5ff; /* Cyber Cyan */
+            --neon-accent: #a3ff12; /* Glowing Lime */
+            --bg-dark: rgba(8, 8, 10, 0.94); /* Nền Obsidian đen tối */
+            --text-main: #f4f4f6; /* Chữ bạc kim */
+            --text-secondary: #94a3b8; /* Chữ xám phụ */
+            --ambient-color: rgba(118, 185, 0, 0.12); /* Màu bóng mờ mặc định */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Rajdhani', sans-serif;
-            background-color: #000;
+            background-color: #040405;
             color: var(--text-main);
             overflow: hidden; 
             user-select: none;
-            perspective: 1000px;
         }
 
-        /* === 1. NỀN ẢNH ĐỘNG ĐƯỢC LÀM MỜ VÀ SCANLINES === */
-        .game-bg {
+        /* === 1. NỀN CANVAS MẠNG NƠ-RON THẦN KINH === */
+        #ember-canvas {
             position: fixed;
-            top: 50%; left: 50%;
-            min-width: 100vw; min-height: 100vh;
-            transform: translate(-50%, -50%);
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            pointer-events: none;
+            filter: blur(0.5px);
+        }
+
+        .ambient-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), var(--ambient-color) 0%, transparent 65%);
             z-index: -3;
-            object-fit: cover;
-            /* LÀM MỜ ẢNH NỀN THEO YÊU CẦU */
-            filter: blur(12px) saturate(130%) brightness(0.4);
-            transition: opacity 0.4s ease;
+            pointer-events: none;
+            transition: background 0.8s ease;
         }
 
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4));
             background-size: 100% 4px;
-            z-index: -2; pointer-events: none;
+            z-index: -1; pointer-events: none;
+            opacity: 0.7;
         }
 
         .vignette {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle, transparent 30%, #000000 130%);
+            background: radial-gradient(circle, transparent 40%, #000000 145%);
             z-index: -1; pointer-events: none;
         }
 
-        /* === 2. HIỆU ỨNG LẬT TRANG DARK WARP (KHÔNG GÂY CHÓI MẮT) === */
-        #flash-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000;
+        /* === 2. ĐIỆN ẢNH INTRO & OUTRO: THÀNH PHỐ 3D SYNTHWAVE === */
+        .cinematic-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% 30%, #0c0f12 0%, #020203 100%);
+            z-index: 2000;
+            overflow: hidden;
+            perspective: 800px;
+            transition: transform 1.6s cubic-bezier(0.76, 0, 0.24, 1), opacity 1.2s ease;
+            display: none; /* Ban đầu ẩn, chỉ hiển thị lại ở hoạt cảnh kết thúc (outro) */
+        }
+
+        .cyber-sky {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 55%;
+            background: linear-gradient(to bottom, #010102, #08060c 60%, #150f22 100%);
+            border-bottom: 2px solid rgba(118, 185, 0, 0.25);
+            overflow: hidden;
+            transition: transform 3.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* HE THONG NGOI SAO NHAP NHAY */
+        @keyframes starBlink {
+            0%, 100% { opacity: 0.25; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.25); }
+        }
+        .star-blink-1 { animation: starBlink 3.2s infinite ease-in-out; transform-origin: center; }
+        .star-blink-2 { animation: starBlink 4.5s infinite ease-in-out 1.2s; transform-origin: center; }
+        .star-blink-3 { animation: starBlink 5.8s infinite ease-in-out 2.4s; transform-origin: center; }
+
+        .cyber-sun {
+            position: absolute;
+            bottom: -60px; left: 50%; transform: translateX(-50%);
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #ff5e00, #ff003c);
+            box-shadow: 0 0 75px rgba(255, 40, 0, 0.65);
+            -webkit-mask-image: linear-gradient(to bottom, 
+                black 0%, black 50%, 
+                transparent 50%, transparent 55%, 
+                black 55%, black 65%, 
+                transparent 65%, transparent 72%, 
+                black 72%, black 80%, 
+                transparent 80%, transparent 88%, 
+                black 88%, black 95%, 
+                transparent 95%, transparent 100%);
+            mask-image: linear-gradient(to bottom, 
+                black 0%, black 50%, 
+                transparent 50%, transparent 55%, 
+                black 55%, black 65%, 
+                transparent 65%, transparent 72%, 
+                black 72%, black 80%, 
+                transparent 80%, transparent 88%, 
+                black 88%, black 95%, 
+                transparent 95%, transparent 100%);
+        }
+
+        .cyber-skyline {
+            position: absolute;
+            bottom: 0; left: 0; width: 200%; height: 90px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='90' viewBox='0 0 400 90'%3E%3Crect x='10' y='20' width='45' height='70' fill='%23050508' stroke='%23151522' stroke-width='1'/%3E%3Crect x='18' y='30' width='6' height='8' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='30' y='30' width='6' height='8' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='42' y='30' width='6' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='18' y='45' width='6' height='8' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='30' y='45' width='6' height='8' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='42' y='45' width='6' height='8' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='18' y='60' width='6' height='8' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='30' y='60' width='6' height='8' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='42' y='60' width='6' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='65' y='40' width='35' height='50' fill='%2308080c' stroke='%23151522' stroke-width='1'/%3E%3Crect x='72' y='50' width='5' height='6' fill='%2300e5ff' opacity='0.8'/%3E%3Crect x='82' y='50' width='5' height='6' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='72' y='62' width='5' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='82' y='62' width='5' height='6' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='72' y='74' width='5' height='6' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='82' y='74' width='5' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='110' y='5' width='30' height='85' fill='%23030306' stroke='%2310101d' stroke-width='1'/%3E%3Cline x1='125' y1='5' x2='125' y2='0' stroke='%23ff0055' stroke-width='1.5'/%3E%3Crect x='116' y='15' width='4' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='124' y='15' width='4' height='6' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='116' y='25' width='4' height='6' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='124' y='25' width='4' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='116' y='35' width='4' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='124' y='35' width='4' height='6' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='116' y='45' width='4' height='6' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='124' y='45' width='4' height='6' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='116' y='55' width='4' height='6' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='124' y='55' width='4' height='6' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='116' y='65' width='4' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='124' y='65' width='4' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='116' y='75' width='4' height='6' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='124' y='75' width='4' height='6' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='150' y='30' width='55' height='60' fill='%2306060a' stroke='%23151522' stroke-width='1'/%3E%3Crect x='158' y='40' width='6' height='7' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='168' y='40' width='6' height='7' fill='%2300e5ff' opacity='0.8'/%3E%3Crect x='178' y='40' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='188' y='40' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='158' y='52' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='168' y='52' width='6' height='7' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='178' y='52' width='6' height='7' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='188' y='52' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='158' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='168' y='64' width='6' height='7' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='178' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='188' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='215' y='50' width='40' height='40' fill='%2307070b' stroke='%23151522' stroke-width='1'/%3E%3Crect x='222' y='60' width='6' height='6' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='232' y='60' width='6' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='242' y='60' width='6' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='222' y='72' width='6' height='6' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='232' y='72' width='6' height='6' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='242' y='72' width='6' height='6' fill='%23ffaa00' opacity='0.6'/%3E%3Cpath d='M 265,35 L 295,20 L 320,20 L 320,90 L 265,90 Z' fill='%23040407' stroke='%2310101d' stroke-width='1'/%3E%3Crect x='275' y='40' width='5' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='285' y='40' width='5' height='8' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='295' y='40' width='5' height='8' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='307' y='40' width='5' height='8' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='275' y='55' width='5' height='8' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='285' y='55' width='5' height='8' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='295' y='55' width='5' height='8' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='307' y='55' width='5' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='275' y='70' width='5' height='8' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='285' y='70' width='5' height='8' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='295' y='70' width='5' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='307' y='70' width='5' height='8' fill='%2300e5ff' opacity='0.4'/%3E%3Crect x='330' y='15' width='45' height='75' fill='%23050509' stroke='%23151522' stroke-width='1'/%3E%3Crect x='338' y='25' width='6' height='7' fill='%2300e5ff' opacity='0.8'/%3E%3Crect x='350' y='25' width='6' height='7' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='362' y='25' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='338' y='38' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='350' y='38' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='362' y='38' width='6' height='7' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='338' y='51' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='350' y='51' width='6' height='7' fill='%2300e5ff' opacity='0.4'/%3E%3Crect x='362' y='51' width='6' height='7' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='338' y='64' width='6' height='7' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='350' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='362' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3C/svg%3E");
+            opacity: 0.65;
+            background-size: auto 100%;
+            animation: skylineScroll 45s linear infinite;
+        }
+
+        @keyframes skylineScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-200px); }
+        }
+
+        .cyber-road-plane {
+            position: absolute;
+            top: 55%; left: 0; width: 100%; height: 45%;
+            background: #020203;
+            transform-origin: top center;
+            transform: rotateX(82deg);
+            transition: transform 3.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .cyber-road-grid {
+            width: 100%; height: 200%;
+            background-image: 
+                linear-gradient(to right, rgba(118, 185, 0, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(118, 185, 0, 0.25) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center top;
+            animation: roadScroll 0.8s linear infinite;
+        }
+
+        @keyframes roadScroll {
+            0% { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
+        }
+
+        .cyber-car-container {
+            position: absolute;
+            bottom: 4vh; left: 50%; transform: translateX(-50%);
+            width: 240px;
+            z-index: 10;
+            filter: drop-shadow(0 0 15px rgba(118, 185, 0, 0.6));
+            animation: carVibrate 0.12s linear infinite;
+            transition: transform 3.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.5s ease;
+        }
+
+        @keyframes carVibrate {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-1px); }
+        }
+
+        .cyber-billboard-container {
+            position: absolute;
+            top: 45%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.05) translateZ(-800px);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+            transition: transform 3.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 2s ease;
+        }
+
+        .cyber-billboard-container.visible {
+            transform: translate(-50%, -50%) scale(1) translateZ(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .cyber-billboard {
+            width: 650px;
+            background: rgba(8, 8, 10, 0.96);
+            border: 2px solid var(--neon-primary);
+            padding: 45px 50px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(118, 185, 0, 0.35), inset 0 0 20px rgba(118, 185, 0, 0.15);
+            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+            position: relative;
+        }
+
+        .cyber-billboard::before {
+            content: '';
+            position: absolute;
+            top: -20px; left: 50%; transform: translateX(-50%);
+            width: 2px; height: 20px;
+            background: var(--neon-primary);
+            box-shadow: 0 0 10px var(--neon-primary);
+        }
+
+        .billboard-title {
+            font-size: 42px;
+            color: #fff;
+            text-shadow: 0 0 12px var(--neon-primary), 0 0 25px var(--neon-primary);
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+        }
+
+        .billboard-sub {
+            font-family: 'Orbitron';
+            font-size: 14px;
+            color: var(--neon-secondary);
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 8px rgba(0,229,255,0.4);
+        }
+
+        .billboard-info {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(118, 185, 0, 0.3);
+            padding: 20px;
+            border-radius: 4px;
+            text-align: left;
+            margin-bottom: 25px;
+            font-family: 'Rajdhani';
+            font-size: 19px;
+            line-height: 1.5;
+        }
+
+        .billboard-desc {
+            font-size: 19px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        /* === 3. CHUYỂN CẢNH HOLOGRAM GLITCH === */
+        #glitch-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4, 4, 6, 0.7);
             z-index: 9999;
-            opacity: 0; pointer-events: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(2px);
+        }
+        
+        .glitch-active {
+            animation: hologramGlitch 0.5s step-end infinite;
         }
 
-        @keyframes warpEnter {
-            0% { opacity: 0; transform: scale(1.1) translateZ(50px); filter: blur(10px); }
-            100% { opacity: 1; transform: scale(1) translateZ(0); filter: blur(0); }
+        @keyframes hologramGlitch {
+            0% { opacity: 0.12; filter: hue-rotate(0deg); background: rgba(0, 229, 255, 0.12); }
+            20% { opacity: 0.18; filter: grayscale(0.4); background: rgba(118, 185, 0, 0.15); }
+            40% { opacity: 0.08; transform: scaleY(1.02); background: rgba(4, 4, 6, 0.4); }
+            60% { opacity: 0.15; background: rgba(0, 229, 255, 0.18); }
+            80% { opacity: 0.05; transform: skewX(-3deg); background: rgba(118, 185, 0, 0.1); }
+            100% { opacity: 0.1; }
         }
 
+        /* === 4. THIẾT KẾ TRANG PORTFOLIO CHÍNH === */
         .page {
             display: none;
             width: 100vw; height: 100vh;
-            padding: 50px 10% 120px 10%; 
+            padding: 95px 10% 120px 10%; 
             overflow-y: auto;
             flex-direction: column;
             align-items: center;
@@ -87,219 +291,951 @@
 
         .page.active {
             display: flex;
-            animation: warpEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
+            animation: pageEnter 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        /* === 3. TYPOGRAPHY ĐẬM CHẤT ESPORTS/SCI-FI === */
-        h1, h2, .section-tag { font-family: 'Orbitron', sans-serif; text-transform: uppercase; }
+        @keyframes pageEnter {
+            0% { opacity: 0; transform: scale(0.97) translateY(15px); filter: blur(4px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+
+        /* HUD TOP HEADER */
+        .hud-header {
+            position: fixed;
+            top: 0; left: 0; width: 100vw;
+            height: 65px;
+            background: rgba(4, 4, 5, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(118, 185, 0, 0.3);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 8vw;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        .hud-header.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .hud-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 19px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-primary);
+            cursor: pointer;
+            letter-spacing: 2px;
+        }
+        .hud-logo:hover {
+            text-shadow: 0 0 20px var(--neon-accent);
+        }
         
+        .hud-nav-items { display: flex; gap: 10px; align-items: center; }
+        .hud-nav-btn {
+            background: transparent; border: none;
+            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 1px; padding: 8px 16px;
+            cursor: pointer; transition: all 0.3s;
+            position: relative;
+        }
+        .hud-nav-btn::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px;
+            background: var(--neon-primary); transition: all 0.3s ease; transform: translateX(-50%);
+        }
+        .hud-nav-btn:hover, .hud-nav-btn.active {
+            color: #fff; text-shadow: 0 0 8px var(--neon-primary);
+        }
+        .hud-nav-btn:hover::after, .hud-nav-btn.active::after { width: 80%; }
+        
+        /* Dropdown */
+        .hud-dropdown { position: relative; display: inline-block; }
+        .hud-dropdown-content {
+            display: none; position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: rgba(6, 6, 8, 0.98);
+            border: 1px solid var(--neon-primary);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(118, 185, 0, 0.2);
+            min-width: 220px; z-index: 1001; border-radius: 4px; overflow: hidden;
+            opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none;
+        }
+        .hud-dropdown:hover .hud-dropdown-content {
+            display: block; opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto;
+        }
+        .hud-dropdown-content a {
+            color: var(--text-secondary); padding: 12px 18px; text-decoration: none; display: block;
+            font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; border-bottom: 1px solid rgba(118, 185, 0, 0.1);
+        }
+        .hud-dropdown-content a:hover {
+            background: rgba(118, 185, 0, 0.15); color: #fff; padding-left: 24px; text-shadow: 0 0 5px var(--neon-primary);
+        }
+
+        /* TEXT AND CONTENT WRAPPER */
+        h1, h2, .section-tag { font-family: 'Orbitron', sans-serif; text-transform: uppercase; }
         .section-tag { 
-            font-size: 16px; color: var(--neon-accent); letter-spacing: 4px; 
-            margin-bottom: 15px; text-shadow: 0 0 10px rgba(234, 255, 0, 0.5);
+            font-size: 14px; color: var(--neon-accent); letter-spacing: 4px; 
+            margin-bottom: 15px; text-shadow: 0 0 10px rgba(163, 255, 18, 0.5);
             display: inline-block; border-bottom: 2px solid var(--neon-accent); padding-bottom: 5px;
         }
-        
         h1 { 
-            font-size: 46px; color: #fff; letter-spacing: 2px; margin-bottom: 30px; text-align: center; 
-            text-shadow: 3px 3px 0px var(--neon-secondary), -3px -3px 0px var(--neon-primary);
+            font-size: 40px; color: #fff; letter-spacing: 2px; margin-bottom: 30px; text-align: center; 
+            text-shadow: 2px 2px 0px var(--neon-primary), -2px -2px 0px var(--neon-secondary);
         }
-        
-        h2 { font-size: 32px; color: var(--neon-primary); margin: 30px 0 15px 0; text-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
-        h3 { font-size: 24px; font-weight: 700; margin-bottom: 12px; color: #fff; border-left: 4px solid var(--neon-secondary); padding-left: 10px; }
-        
+        h2 { font-size: 30px; color: var(--neon-primary); margin: 35px 0 15px 0; text-shadow: 0 0 15px rgba(118, 185, 0, 0.3); }
+        h3 { font-size: 23px; font-weight: 700; margin-bottom: 12px; color: #fff; border-left: 4px solid var(--neon-primary); padding-left: 10px; }
         p, ul { font-size: 20px; line-height: 1.6; text-shadow: 0 2px 4px rgba(0,0,0,0.9); text-align: justify; }
-        li { margin-bottom: 10px; }
+        li { margin-bottom: 8px; }
 
-        /* === 4. KHUNG NỘI DUNG GÓC CẠNH (CLIP-PATH) === */
         .content-wrapper { 
             max-width: 1100px; width: 100%; 
             background: var(--bg-dark);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            /* Cắt góc kiểu Sci-fi */
-            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+            border: 1px solid rgba(118, 185, 0, 0.25);
+            clip-path: polygon(0 0, 96% 0, 100% 4%, 100% 100%, 4% 100%, 0 96%);
             padding: 50px 60px;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.1);
+            box-shadow: 0 0 35px rgba(118, 185, 0, 0.08);
             position: relative;
         }
-        
         .content-wrapper::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 150px; height: 5px; background: var(--neon-primary);
+            content: ''; position: absolute; top: 0; left: 0; width: 150px; height: 5px; background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; width: 100%; margin-top: 24px; }
-        
-        /* === 5. THẺ NHIỆM VỤ (MISSION SELECT) === */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; width: 100%; margin-top: 40px; }
+
+        /* INTERACTIVE CARDS */
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; width: 100%; margin-top: 30px; }
         .card {
-            background: linear-gradient(135deg, rgba(20,30,50,0.9) 0%, rgba(10,15,25,0.9) 100%);
-            border: 2px solid rgba(0, 229, 255, 0.2);
-            /* Cắt chéo 2 góc */
+            background: linear-gradient(135deg, rgba(10, 15, 10, 0.95) 0%, rgba(4, 5, 6, 0.95) 100%);
+            border: 2px solid rgba(118, 185, 0, 0.15);
             clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
-            padding: 40px 20px;
-            cursor: pointer;
+            padding: 35px 20px; cursor: pointer;
             display: flex; flex-direction: column; justify-content: center; text-align: center;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
         }
-        
         .card::after {
-            content: '[ INITIALIZE ]';
-            position: absolute; bottom: 10px; right: 20px; font-family: 'Orbitron'; font-size: 10px; color: var(--neon-primary); opacity: 0; transition: opacity 0.3s;
+            content: '[ KÍCH HOẠT MÔ-ĐUN ]';
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            font-family: 'Orbitron'; font-size: 10px; color: var(--neon-primary); opacity: 0; transition: opacity 0.3s;
         }
-
         .card:hover { 
             border-color: var(--neon-primary);
-            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1) 0%, rgba(10,15,25,0.9) 100%);
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+            background: linear-gradient(135deg, rgba(118, 185, 0, 0.12) 0%, rgba(4, 5, 6, 0.95) 100%);
+            box-shadow: 0 0 25px rgba(118, 185, 0, 0.35);
         }
         .card:hover::after { opacity: 1; }
-        .card h3 { color: var(--neon-primary); margin-bottom: 10px; font-size: 26px; font-family: 'Orbitron'; }
-        .card p { color: #a0aec0; font-size: 17px; margin: 0; font-family: 'Rajdhani'; font-weight: 600; }
+        .card h3 { color: var(--neon-primary); margin-bottom: 10px; font-size: 24px; font-family: 'Orbitron'; transition: color 0.3s; }
+        .card:hover h3 { color: var(--neon-accent); text-shadow: 0 0 10px rgba(163, 255, 18, 0.4); }
+        .card p { color: var(--text-secondary); font-size: 17px; margin: 0; font-family: 'Rajdhani'; font-weight: 600; }
 
-        /* === 6. KHUNG ẢNH GLOWING & CODE === */
+        /* IMAGES & MOCKUP CONSOLES */
         .img-box {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255, 60, 0, 0.3);
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 95% 100%, 0 100%);
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(118, 185, 0, 0.2);
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 92% 100%, 0 100%);
             padding: 10px; text-align: center; margin-bottom: 24px;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         .img-box:hover { 
-            border-color: var(--neon-secondary); 
-            box-shadow: 0 0 25px rgba(255, 60, 0, 0.3); 
+            border-color: var(--neon-primary); 
+            box-shadow: 0 0 25px rgba(118, 185, 0, 0.3); 
             transform: scale(1.02); 
         }
-        .img-box img { width: 100%; height: auto; display: block; filter: contrast(1.1); }
-        .img-caption { font-size: 15px; color: var(--neon-primary); margin-top: 10px; font-weight: 600; text-transform: uppercase; }
+        .img-box img { width: 100%; height: auto; display: block; filter: contrast(1.05) saturate(110%); }
+        .img-caption { font-size: 15px; color: var(--neon-accent); margin-top: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         
         .tech-box {
-            background: rgba(0, 229, 255, 0.05);
-            border: 1px solid var(--neon-primary);
+            background: rgba(118, 185, 0, 0.03);
+            border: 1px solid rgba(118, 185, 0, 0.25);
             border-left: 6px solid var(--neon-primary);
-            padding: 24px; margin-bottom: 24px;
-            box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.1);
+            padding: 22px; margin-bottom: 24px;
+            box-shadow: inset 0 0 20px rgba(118, 185, 0, 0.05);
         }
         .code-inline {
-            background-color: #000;
+            background-color: #08080a;
             color: var(--neon-accent);
             padding: 2px 8px; border-radius: 4px;
             font-family: "Consolas", monospace; font-size: 17px;
-            border: 1px solid rgba(234, 255, 0, 0.5);
-            box-shadow: 0 0 8px rgba(234, 255, 0, 0.2);
+            border: 1px solid rgba(163, 255, 18, 0.3);
         }
 
-        /* === 7. BẢNG ĐIỀU KHIỂN (HUD CONTROLS) === */
+        /* REAL-TIME AI TRAINING WIDGET */
+        .ai-console {
+            background: #020203;
+            border: 1px solid rgba(118, 185, 0, 0.3);
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 15px;
+            color: #00e5ff;
+        }
+        .console-header {
+            display: flex; justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+            padding-bottom: 8px; margin-bottom: 12px;
+            font-weight: bold; font-family: 'Orbitron';
+        }
+        .console-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .console-bar-bg { width: 100px; height: 12px; background: #1a1a24; border-radius: 2px; overflow: hidden; display: inline-block; vertical-align: middle; }
+        .console-bar-fill { height: 100%; width: 0; background: var(--neon-primary); transition: width 0.3s ease; }
+
+        /* VIDEO PLAYER GIẢ LẬP */
+        .video-container {
+            background: #020202;
+            border: 1px solid rgba(118, 185, 0, 0.2);
+            border-radius: 6px; overflow: hidden;
+            position: relative; width: 100%; margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .video-player {
+            position: relative; width: 100%; padding-top: 56.25%; background: #000;
+        }
+        .video-poster {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .video-play-btn {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: rgba(118, 185, 0, 0.95); border: none;
+            color: white; font-size: 26px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 25px rgba(118, 185, 0, 0.7);
+            transition: all 0.3s; z-index: 2;
+        }
+        .video-play-btn:hover {
+            transform: scale(1.15); background: var(--neon-accent);
+            box-shadow: 0 0 35px rgba(163, 255, 18, 1);
+        }
+        .video-controls {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 18px; background: rgba(8, 8, 10, 0.95);
+            border-top: 1px solid rgba(118, 185, 0, 0.15);
+        }
+        .video-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 15px; }
+        .video-btn:hover { color: var(--neon-primary); }
+        .video-progress-container { flex-grow: 1; height: 6px; background: rgba(255, 255, 255, 0.08); margin: 0 15px; border-radius: 3px; position: relative; cursor: pointer; }
+        .video-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon-primary), var(--neon-accent)); border-radius: 3px; position: absolute; left: 0; top: 0; }
+        .video-time { font-family: 'Orbitron', monospace; font-size: 12px; color: var(--text-secondary); }
+        .video-visualizer {
+            position: absolute; bottom: 20px; left: 20px; right: 20px;
+            height: 45px; display: flex; align-items: flex-end; gap: 4px; pointer-events: none; opacity: 0.1;
+        }
+        .video-visualizer.playing { opacity: 0.7; }
+        .visualizer-bar { flex-grow: 1; background: linear-gradient(to top, var(--neon-primary), var(--neon-accent)); height: 4px; border-radius: 2px; }
+
+        /* NAVIGATION CONTROLS BOTTOM */
         .nav-controls {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 20px; z-index: 100;
+            display: flex; gap: 20px; z-index: 100; opacity: 0; pointer-events: none;
+            transition: opacity 1s ease;
+        }
+        .nav-controls.visible {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .btn {
-            background: rgba(10, 15, 25, 0.9);
+            background: rgba(10, 10, 12, 0.95);
             color: var(--neon-primary);
             border: 2px solid var(--neon-primary);
             padding: 12px 30px; font-size: 18px; letter-spacing: 2px;
             font-family: 'Orbitron', sans-serif;
-            cursor: pointer; transition: all 0.1s ease;
+            cursor: pointer; transition: all 0.2s ease;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            box-shadow: 0 0 10px rgba(118, 185, 0, 0.15);
         }
         .btn:hover:not(:disabled) { 
             background: var(--neon-primary); color: #000;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+            box-shadow: 0 0 20px rgba(118, 185, 0, 0.6);
             transform: scale(1.05);
         }
-        .btn:disabled { border-color: #333; color: #555; cursor: not-allowed; }
+        .btn:disabled { border-color: #22251a; color: #444838; cursor: not-allowed; box-shadow: none; }
         
         .btn-primary { 
-            background: var(--neon-secondary); color: #fff; border-color: var(--neon-secondary);
+            background: var(--neon-primary); color: #000; border-color: var(--neon-primary);
+            font-weight: 700;
         }
         .btn-primary:hover:not(:disabled) { 
-            background: #fff; color: var(--neon-secondary); box-shadow: 0 0 25px rgba(255, 60, 0, 0.8);
+            background: #fff; color: var(--neon-primary); box-shadow: 0 0 25px rgba(118, 185, 0, 0.8);
         }
 
-        /* === 8. THANH TIẾN ĐỘ (PROGRESS BAR) === */
-        .progress-container {
+        /* DOCK ĐIỀU KHỂN HÀNH TRÌNH BÊN PHẢI CHÍNH GIỮA MÀN HÌNH */
+        .cyber-drive-dock {
             position: fixed;
-            bottom: 0; left: 0;
-            width: 100vw; height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 101;
+            top: 50%;
+            right: 40px;
+            z-index: 1000;
+            background: rgba(4, 4, 5, 0.92);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(0, 229, 255, 0.35);
+            padding: 40px 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            box-shadow: 0 0 35px rgba(0, 229, 255, 0.15), inset 0 0 20px rgba(0, 229, 255, 0.05);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%) scale(0.9);
+            transition: opacity 1s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 88% 100%, 0 100%);
         }
-
-        .progress-fill {
+        .cyber-drive-dock.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(-50%) scale(1);
+        }
+        .cyber-drive-dock.unlocked {
+            border-color: rgba(255, 94, 0, 0.85);
+            animation: dockGlowPulse 2.5s infinite ease-in-out;
+        }
+        @keyframes dockGlowPulse {
+            0%, 100% {
+                box-shadow: 0 0 35px rgba(255, 94, 0, 0.4), inset 0 0 15px rgba(255, 94, 0, 0.15);
+                border-color: rgba(255, 94, 0, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(255, 0, 60, 0.85), inset 0 0 30px rgba(255, 0, 60, 0.35);
+                border-color: rgba(255, 0, 60, 1);
+            }
+        }
+        .mana-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 240px;
+        }
+        .mana-label {
+            font-family: 'Orbitron';
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--neon-secondary);
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 6px rgba(0, 229, 255, 0.5);
+            text-align: center;
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+        .cyber-drive-dock.unlocked .mana-label {
+            color: #ffaa00;
+            text-shadow: 0 0 10px rgba(255, 170, 0, 0.8);
+        }
+        .mana-bar-outer {
+            width: 100%;
+            height: 22px;
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(0, 229, 255, 0.45);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.25);
+            transition: border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+        .cyber-drive-dock.unlocked .mana-bar-outer {
+            border-color: rgba(255, 94, 0, 0.6);
+            box-shadow: inset 0 0 15px rgba(255, 94, 0, 0.4);
+        }
+        .mana-bar-fill {
             height: 100%;
-            background: var(--neon-secondary);
             width: 0%;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px var(--neon-secondary);
+            background: linear-gradient(90deg, #0088ff, #00e5ff);
+            box-shadow: 0 0 15px #00e5ff;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease, box-shadow 0.5s ease;
+        }
+        .cyber-drive-dock.unlocked .mana-bar-fill {
+            background: linear-gradient(90deg, #ff5e00, #ff003c, #ffaa00);
+            background-size: 200% 200%;
+            animation: gradientShift 2s infinite ease-in-out;
+            box-shadow: 0 0 20px #ff5e00;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .mana-bar-glare {
+            position: absolute;
+            top: 1px; left: 0; right: 0; height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+        }
+        .btn-travel {
+            background: rgba(255, 255, 255, 0.03);
+            color: #555;
+            border: 1px solid #2a2a2a;
+            padding: 18px 24px;
+            font-family: 'Orbitron';
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 4px;
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+        .btn-travel.unlocked {
+            background: linear-gradient(135deg, #ff5e00 0%, #ff003c 100%);
+            color: #fff;
+            border-color: #ff5e00;
+            cursor: pointer;
+            text-shadow: 0 0 8px #fff, 0 0 15px rgba(255, 255, 255, 0.6);
+            animation: travelPulse 1.5s infinite ease-in-out;
+        }
+        .btn-travel.unlocked:hover {
+            box-shadow: 0 0 40px rgba(255, 94, 0, 0.95);
+        }
+        @keyframes travelPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 25px rgba(255, 94, 0, 0.6), 0 0 10px rgba(255, 0, 60, 0.4);
+                background: linear-gradient(135deg, #ff5e00 0%, #ff003c 100%);
+            }
+            50% {
+                transform: scale(1.06);
+                box-shadow: 0 0 50px rgba(255, 94, 0, 0.95), 0 0 25px rgba(255, 0, 60, 0.7);
+                background: linear-gradient(135deg, #ff7b00 0%, #ff0055 100%);
+            }
         }
 
-        /* Thanh cuộn Cyberpunk */
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.8); }
-        ::-webkit-scrollbar-thumb { background: var(--neon-primary); border-radius: 0; }
+        ::-webkit-scrollbar-track { background: rgba(4,4,5,0.95); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--neon-primary), var(--neon-accent)); }
+        
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(118,185,0,0.5); }
+            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(118,185,0,0.8); }
+        }
+        .pulse-btn {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        /* OUTRO FADE TO BLACK OVERLAY */
+        #outro-blackout {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000;
+            z-index: 2999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2.5s ease;
+        }
+
+        /* OUTRO SCREENS */
+        .ending-quote-container {
+            position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 3005;
+            opacity: 0;
+            transition: opacity 1.8s ease-in-out;
+            pointer-events: none;
+            width: 80%;
+            max-width: 750px;
+        }
+        .quote-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 26px;
+            font-style: italic;
+            font-weight: 500;
+            color: #f4f4f6;
+            line-height: 1.55;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .quote-author {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--neon-secondary);
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+        }
+
+        .ending-credits-new {
+            position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 3005;
+            opacity: 0;
+            transition: opacity 1.8s ease-in-out;
+            pointer-events: none;
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .credits-author {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 42px;
+            color: var(--neon-primary);
+            text-shadow: 0 0 20px var(--neon-primary), 0 0 35px var(--neon-primary);
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            text-align: center;
+        }
+        .credits-goodbye {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 24px;
+            color: #fff;
+            letter-spacing: 2px;
+            opacity: 0.85;
+            line-height: 1.6;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* === HIỆU ỨNG TIA LỬA VÀ HOVER CHO XE BAY 3D === */
+        @keyframes flameFlickerLeft {
+            0%, 100% { transform: scaleY(0.95) scaleX(0.95) skewX(-1deg); opacity: 0.85; }
+            50% { transform: scaleY(1.15) scaleX(1.05) skewX(1deg); opacity: 1; }
+        }
+        @keyframes flameFlickerRight {
+            0%, 100% { transform: scaleY(1.12) scaleX(1.03) skewX(1deg); opacity: 0.9; }
+            50% { transform: scaleY(0.92) scaleX(0.97) skewX(-1deg); opacity: 1; }
+        }
+        @keyframes thrusterPulse {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6)); opacity: 0.6; }
+            50% { filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.95)); opacity: 0.8; }
+        }
+        .cyber-flame-left {
+            animation: flameFlickerLeft 0.08s infinite ease-in-out alternate;
+            transform-origin: 56px 104px;
+        }
+        .cyber-flame-right {
+            animation: flameFlickerRight 0.09s infinite ease-in-out alternate;
+            transform-origin: 104px 104px;
+        }
+        .hover-glow {
+            animation: thrusterPulse 0.8s infinite ease-in-out;
+            transform-origin: center;
+        }
+
+        /* === 2.5 VIDEO INTRO HOẠT CẢNH === */
+        #video-intro-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000;
+            z-index: 3000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1), filter 1.2s ease, opacity 1.2s ease;
+        }
+        #intro-video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        .btn-skip {
+            position: absolute;
+            bottom: 50px; right: 50px;
+            background: rgba(8, 8, 10, 0.85);
+            color: var(--neon-primary);
+            border: 1.5px solid var(--neon-primary);
+            padding: 12px 30px;
+            font-size: 16px;
+            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            box-shadow: 0 0 15px rgba(118, 185, 0, 0.25);
+            z-index: 3005;
+        }
+        .btn-skip:hover {
+            background: var(--neon-primary);
+            color: #000;
+            box-shadow: 0 0 25px rgba(118, 185, 0, 0.65);
+            transform: scale(1.05);
+        }
+        /* Nút bật tiếng video */
+        #video-sound-prompt {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3010;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            pointer-events: none;
+        }
+        #btn-unmute-video {
+            background: rgba(8, 8, 10, 0.75);
+            color: var(--neon-primary);
+            border: 1.5px solid var(--neon-primary);
+            padding: 14px 36px;
+            font-size: 15px;
+            letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+            box-shadow: 0 0 20px rgba(118, 185, 0, 0.35);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            animation: soundPulse 1.8s infinite ease-in-out;
+        }
+        #btn-unmute-video:hover {
+            background: var(--neon-primary);
+            color: #000;
+            box-shadow: 0 0 35px rgba(118, 185, 0, 0.75);
+        }
+        @keyframes soundPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(118, 185, 0, 0.35); }
+            50% { box-shadow: 0 0 40px rgba(118, 185, 0, 0.75); }
+        }
+        #video-sound-prompt.hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
 
-    <!-- NỀN TRÒ CHƠI ĐỘNG (THAY ĐỔI ẢNH KHI LẬT TRANG) -->
-    <img id="dynamic-bg" src="minecraft_bg.png" class="game-bg" alt="Background">
+    <!-- KỊCH BẢN ĐIỆN ẢNH INTRO VIDEO.MP4 -->
+    <div id="video-intro-container">
+        <video id="intro-video" src="video.mp4" playsinline autoplay muted></video>
+        <!-- Nút bật tiếng (giữa màn hình) -->
+        <div id="video-sound-prompt">
+            <button id="btn-unmute-video" onclick="unmuteIntroVideo()">🔊 &nbsp;CLICK TO PLAY SOUND</button>
+        </div>
+        <!-- Nút Bỏ qua / Tiếp tục ở góc dưới -->
+        <button id="btn-skip-video" class="btn-skip" onclick="skipIntroVideo()">
+            TIẾP TỤC &rarr;
+        </button>
+    </div>
+
+    <!-- NHẠC NỀN DU HÀNH (ALPHA - C418) -->
+    <audio id="exit-audio" preload="auto">
+        <source src="alpha.mp3" type="audio/mpeg">
+        <source src="https://archive.org/download/minecraft-volume-beta/Minecraft%20Volume%20Beta/02.%20Alpha.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- NỀN CANVAS MẠNG NƠ-RON THẦN KINH -->
+    <canvas id="ember-canvas"></canvas>
+    <div class="ambient-glow" id="ambient-glow"></div>
     <div class="scanlines"></div>
     <div class="vignette"></div>
+
+    <!-- MÀN HÌNH CHUYỂN CẢNH HOLOGRAM GLITCH -->
+    <div id="glitch-overlay"></div>
     
-    <!-- MÀN HÌNH CHỚP SÁNG (DARK WARP) -->
-    <div id="flash-overlay"></div>
+    <!-- MÀN HÌNH KẾT THÚC ĐEN KỊT -->
+    <div id="outro-blackout"></div>
+    
+    <!-- MÀN HÌNH CÂU QUOTE KẾT THÚC -->
+    <div id="ending-quote" class="ending-quote-container">
+        <p class="quote-text">
+            "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover."
+        </p>
+        <span class="quote-author">-Unknown-</span>
+    </div>
+    
+    <!-- CHỮ KÝ KẾT THÚC -->
+    <div id="ending-credits" class="ending-credits-new">
+        <h2 class="credits-author">Author: Phan Thanh Tùng</h2>
+        <p class="credits-goodbye">Good to see you here. Now we have to say goodbye.</p>
+    </div>
 
-    <!-- TRANG 0: PHẦN I - GIỚI THIỆU -->
-    <div id="page-0" class="page active">
-        <div class="content-wrapper" style="text-align: center; margin-top: 8vh;">
-            <div class="section-tag">Phần I</div>
-            <h1 style="font-size: 56px;">Giới thiệu bản thân</h1>
-            
-            <div class="tech-box" style="display: inline-block; text-align: left; margin-top: 32px; max-width: 600px; width: 100%;">
-                <p><strong>Họ và tên:</strong> Phan Thanh Tùng</p>
-                <p><strong>MSSV:</strong> 25021466</p>
-                <p><strong>Khóa học:</strong> K70</p>
-                <p><strong>Đơn vị đào tạo:</strong> Khoa Cơ học Kỹ thuật và Tự động hóa</p>
+    <!-- === ĐIỆN ẢNH INTRO / THÀNH PHỐ 3D SYNTHWAVE === -->
+    <div id="cinematic-container" class="cinematic-container">
+        <div class="cyber-sky" id="cyber-sky">
+            <!-- HE THONG SAO LAP LANH -->
+            <svg class="cyber-stars" viewBox="0 0 800 300" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+                <circle cx="50" cy="40" r="1.2" fill="#fff" class="star-blink-1" />
+                <circle cx="120" cy="80" r="1.8" fill="#00e5ff" class="star-blink-2" />
+                <circle cx="200" cy="30" r="1.2" fill="#76b900" class="star-blink-3" opacity="0.7" />
+                <circle cx="280" cy="90" r="2.2" fill="#fff" class="star-blink-1" />
+                <circle cx="350" cy="50" r="1.2" fill="#a3ff12" class="star-blink-2" opacity="0.8" />
+                <circle cx="450" cy="40" r="1.8" fill="#fff" class="star-blink-3" />
+                <circle cx="520" cy="100" r="1.2" fill="#00e5ff" class="star-blink-1" />
+                <circle cx="600" cy="30" r="2.2" fill="#76b900" class="star-blink-2" opacity="0.7" />
+                <circle cx="680" cy="70" r="1.2" fill="#fff" class="star-blink-3" />
+                <circle cx="750" cy="50" r="1.8" fill="#a3ff12" class="star-blink-1" opacity="0.8" />
+                <circle cx="90" cy="110" r="1.2" fill="#fff" class="star-blink-2" />
+                <circle cx="160" cy="60" r="1.8" fill="#fff" class="star-blink-3" />
+                <circle cx="240" cy="120" r="1.2" fill="#00e5ff" class="star-blink-1" />
+                <circle cx="310" cy="40" r="2.2" fill="#fff" class="star-blink-2" />
+                <circle cx="390" cy="100" r="1.2" fill="#76b900" class="star-blink-3" opacity="0.7" />
+                <circle cx="480" cy="70" r="1.8" fill="#a3ff12" class="star-blink-1" opacity="0.8" />
+                <circle cx="560" cy="120" r="1.2" fill="#fff" class="star-blink-2" />
+                <circle cx="640" cy="50" r="2.2" fill="#00e5ff" class="star-blink-3" />
+                <circle cx="720" cy="90" r="1.2" fill="#fff" class="star-blink-1" />
+                <circle cx="780" cy="120" r="1.8" fill="#76b900" class="star-blink-2" opacity="0.7" />
+            </svg>
+            <div class="cyber-sun"></div>
+            <div class="cyber-skyline"></div>
+        </div>
+        <div class="cyber-road-plane" id="cyber-road-plane">
+            <div class="cyber-road-grid"></div>
+        </div>
+        
+        <!-- XE TƯƠNG LAI SVG (3D REAR VIEW PERSPECTIVE - PHIÊN BẢN XE BAY 3D) -->
+        <div class="cyber-car-container" id="cyber-car">
+            <svg class="cyber-car" viewBox="0 0 160 145" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- GLOW FILTERS -->
+                    <filter id="neon-glow-green" x="-25%" y="-25%" width="150%" height="150%">
+                        <feGaussianBlur stdDeviation="2.5" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                    <filter id="neon-glow-cyan" x="-25%" y="-25%" width="150%" height="150%">
+                        <feGaussianBlur stdDeviation="2.5" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                    <filter id="neon-glow-red" x="-30%" y="-30%" width="160%" height="160%">
+                        <feGaussianBlur stdDeviation="3.5" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                    <filter id="flame-glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+
+                    <!-- GRADIENTS FOR 3D SHADING -->
+                    <linearGradient id="body-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#2a2e3d" />
+                        <stop offset="50%" stop-color="#12141f" />
+                        <stop offset="100%" stop-color="#06070a" />
+                    </linearGradient>
+
+                    <linearGradient id="glass-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="rgba(0, 229, 255, 0.45)" />
+                        <stop offset="50%" stop-color="rgba(0, 229, 255, 0.15)" />
+                        <stop offset="100%" stop-color="rgba(0, 229, 255, 0.02)" />
+                    </linearGradient>
+                    
+                    <linearGradient id="flame-grad-left" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ffffff" />
+                        <stop offset="20%" stop-color="#00e5ff" stop-opacity="0.95" />
+                        <stop offset="65%" stop-color="#76b900" stop-opacity="0.7" />
+                        <stop offset="100%" stop-color="#76b900" stop-opacity="0" />
+                    </linearGradient>
+                    
+                    <linearGradient id="flame-grad-right" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ffffff" />
+                        <stop offset="20%" stop-color="#00e5ff" stop-opacity="0.95" />
+                        <stop offset="65%" stop-color="#76b900" stop-opacity="0.7" />
+                        <stop offset="100%" stop-color="#76b900" stop-opacity="0" />
+                    </linearGradient>
+                    
+                    <linearGradient id="hover-glow-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.8" />
+                        <stop offset="100%" stop-color="#00e5ff" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+
+                <!-- TIA LỬA XANH (CYBER GREEN/CYAN FLAMES SHIFTED BACKWARDS TOWARDS VIEWER) -->
+                <!-- Jet Flame Left -->
+                <g class="cyber-flame-left">
+                    <!-- Plume ngoài -->
+                    <path d="M 47,104 Q 28,124 56,143 Q 84,124 65,104 Z" fill="url(#flame-grad-left)" filter="url(#flame-glow)" />
+                    <!-- Lõi lửa siêu nóng màu trắng -->
+                    <path d="M 51,104 Q 40,118 56,128 Q 72,118 61,104 Z" fill="#ffffff" filter="url(#flame-glow)" opacity="0.9" />
+                </g>
+                
+                <!-- Jet Flame Right -->
+                <g class="cyber-flame-right">
+                    <!-- Plume ngoài -->
+                    <path d="M 95,104 Q 76,124 104,143 Q 132,124 113,104 Z" fill="url(#flame-grad-right)" filter="url(#flame-glow)" />
+                    <!-- Lõi lửa siêu nóng màu trắng -->
+                    <path d="M 99,104 Q 88,118 104,128 Q 120,118 109,104 Z" fill="#ffffff" filter="url(#flame-glow)" opacity="0.9" />
+                </g>
+
+                <!-- CÁNH ỔN ĐỊNH HAI BÊN - WINGS CHO XE BAY 3D -->
+                <!-- Left Wing -->
+                <path d="M 28,70 L 4,78 L 10,88 L 32,80 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
+                <path d="M 28,73 L 7,80 L 11,85 L 30,79 Z" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+                
+                <!-- Right Wing -->
+                <path d="M 132,70 L 156,78 L 150,88 L 128,80 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
+                <path d="M 132,73 L 153,80 L 149,85 L 130,79 Z" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+
+                <!-- CƠ CẤU BÁNH XE GẬP NGANG TRẠNG THÁI BAY HOVER -->
+                <!-- Hover Pad Left (Folded flat, glowing repulsor field) -->
+                <path d="M 14,84 L 28,84 L 24,96 L 10,96 Z" fill="#0b0d14" stroke="#76b900" stroke-width="1.5" />
+                <ellipse cx="19" cy="90" rx="6" ry="2" fill="#00e5ff" filter="url(#neon-glow-cyan)" />
+                <polygon points="13,90 25,90 29,115 9,115" fill="url(#hover-glow-grad)" class="hover-glow" opacity="0.5" />
+                
+                <!-- Hover Pad Right (Folded flat, glowing repulsor field) -->
+                <path d="M 132,84 L 146,84 L 150,96 L 136,96 Z" fill="#0b0d14" stroke="#76b900" stroke-width="1.5" />
+                <ellipse cx="141" cy="90" rx="6" ry="2" fill="#00e5ff" filter="url(#neon-glow-cyan)" />
+                <polygon points="135,90 147,90 151,115 131,115" fill="url(#hover-glow-grad)" class="hover-glow" opacity="0.5" />
+                
+                <!-- KHUNG GẦM DƯỚI & KHUẾCH TÁN KHÍ ĐỘNG HỌC -->
+                <path d="M 28,96 L 132,96 L 126,108 L 34,108 Z" fill="#040407" stroke="#76b900" stroke-width="1.5" />
+                <line x1="42" y1="96" x2="40" y2="108" stroke="#76b900" stroke-width="1.5" />
+                <line x1="58" y1="96" x2="57" y2="108" stroke="#76b900" stroke-width="1.5" />
+                <line x1="74" y1="96" x2="74" y2="108" stroke="#00e5ff" stroke-width="1.5" filter="url(#neon-glow-cyan)" />
+                <line x1="86" y1="96" x2="86" y2="108" stroke="#00e5ff" stroke-width="1.5" filter="url(#neon-glow-cyan)" />
+                <line x1="102" y1="96" x2="103" y2="108" stroke="#76b900" stroke-width="1.5" />
+                <line x1="118" y1="96" x2="120" y2="108" stroke="#76b900" stroke-width="1.5" />
+
+                <!-- ĐỘNG CƠ PHẢN LỰC KÉP Ở ĐUÔI (BOOSTER NOZZLES) -->
+                <!-- Left Nozzle -->
+                <path d="M 48,93 L 64,93 L 66,104 L 46,104 Z" fill="#181a24" stroke="#00e5ff" stroke-width="1.5" />
+                <ellipse cx="56" cy="104" rx="9" ry="3.5" fill="#030305" stroke="#00e5ff" stroke-width="1.2" />
+                
+                <!-- Right Nozzle -->
+                <path d="M 96,93 L 112,93 L 114,104 L 94,104 Z" fill="#181a24" stroke="#00e5ff" stroke-width="1.5" />
+                <ellipse cx="104" cy="104" rx="9" ry="3.5" fill="#030305" stroke="#00e5ff" stroke-width="1.2" />
+                
+                <!-- CẢN SAU (REAR BUMPER - 3D BEVEL) -->
+                <path d="M 20,77 L 140,77 L 145,96 L 15,96 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="2" filter="url(#neon-glow-green)" />
+                <path d="M 24,85 L 44,85 L 41,92 L 22,92 Z" fill="#030305" stroke="#76b900" stroke-width="1.2" />
+                <path d="M 116,85 L 136,85 L 138,92 L 119,92 Z" fill="#030305" stroke="#76b900" stroke-width="1.2" />
+                
+                <!-- GƯƠNG CHIẾU HẬU HAI BÊN (Futuristic mirrors) -->
+                <path d="M 32,58 L 20,56 L 22,52 L 34,54 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
+                <path d="M 128,58 L 140,56 L 138,52 L 126,54 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
+
+                <!-- DẢI ĐÈN LED CHIẾU HẬU MATRIX ĐỎ NEON CHẠY NGANG (3D Wrap-around) -->
+                <path d="M 22,81 L 138,81" stroke="#ff0055" stroke-width="4.5" stroke-linecap="round" filter="url(#neon-glow-red)" />
+                <path d="M 24,81 L 136,81" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.95" />
+                <path d="M 22,81 L 18,85 L 23,87 Z" fill="#ff0055" opacity="0.9" />
+                <path d="M 138,81 L 142,85 L 137,87 Z" fill="#ff0055" opacity="0.9" />
+
+                <!-- BẢNG LICENSE / LÕI NĂNG LƯỢNG HOLOGRAPHIC -->
+                <rect x="66" y="84" width="28" height="8" fill="#020204" stroke="#00e5ff" stroke-width="1.2" filter="url(#neon-glow-cyan)" />
+                <text x="80" y="90.5" font-family="'Orbitron'" font-size="6" font-weight="900" fill="#00e5ff" text-anchor="middle" letter-spacing="1">STOLY</text>
+
+                <!-- KHU VỰC ĐỘNG CƠ / COP SAU (Rear Deck Lid) -->
+                <path d="M 28,77 L 36,60 L 124,60 L 132,77 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
+                <path d="M 46,73 L 114,73 L 111,69 L 49,69 Z" fill="#040407" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+                <path d="M 50,67 L 110,67 L 108,63 L 52,63 Z" fill="#040407" stroke="#76b900" stroke-width="1" />
+
+                <!-- KÍNH CHẮN GIÓ SAU GÓC CẠNH (Slanted Cabin Windshield with reflections) -->
+                <path d="M 36,60 L 54,32 L 106,32 L 124,60 Z" fill="url(#glass-grad)" stroke="#00e5ff" stroke-width="1.8" filter="url(#neon-glow-cyan)" />
+                <line x1="54" y1="32" x2="44" y2="60" stroke="rgba(0, 229, 255, 0.5)" stroke-width="1.5" />
+                <line x1="80" y1="32" x2="80" y2="60" stroke="rgba(0, 229, 255, 0.6)" stroke-width="2" />
+                <line x1="106" y1="32" x2="116" y2="60" stroke="rgba(0, 229, 255, 0.5)" stroke-width="1.5" />
+                <path d="M 55,34 L 70,34 L 56,58 L 44,58 Z" fill="rgba(255,255,255,0.15)" />
+                <path d="M 82,34 L 94,34 L 104,58 L 94,58 Z" fill="rgba(255,255,255,0.08)" />
+
+                <!-- MÙI XE / MÁI XE (Roof) -->
+                <path d="M 54,32 L 63,22 L 97,22 L 106,32 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
+                <path d="M 64,25 L 96,25" stroke="#00e5ff" stroke-width="1.2" opacity="0.6" filter="url(#neon-glow-cyan)" />
+                
+                <!-- CÁNH GIÓ THỂ THAO ĐUÔI SIÊU XE (Active 3D Rear Wing Spoiler) -->
+                <!-- Spoiler Support Struts -->
+                <path d="M 40,60 L 34,44 L 38,44 L 44,60 Z" fill="#0e111a" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+                <path d="M 120,60 L 126,44 L 122,44 L 116,60 Z" fill="#0e111a" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+                <!-- Spoiler Blades -->
+                <path d="M 18,44 L 142,44 L 140,40 L 20,40 Z" fill="url(#body-grad)" stroke="#00e5ff" stroke-width="1.5" filter="url(#neon-glow-cyan)" />
+                <path d="M 14,40 L 146,40 L 148,35 L 12,35 Z" fill="#0f111a" stroke="#76b900" stroke-width="1.5" filter="url(#neon-glow-green)" />
+                <path d="M 12,32 L 16,32 L 12,44 L 8,44 Z" fill="#76b900" filter="url(#neon-glow-green)" />
+                <path d="M 148,32 L 144,32 L 148,44 L 152,44 Z" fill="#76b900" filter="url(#neon-glow-green)" />
+            </svg>
+        </div>
+
+
+        <!-- TẤM BIỂN NEON KHỔNG LỒ (THÔNG TIN BẢN THÂN) -->
+        <div class="cyber-billboard-container" id="intro-billboard">
+            <div class="cyber-billboard">
+                <div class="section-tag">WELCOME // ARCHIVE 2026</div>
+                <h1 class="billboard-title">PHAN THANH TÙNG</h1>
+                <div class="billboard-sub">CÔNG NGHỆ SỐ & AI</div>
+                
+                <div class="billboard-info">
+                    <p><strong>MSSV:</strong> 25021466 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Khóa học:</strong> K70</p>
+                    <p><strong>Đơn vị đào tạo:</strong> Khoa Cơ học Kỹ thuật và Tự động hóa</p>
+                </div>
+                
+                <p class="billboard-desc">
+                    Portfolio này tổng hợp lại các kỹ năng số hóa và ứng dụng công nghệ tôi đã học được. Mục tiêu là cho thấy cách tôi sắp xếp dữ liệu khoa học, tìm kiếm tài liệu chuẩn xác và dùng AI giải quyết các bài toán thực tế thay vì theo bản năng.
+                </p>
+                
+                <button class="btn btn-primary pulse-btn" id="btn-enter" onclick="enterPortfolio()">
+                    TIẾP TỤC ĐI ĐẾN PORTFOLIO &rarr;
+                </button>
             </div>
-
-            <p style="margin-top: 32px; font-size: 19px; max-width: 800px; margin-left: auto; margin-right: auto; color: var(--text-secondary);">
-                Portfolio này tổng hợp lại các kỹ năng số hóa và ứng dụng công nghệ tôi đã học được. Mục tiêu của báo cáo là cho thấy cách tôi sắp xếp dữ liệu khoa học, cách tìm kiếm tài liệu chuẩn xác và cách dùng AI để giải quyết các bài toán thực tế trong học tập và lập trình, thay vì chỉ dùng công cụ theo bản năng.
-            </p>
         </div>
     </div>
+
+    <!-- HUD TOP NAVIGATION (Ban đầu ẩn, hiện sau khi vào portfolio) -->
+    <nav class="hud-header" id="hud-header">
+        <div class="hud-logo" onclick="goToPage(1)">STOLY.AI // TUNG</div>
+        <div class="hud-nav-items">
+            <button class="hud-nav-btn active" id="nav-btn-1" onclick="goToPage(1)">Mục Lục</button>
+            <div class="hud-dropdown">
+                <button class="hud-nav-btn" id="nav-btn-projects">Bài Học &#9662;</button>
+                <div class="hud-dropdown-content">
+                    <a onclick="goToPage(2)">Bài 1: Quản lý tệp</a>
+                    <a onclick="goToPage(3)">Bài 2: Tìm kiếm</a>
+                    <a onclick="goToPage(4)">Bài 3: Viết Prompt</a>
+                    <a onclick="goToPage(5)">Bài 4: Làm việc nhóm</a>
+                    <a onclick="goToPage(6)">Bài 5: AI Học tập</a>
+                    <a onclick="goToPage(7)">Bài 6: AI Trách nhiệm</a>
+                </div>
+            </div>
+            <button class="hud-nav-btn" id="nav-btn-8" onclick="goToPage(8)">Lời Kết</button>
+        </div>
+    </nav>
 
     <!-- TRANG 1: PHẦN II - MENU TƯƠNG TÁC -->
     <div id="page-1" class="page">
         <div class="content-wrapper">
-            <div class="section-tag" style="text-align: center; display: block;">Phần II</div>
-            <h1>Nội dung chi tiết</h1>
-            <p style="text-align: center; color: var(--neon-primary);">Chọn một phần để xem chi tiết cách thực hiện.</p>
+            <div class="section-tag" style="text-align: center; display: block;">Mục Lục</div>
+            <h1>Danh Sách Mô-đun</h1>
+            <p style="text-align: center; color: var(--neon-primary); font-size: 19px;">Chọn một mô-đun để xem chi tiết cách thực hiện.</p>
             
             <div class="menu-grid">
                 <div class="card tilt-card" onclick="goToPage(2)">
-                    <h3>Bài 1</h3>
+                    <h3>Mô-đun 1</h3>
                     <p>Quản lý Tệp & Thư mục</p>
                 </div>
                 <div class="card tilt-card" onclick="goToPage(3)">
-                    <h3>Bài 2</h3>
+                    <h3>Mô-đun 2</h3>
                     <p>Tìm kiếm Nâng cao</p>
                 </div>
                 <div class="card tilt-card" onclick="goToPage(4)">
-                    <h3>Bài 3</h3>
+                    <h3>Mô-đun 3</h3>
                     <p>Viết Prompt Hiệu quả</p>
                 </div>
                 <div class="card tilt-card" onclick="goToPage(5)">
-                    <h3>Bài 4</h3>
+                    <h3>Mô-đun 4</h3>
                     <p>Làm việc Nhóm Trực tuyến</p>
                 </div>
                 <div class="card tilt-card" onclick="goToPage(6)">
-                    <h3>Bài 5</h3>
+                    <h3>Mô-đun 5</h3>
                     <p>Dùng AI Hỗ trợ Học tập</p>
                 </div>
                 <div class="card tilt-card" onclick="goToPage(7)">
-                    <h3>Bài 6</h3>
+                    <h3>Mô-đun 6</h3>
                     <p>Sử dụng AI Có trách nhiệm</p>
                 </div>
             </div>
@@ -309,30 +1245,28 @@
     <!-- TRANG 2: BÀI 1 -->
     <div id="page-2" class="page">
         <div class="content-wrapper">
-            <div class="section-tag">Bài 1</div>
-            <h1>Cấu trúc Thư mục và Đặt tên Tệp</h1>
+            <div class="section-tag">Mô-đun 1</div>
+            <h1>Cấu trúc Thư mục & Đặt tên Tệp</h1>
             
             <div class="grid-2">
                 <div>
                     <h3>Phân cấp thư mục hình cây</h3>
                     <p>Khi làm code cho server Minecraft, tôi chia rõ các thư mục chức năng. Những file code cũ hoặc bị lỗi được đưa riêng vào thư mục <span class="code-inline">old_versions</span> hoặc <span class="code-inline">not fixed lang</span>. Việc này giúp hệ thống gọn gàng và server không bị lỗi do đọc nhầm file code đang viết dở.</p>
-                    <p>Việc sắp xếp khoa học đặc biệt quan trọng khi vận hành trên nền tảng máy chủ Linux, nơi mọi đường dẫn cần sự chính xác tuyệt đối. Khi hệ thống được phân nhóm rõ ràng, tôi có thể dễ dàng khoanh vùng để tìm và sửa lỗi (debug) mà không phải bới tung hàng trăm file lên.</p>
+                    <p style="margin-top: 15px;">Việc sắp xếp khoa học đặc biệt quan trọng khi vận hành trên nền tảng máy chủ Linux, nơi mọi đường dẫn cần sự chính xác tuyệt đối. Khi hệ thống được phân nhóm rõ ràng, tôi có thể dễ dàng khoanh vùng để tìm và sửa lỗi (debug) mà không phải bới tung hàng trăm file lên.</p>
                     
-                    <h3>Quy tắc đặt tên và Đánh số thư mục</h3>
+                    <h3 style="margin-top: 25px;">Quy tắc đặt tên và Đánh số thư mục</h3>
                     <p>Thay vì đặt tên tùy hứng, tôi áp dụng quy chuẩn đặt tên file thống nhất gồm 4 thành phần: <strong>Ngày tháng_Tên mô tả_Phiên bản</strong> (Ví dụ: <span class="code-inline">2024-05-15_BrandGuide_v01.pdf</span>). Cách làm này giải quyết được 3 vấn đề cốt lõi:</p>
-                    <ul>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
                         <li><strong>Định dạng Năm-Tháng-Ngày:</strong> Giúp hệ điều hành tự động sắp xếp file theo đúng thứ tự thời gian.</li>
-                        <li><strong>Dùng dấu gạch dưới (_) thay cho dấu cách:</strong> Dấu cách sẽ biến thành ký tự %20 trên web và gây lỗi đường dẫn khi chạy code. Dùng dấu gạch dưới giúp hệ thống đọc file trơn tru.</li>
-                        <li><strong>Quản lý phiên bản (v01, v02...):</strong> Khi cập nhật tiến độ, ta tạo bản (v02) thay vì lưu đè lên bản (v01). Điều này giúp bảo toàn dữ liệu cũ, tránh mất file do lưu nhầm.</li>
+                        <li><strong>Dùng dấu gạch dưới (_) thay cho dấu cách:</strong> Dấu cách sẽ biến thành ký tự %20 trên web và gây lỗi đường dẫn khi chạy code.</li>
+                        <li><strong>Quản lý phiên bản (v01, v02...):</strong> Khi cập nhật tiến độ, ta tạo bản (v02) thay vì lưu đè lên bản (v01), tránh mất dữ liệu cũ.</li>
                     </ul>
-                    <p>Ngoài ra, các thư mục gốc cũng được đánh số thứ tự đầu (01_Tai_Lieu, 04_Ban_Cuoi, 99_Luu_Tru) để ép máy tính xếp chúng theo đúng luồng công việc thay vì xếp lộn xộn theo bảng chữ cái.</p>
                 </div>
                 <div>
                     <div class="img-box">
                         <img src="image_8cd41f.png" alt="Cấu trúc thư mục SMP">
                         <div class="img-caption">Cấu trúc thư mục rõ ràng giúp tránh chạy nhầm code.</div>
                     </div>
-                    <!-- ẢNH MỚI BÀI 1 -->
                     <div class="img-box">
                         <img src="image_8b6747.png" alt="Quy tắc đặt tên file">
                         <div class="img-caption">Cấu trúc thư mục tối ưu và quy tắc đặt tên file rõ ràng từng thành phần.</div>
@@ -345,7 +1279,7 @@
     <!-- TRANG 3: BÀI 2 -->
     <div id="page-3" class="page">
         <div class="content-wrapper">
-            <div class="section-tag">Bài 2</div>
+            <div class="section-tag">Mô-đun 2</div>
             <h1>Tìm kiếm Học thuật Nâng cao</h1>
             
             <div class="grid-2">
@@ -357,17 +1291,17 @@
                     <h3>Cách lọc tài liệu trên Google</h3>
                     <p>Nếu chỉ gõ từ khóa bình thường, Google sẽ trả về rất nhiều bài viết rác hoặc thông tin thiếu kiểm chứng. Để tìm đúng tài liệu báo cáo khoa học, tôi kết hợp các toán tử để thu hẹp phạm vi:</p>
                     
-                    <div class="tech-box">
+                    <div class="tech-box" style="margin-top: 15px;">
                         <p style="margin:0; font-family: monospace; font-size: 14px; color: var(--neon-accent);">"khoa học vật liệu" AND (nanomaterials OR composites) - "carbon nanotubes" author:"nguyễn" filetype:pdf</p>
                     </div>
-
-                    <ul>
+ 
+                    <ul style="margin-left: 20px; margin-top: 15px;">
                         <li><strong>Ngoặc kép (" "):</strong> Bắt buộc Google tìm đúng cụm từ "khoa học vật liệu", không được tách rời các chữ.</li>
                         <li><strong>Dấu trừ (-):</strong> Bỏ qua các bài viết về ống nano carbon để tập trung vào các vật liệu khác.</li>
                         <li><strong>filetype:pdf:</strong> Chỉ tìm file PDF (thường là báo cáo, tài liệu chuẩn), loại bỏ các bài viết trên web hay diễn đàn.</li>
                     </ul>
-
-                    <h3>Đánh giá độ tin cậy của tài liệu</h3>
+ 
+                    <h3 style="margin-top: 25px;">Đánh giá độ tin cậy của tài liệu</h3>
                     <p>Sau khi dùng toán tử để lọc ra được các bài báo cáo, bước tiếp theo là đánh giá chất lượng nguồn tin. Một bài báo khoa học tốt cần có tác giả rõ ràng, thuộc các trường đại học hoặc viện nghiên cứu uy tín. Ngoài ra, tôi luôn chú ý đến năm xuất bản, ưu tiên các tài liệu được viết trong thời gian gần đây để đảm bảo kiến thức về vật liệu và công nghệ không bị lạc hậu.</p>
                 </div>
             </div>
@@ -377,21 +1311,21 @@
     <!-- TRANG 4: BÀI 3 -->
     <div id="page-4" class="page">
         <div class="content-wrapper">
-            <div class="section-tag">Bài 3</div>
+            <div class="section-tag">Mô-đun 3</div>
             <h1>Kỹ năng Viết Prompt Hiệu quả</h1>
-            <p>Khi dùng AI để sửa code, nếu ta mô tả chung chung, AI sẽ đoán mò và tự ý sửa lung tung khiến code bị hỏng. Mình phải đưa ra yêu cầu cụ thể (ràng buộc rõ ràng).</p>
+            <p style="margin-bottom: 20px;">Khi dùng AI để sửa code, nếu ta mô tả chung chung, AI sẽ đoán mò và tự ý sửa lung tung khiến code bị hỏng. Mình phải đưa ra yêu cầu cụ thể (ràng buộc rõ ràng).</p>
             
             <div class="grid-2">
                 <div>
                     <h3>Lúc chưa tối ưu (AI sửa sai)</h3>
-                    <div class="img-box">
+                    <div class="img-box" style="margin-top: 10px;">
                         <img src="image_8cd3ff.png" alt="Lỗi AI">
                     </div>
                     <p>Tôi chỉ bảo AI "sửa lại hết đi", AI không hiểu cấu trúc giao diện túi đồ (Inventory) nên tự ý tạo ra một vòng lặp <span class="code-inline">loop {teams::*}:</span> kiểm tra toàn bộ server. Điều này gây lỗi nặng và làm tính năng nạp đồ bị hỏng.</p>
                 </div>
                 <div>
                     <h3>Lúc tối ưu (AI sửa đúng)</h3>
-                    <div class="img-box">
+                    <div class="img-box" style="margin-top: 10px;">
                         <img src="image_8cd3fc.png" alt="AI chính xác">
                     </div>
                     <p>Tôi ra lệnh chi tiết: chỉ định rõ giao diện có 6 hàng (<span class="code-inline">6 rows</span>) và quy định cụ thể vị trí từng ô đồ (<span class="code-inline">set {_s::1} to 10</span>). Khi nhận được cấu trúc cụ thể này, AI hiểu ngay vấn đề và sửa chuẩn xác đoạn code cấu hình giao diện.</p>
@@ -403,7 +1337,7 @@
     <!-- TRANG 5: BÀI 4 -->
     <div id="page-5" class="page">
         <div class="content-wrapper">
-            <div class="section-tag">Bài 4</div>
+            <div class="section-tag">Mô-đun 4</div>
             <h1>Công cụ Làm việc Nhóm Trực tuyến</h1>
             
             <div class="grid-2">
@@ -411,14 +1345,45 @@
                     <h3>Quản lý tiến độ và luồng công việc</h3>
                     <p>Làm việc nhóm trong các dự án kỹ thuật thường rất dễ rối loạn nếu không có công cụ điều phối. Sự cố lớn nhất không phải là làm sai, mà là hai người cùng sửa một file rồi lưu đè lên nhau làm mất toàn bộ dữ liệu. Việc dùng công cụ giúp nhóm phân chia rõ ràng trách nhiệm và tiến độ:</p>
                     
-                    <ul style="margin-top: 16px;">
-                        <li><strong>Bảng công việc Trello:</strong> Nhóm chia cột rõ ràng (Cần làm, Đang làm, Đã xong). Khi một thành viên kéo thẻ công việc của mình sang cột "Đang làm", những người khác sẽ biết để không làm trùng vào phần đó. Việc này giúp mọi người nắm được tiến độ tổng thể, đặc biệt hữu ích khi deadline đến gần.</li>
-                        <li><strong>Mạng lưới an toàn GitHub:</strong> Khi làm việc với code (như Python hay C++), mỗi người sẽ viết code trên một "nhánh" riêng biệt. Khi làm xong, code phải được kiểm tra chéo (Pull Request) để xem có xung đột với hệ thống chung hay không rồi mới được gộp lại. Hơn nữa, GitHub lưu lại toàn bộ lịch sử chỉnh sửa; nếu hôm nay hệ thống bị lỗi, nhóm hoàn toàn có thể khôi phục lại phiên bản chạy tốt của ngày hôm qua một cách dễ dàng.</li>
+                    <ul style="margin-top: 16px; margin-left: 20px;">
+                        <li><strong>Bảng công việc Trello:</strong> Nhóm chia cột rõ ràng (Cần làm, Đang làm, Đã xong). Khi một thành viên kéo thẻ công việc của mình sang cột "Đang làm", những người khác sẽ biết để không làm trùng vào phần đó.</li>
+                        <li><strong>Mạng lưới an toàn GitHub:</strong> Khi làm việc với code, mỗi người viết code trên một "nhánh" riêng biệt. Khi làm xong, code phải được kiểm tra chéo (Pull Request) trước khi gộp chung.</li>
                     </ul>
+                    
+                    <!-- VIDEO MINH HỌA GIẢ LẬP CHO BÀI 4 -->
+                    <h3 style="margin-top: 25px;">Video minh họa quy trình</h3>
+                    <div class="video-container" style="margin-top: 15px;">
+                        <div class="video-player" id="video-player-1">
+                            <div class="video-poster" id="video-poster-1" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image_8cd3e4.png');">
+                                <button class="video-play-btn" onclick="togglePlay(1)">&#9658;</button>
+                            </div>
+                            <div class="video-visualizer" id="visualizer-1">
+                                <div class="visualizer-bar" style="height: 10%"></div>
+                                <div class="visualizer-bar" style="height: 30%"></div>
+                                <div class="visualizer-bar" style="height: 50%"></div>
+                                <div class="visualizer-bar" style="height: 80%"></div>
+                                <div class="visualizer-bar" style="height: 40%"></div>
+                                <div class="visualizer-bar" style="height: 60%"></div>
+                                <div class="visualizer-bar" style="height: 20%"></div>
+                                <div class="visualizer-bar" style="height: 45%"></div>
+                                <div class="visualizer-bar" style="height: 70%"></div>
+                                <div class="visualizer-bar" style="height: 15%"></div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button class="video-btn" id="play-btn-1" onclick="togglePlay(1)">PLAY</button>
+                            <div class="video-progress-container" onclick="seekVideo(1, event)">
+                                <div class="video-progress-bar" id="progress-bar-1"></div>
+                            </div>
+                            <span class="video-time" id="time-1">00:00 / 00:15</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="img-box">
-                    <img src="image_8cd3e4.png" alt="Công cụ hợp tác">
-                    <div class="img-caption">Các công cụ hỗ trợ chia việc và quản lý dữ liệu nhóm một cách khoa học.</div>
+                <div>
+                    <div class="img-box">
+                        <img src="image_8cd3e4.png" alt="Công cụ hợp tác">
+                        <div class="img-caption">Các công cụ hỗ trợ chia việc và quản lý dữ liệu nhóm một cách khoa học.</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -427,9 +1392,9 @@
     <!-- TRANG 6: BÀI 5 -->
     <div id="page-6" class="page">
         <div class="content-wrapper">
-            <div class="section-tag">Bài 5</div>
+            <div class="section-tag">Mô-đun 5</div>
             <h1>Dùng AI Hỗ trợ Học tập</h1>
-            <p>Trong môn Giải tích đa biến hay Vật lý đại cương, việc tưởng tượng các hình khối không gian 3D để giải toán là rất khó. Tôi dùng AI để vẽ các hình này ra, giúp việc lập công thức tính toán trở nên đơn giản hơn.</p>
+            <p style="margin-bottom: 20px;">Trong môn Giải tích đa biến hay Vật lý đại cương, việc tưởng tượng các hình khối không gian 3D để giải toán là rất khó. Tôi dùng AI để vẽ các hình này ra, giúp việc lập công thức tính toán trở nên đơn giản hơn.</p>
             
             <div class="grid-2">
                 <div>
@@ -437,7 +1402,7 @@
                         <img src="image_8cd3e0.png" alt="Trực quan hình học">
                     </div>
                     <h3>Tìm phần giao nhau</h3>
-                    <p>Ví dụ muốn tính diện tích, ta phải tưởng tượng mặt cầu cắt mặt trụ như thế nào. Tôi nhờ AI vẽ hai hình này cắt nhau trên trục $Oxyz$. Nhìn vào hình, tôi dễ dàng thấy phần hình chiếu dưới mặt đất là một hình tròn lệch, từ đó biết cách chọn hệ tọa độ cực để giải bài.</p>
+                    <p>Ví dụ muốn tính diện tích, ta phải tưởng tượng mặt cầu cắt mặt trụ như thế nào. Nhìn vào hình vẽ 3D, tôi dễ dàng thấy phần hình chiếu dưới mặt đất là một hình tròn lệch, từ đó biết cách chọn hệ tọa độ cực để giải bài.</p>
                 </div>
                 <div>
                     <div class="img-box">
@@ -447,13 +1412,44 @@
                     <p>AI giúp hệ thống lại các phần tử diện tích $dS$ cho từng hình (trụ, cầu, nón). Tuy nhiên, tôi vẫn phải tự kiểm tra lại xem AI dùng công thức $dS = |\vec{r}_u \times \vec{r}_v| du dv$ có đúng không (ví dụ $dS = R^2 \sin\theta \, d\theta \, d\varphi$) chứ không chép mù quáng.</p>
                 </div>
             </div>
+
+            <!-- VIDEO MINH HỌA GIẢ LẬP CHO BÀI 5 -->
+            <div style="margin-top: 30px;">
+                <h3>Video mô phỏng vẽ đồ thị 3D</h3>
+                <div class="video-container" style="margin-top: 15px; max-width: 650px; margin-left: auto; margin-right: auto;">
+                    <div class="video-player" id="video-player-2">
+                        <div class="video-poster" id="video-poster-2" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('image_8cd3e0.png');">
+                            <button class="video-play-btn" onclick="togglePlay(2)">&#9658;</button>
+                        </div>
+                        <div class="video-visualizer" id="visualizer-2">
+                            <div class="visualizer-bar" style="height: 20%"></div>
+                            <div class="visualizer-bar" style="height: 40%"></div>
+                            <div class="visualizer-bar" style="height: 70%"></div>
+                            <div class="visualizer-bar" style="height: 50%"></div>
+                            <div class="visualizer-bar" style="height: 90%"></div>
+                            <div class="visualizer-bar" style="height: 30%"></div>
+                            <div class="visualizer-bar" style="height: 60%"></div>
+                            <div class="visualizer-bar" style="height: 10%"></div>
+                            <div class="visualizer-bar" style="height: 80%"></div>
+                            <div class="visualizer-bar" style="height: 35%"></div>
+                        </div>
+                    </div>
+                    <div class="video-controls">
+                        <button class="video-btn" id="play-btn-2" onclick="togglePlay(2)">PLAY</button>
+                        <div class="video-progress-container" onclick="seekVideo(2, event)">
+                            <div class="video-progress-bar" id="progress-bar-2"></div>
+                        </div>
+                        <span class="video-time" id="time-2">00:00 / 00:15</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- TRANG 7: BÀI 6 -->
     <div id="page-7" class="page">
         <div class="content-wrapper">
-            <div class="section-tag">Bài 6</div>
+            <div class="section-tag">Mô-đun 6</div>
             <h1>Sử dụng AI Có trách nhiệm</h1>
             
             <div class="grid-2">
@@ -462,7 +1458,7 @@
                         <p>AI rất thông minh nhưng nó chỉ học từ dữ liệu có sẵn trên mạng, vì vậy đôi khi nó sẽ trả lời sai hoặc thiên vị. Trong bối cảnh công nghệ phát triển nhanh, việc giữ sự kỷ luật để tự kiểm duyệt và chịu trách nhiệm cho hành động của mình là cực kỳ quan trọng. Khi dùng AI, tôi luôn tuân thủ các nguyên tắc sau:</p>
                     </div>
                     
-                    <ul>
+                    <ul style="margin-left: 20px; margin-top: 15px;">
                         <li><strong>Kiểm tra chéo thông tin:</strong> Không bao giờ tin AI 100%. Nếu AI gợi ý dùng một hàm code hoặc một công thức toán học nào đó, tôi luôn phải tra lại tài liệu gốc xem nó có thực sự tồn tại và chính xác không.</li>
                         <li><strong>Bảo mật thông tin dự án:</strong> Tuyệt đối không copy code quan trọng của nhóm, hoặc các dữ liệu bảo mật cá nhân nạp vào ChatGPT để nhờ sửa lỗi, tránh việc AI thu thập và làm rò rỉ dữ liệu.</li>
                         <li><strong>Nhận biết khi AI "đoán mò":</strong> Khi đối mặt với các bài toán khó, AI hay ưu tiên đưa ra các đoạn code phổ biến trên mạng thay vì thuật toán tối ưu nhất. Mình phải là người tự suy nghĩ và đánh giá lại chất lượng.</li>
@@ -480,11 +1476,11 @@
 
     <!-- TRANG 8: PHẦN III - TỔNG KẾT -->
     <div id="page-8" class="page">
-        <div class="content-wrapper" style="text-align: center; margin-top: 8vh;">
-            <div class="section-tag">Phần III</div>
-            <h1 style="font-size: 56px;">Lời kết</h1>
+        <div class="content-wrapper">
+            <div class="section-tag" style="text-align: center; display: block;">Phần III</div>
+            <h1 style="font-size: 52px; text-align: center; margin-bottom: 20px;">Lời kết</h1>
             
-            <div style="text-align: left; max-width: 850px; margin: 40px auto 0 auto;">
+            <div style="text-align: left; max-width: 850px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 20px;">
                 <div class="tech-box">
                     <h3>1. Trải nghiệm và cảm nhận</h3>
                     <p>Quá trình xây dựng Portfolio này thực sự giúp tôi hệ thống lại cách làm việc của mình. Thay vì thao tác trên máy tính một cách tự phát, bây giờ mọi thứ từ việc lưu file, đặt tên cho đến phân chia công việc đều có quy củ. Điều này giúp tôi tiết kiệm được rất nhiều thời gian khi cần tìm lại tài liệu cũ hoặc sửa code.</p>
@@ -492,25 +1488,34 @@
 
                 <div class="tech-box">
                     <h3>2. Kiến thức và kỹ năng quan trọng nhất</h3>
-                    <p>Kỹ năng quan trọng nhất mà tôi học được là <strong>Prompt Engineering</strong> (cách ra lệnh cho AI) và <strong>Sử dụng Git/GitHub</strong>. Tôi hiểu rằng AI sẽ chỉ làm tốt nếu mình đưa ra yêu cầu cụ thể, rõ ràng. Còn Git giúp tôi tự tự tin làm việc nhóm mà không sợ ấn nhầm nút xóa mất công sức của cả đội.</p>
+                    <p>Kỹ năng quan trọng nhất mà tôi học được là <strong>Prompt Engineering</strong> (cách ra lệnh cho AI) và <strong>Sử dụng Git/GitHub</strong>. Tôi hiểu rằng AI sẽ chỉ làm tốt nếu mình đưa ra yêu cầu cụ thể, rõ ràng. Còn Git giúp tôi tự tin làm việc nhóm mà không sợ ấn nhầm nút xóa mất công sức của cả đội.</p>
                 </div>
 
                 <div class="tech-box">
                     <h3>3. Điểm tâm đắc và Thách thức</h3>
                     <p><strong>Điểm tâm đắc:</strong> Tôi rất thích ứng dụng AI vào việc vẽ các hình học không gian 3D phức tạp trong môn Giải tích. Nó giúp một môn học toàn công thức khô khan trở nên cực kỳ trực quan và dễ hình dung.</p>
-                    <p><strong>Thách thức:</strong> Lúc đầu giao việc cho AI, nó thường xuyên đoán mò và sửa code sai ý tôi. Tôi đã phải mất khá nhiều thời gian để hiểu cách đưa ra các ràng buộc cụ thể (ví dụ như mô tả chính xác giao diện menu có bao nhiêu ô) để ép AI đi đúng hướng.</p>
+                    <p style="margin-top: 6px;"><strong>Thách thức:</strong> Lúc đầu giao việc cho AI, nó thường xuyên đoán mò và sửa code sai ý tôi. Tôi đã phải mất khá nhiều thời gian để hiểu cách đưa ra các ràng buộc cụ thể để ép AI đi đúng hướng.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- THANH TIẾN ĐỘ (PROGRESS BAR) -->
-    <div class="progress-container">
-        <div class="progress-fill" id="progress-bar"></div>
+    <!-- BẢNG ĐIỀU KHIỂN HÀNH TRÌNH CYBER-DRIVE (MANA BAR & TRAVEL TO FUTURE) -->
+    <div class="cyber-drive-dock" id="progress-container">
+        <div class="mana-container">
+            <div class="mana-label">TRAVEL ENG. CHARGE: <span id="mana-pct">0%</span></div>
+            <div class="mana-bar-outer">
+                <div class="mana-bar-fill" id="mana-fill"></div>
+                <div class="mana-bar-glare"></div>
+            </div>
+        </div>
+        <button class="btn-travel" id="btn-travel-future" disabled onclick="exitPortfolio()">
+            LOCKED
+        </button>
     </div>
 
-    <!-- BẢNG ĐIỀU KHIỂN HUD -->
-    <div class="nav-controls">
+    <!-- BẢNG ĐIỀU KHIỂN CHÂN TRANG HUD -->
+    <div class="nav-controls" id="nav-controls">
         <button class="btn" id="btnPrev" onclick="changePage(-1)">&#8592; TRƯỚC</button>
         <button class="btn btn-primary" id="btnMenu" onclick="goToPage(1)">MỤC LỤC</button>
         <button class="btn" id="btnNext" onclick="changePage(1)">SAU &#8594;</button>
@@ -518,68 +1523,711 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        const totalPages = 9;
-        let currentPageIndex = 0;
+        // --- FUTURISTIC CYBER SOUNDS (WEB AUDIO API SYNTHESIZER) ---
+        let audioCtx;
+        function runWithAudio(callback) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                callback(audioCtx);
+            } catch (e) {
+                console.warn("Audio error:", e);
+            }
+        }
+
+        function playCyberHover() {
+            runWithAudio((ctx) => {
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1100, now);
+                osc.frequency.exponentialRampToValueAtTime(1700, now + 0.025);
+                
+                gain.gain.setValueAtTime(0.012, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.025);
+            });
+        }
+
+        function playCyberClick() {
+            runWithAudio((ctx) => {
+                const now = ctx.currentTime;
+                const osc1 = ctx.createOscillator();
+                const osc2 = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(800, now);
+                osc1.frequency.exponentialRampToValueAtTime(300, now + 0.06);
+                
+                osc2.type = 'square';
+                osc2.frequency.setValueAtTime(1500, now);
+                osc2.frequency.exponentialRampToValueAtTime(700, now + 0.04);
+                
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 1100;
+                filter.Q.value = 4;
+                
+                gain.gain.setValueAtTime(0.07, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+                
+                osc1.connect(filter);
+                osc2.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc1.start(now);
+                osc2.start(now);
+                osc1.stop(now + 0.06);
+                osc2.stop(now + 0.06);
+            });
+        }
+
+        function playCyberConfirm() {
+            runWithAudio((ctx) => {
+                const now = ctx.currentTime;
+                
+                // Sub rumble
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(65, now);
+                osc1.frequency.linearRampToValueAtTime(30, now + 0.35);
+                gain1.gain.setValueAtTime(0.16, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.35);
+                
+                // Synth sweep
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sawtooth';
+                osc2.frequency.setValueAtTime(130, now);
+                osc2.frequency.exponentialRampToValueAtTime(450, now + 0.22);
+                
+                const filter2 = ctx.createBiquadFilter();
+                filter2.type = 'lowpass';
+                filter2.frequency.value = 900;
+                
+                gain2.gain.setValueAtTime(0.08, now);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+                osc2.connect(filter2);
+                filter2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(now);
+                osc2.stop(now + 0.22);
+                
+                // High chime/laser
+                const osc3 = ctx.createOscillator();
+                const gain3 = ctx.createGain();
+                osc3.type = 'sine';
+                osc3.frequency.setValueAtTime(2200, now);
+                osc3.frequency.exponentialRampToValueAtTime(600, now + 0.28);
+                gain3.gain.setValueAtTime(0.05, now);
+                gain3.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+                osc3.connect(gain3);
+                gain3.connect(ctx.destination);
+                osc3.start(now);
+                osc3.stop(now + 0.28);
+            });
+        }
+
+        function playCyberError() {
+            runWithAudio((ctx) => {
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(95, now);
+                
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 110;
+                filter.Q.value = 5;
+                
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            });
+        }
+
+        let startupSoundPlayed = false;
+        let canPlayStartup = false;
+        function playStartupSound(force = false) {
+            if (startupSoundPlayed || !canPlayStartup) return;
+            
+            // If not forced and context is suspended (meaning no gesture occurred yet), return
+            if (!force && audioCtx && audioCtx.state === 'suspended') return;
+            
+            runWithAudio((ctx) => {
+                if (startupSoundPlayed) return;
+                startupSoundPlayed = true;
+                
+                const now = ctx.currentTime;
+                
+                // 1. Futuristic Software Power-Up Swell (Tải phần mềm & chuẩn bị hiện Hologram)
+                const oscSwell = ctx.createOscillator();
+                const gainSwell = ctx.createGain();
+                const filterSwell = ctx.createBiquadFilter();
+                
+                oscSwell.type = 'triangle';
+                // Tần số quét tăng dần từ 150Hz lên 320Hz tạo hiệu ứng kích hoạt
+                oscSwell.frequency.setValueAtTime(150, now);
+                oscSwell.frequency.exponentialRampToValueAtTime(320, now + 1.2);
+                
+                filterSwell.type = 'lowpass';
+                // Bộ lọc quét mở rộng từ 100Hz lên 1600Hz tạo cảm giác giao diện mở ra
+                filterSwell.frequency.setValueAtTime(100, now);
+                filterSwell.frequency.exponentialRampToValueAtTime(1600, now + 1.2);
+                
+                gainSwell.gain.setValueAtTime(0, now);
+                gainSwell.gain.linearRampToValueAtTime(0.08, now + 0.6); // tăng âm lượng từ từ
+                gainSwell.gain.linearRampToValueAtTime(0.01, now + 1.2);  // giảm nhẹ khi hợp âm chuông ngân lên
+                
+                oscSwell.connect(filterSwell);
+                filterSwell.connect(gainSwell);
+                gainSwell.connect(ctx.destination);
+                
+                oscSwell.start(now);
+                oscSwell.stop(now + 1.5);
+                
+                // 2. Futuristic Digital Hologram Reveal Chime (Hợp âm C major 9 ngân vang khi giao diện hiện ra)
+                const freqs = [196.00, 261.63, 329.63, 392.00, 493.88, 587.33, 783.99]; // G3, C4, E4, G4, B4, D5, G5
+                
+                const filterChime = ctx.createBiquadFilter();
+                filterChime.type = 'lowpass';
+                filterChime.frequency.setValueAtTime(2000, now);
+                filterChime.frequency.exponentialRampToValueAtTime(800, now + 3.0);
+                filterChime.connect(ctx.destination);
+                
+                freqs.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now);
+                    
+                    // Rải hợp âm ngược lên theo đỉnh cao trào của tiếng Swell (bắt đầu từ giây 0.5)
+                    const noteDelay = 0.5 + idx * 0.07;
+                    const startTime = now + noteDelay;
+                    
+                    gain.gain.setValueAtTime(0, now);
+                    gain.gain.linearRampToValueAtTime(0, startTime);
+                    const noteVol = (idx === freqs.length - 1) ? 0.025 : 0.035;
+                    gain.gain.linearRampToValueAtTime(noteVol, startTime + 0.2); 
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 2.0); // tiếng chuông ngân tắt chậm rãi
+                    
+                    osc.connect(gain);
+                    gain.connect(filterChime);
+                    
+                    osc.start(startTime);
+                    osc.stop(startTime + 2.4);
+                });
+
+                // 3. Shimmering high frequency glissando (Quét tần số cao lấp lánh như hạt ánh sáng hologram)
+                const sparkleOsc = ctx.createOscillator();
+                const sparkleGain = ctx.createGain();
+                sparkleOsc.type = 'sine';
+                sparkleOsc.frequency.setValueAtTime(1500, now + 0.8);
+                sparkleOsc.frequency.exponentialRampToValueAtTime(3500, now + 1.4);
+                
+                sparkleGain.gain.setValueAtTime(0, now);
+                sparkleGain.gain.linearRampToValueAtTime(0, now + 0.8);
+                sparkleGain.gain.linearRampToValueAtTime(0.012, now + 1.1);
+                sparkleGain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+                
+                sparkleOsc.connect(sparkleGain);
+                sparkleGain.connect(ctx.destination);
+                sparkleOsc.start(now + 0.8);
+                sparkleOsc.stop(now + 1.5);
+            });
+        }
+
+        function playTransitionSound() {
+            runWithAudio((ctx) => {
+                const now = ctx.currentTime;
+                
+                // Cyberpunk glitch sweep (Whoosh kỹ thuật số)
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(140, now);
+                osc.frequency.exponentialRampToValueAtTime(550, now + 0.35);
+                
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(250, now);
+                filter.frequency.exponentialRampToValueAtTime(1100, now + 0.35);
+                
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start(now);
+                osc.stop(now + 0.35);
+            });
+        }
+
+        function initCyberSounds() {
+            const selectAllInteractive = () => {
+                return document.querySelectorAll('.btn, .hud-nav-btn, .tilt-card, .card, .hud-dropdown-content a, .hud-logo, .video-play-btn, .video-btn, .btn-travel');
+            };
+            
+            selectAllInteractive().forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (!el.disabled && !el.classList.contains('disabled')) {
+                        playCyberHover();
+                    }
+                });
+                
+                el.addEventListener('click', () => {
+                    if (el.disabled || el.classList.contains('disabled') || el.getAttribute('disabled') !== null) {
+                        playCyberError();
+                    } else if (el.id === 'btn-enter' || el.id === 'btn-travel-future') {
+                        playCyberConfirm();
+                    } else {
+                        playCyberClick();
+                    }
+                });
+            });
+
+            // Warm up audio context on first interaction (click / touchstart / mousedown / keydown are valid user gestures)
+            const warmUpHandler = (e) => {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                
+                if (canPlayStartup && !startupSoundPlayed) {
+                    if (e.target && (e.target.id === 'btn-enter' || e.target.closest('#btn-enter'))) {
+                        startupSoundPlayed = true;
+                        cleanupWarmUp();
+                        return;
+                    }
+                    playStartupSound(true); // Force play sound synchronously inside gesture
+                    cleanupWarmUp();
+                } else if (audioCtx && audioCtx.state === 'running') {
+                    cleanupWarmUp();
+                }
+            };
+
+            const eventTypes = ['click', 'touchstart', 'mousedown', 'keydown'];
+            function cleanupWarmUp() {
+                eventTypes.forEach(evtType => {
+                    document.removeEventListener(evtType, warmUpHandler);
+                });
+            }
+
+            eventTypes.forEach(evtType => {
+                document.addEventListener(evtType, warmUpHandler);
+            });
+        }
+
+        const totalPages = 9; // Index 1: Menu -> Index 8: Lời kết
+        let currentPageIndex = 1;
         let isAnimating = false;
 
-        // DANH SÁCH ẢNH NỀN TƯƠNG ỨNG VỚI CÁC TRANG
-        const backgrounds = [
-            'minecraft_bg.png', // Trang 0
-            'walmenu.png',      // Trang 1
-            'walbai1.png',      // Trang 2
-            'walbai2.png',      // Trang 3
-            'walbai3.png',      // Trang 4
-            'walbai4.png',      // Trang 5
-            'walbai5.png',      // Trang 6
-            'walbai6.png',      // Trang 7
-            'walbai7.png'       // Trang 8
+        // BẢNG MÀU DÙNG CHO AMBIENT GLOW TỪNG TRANG PORTFOLIO
+        const ambientColors = [
+            'rgba(118, 185, 0, 0.12)',  // Placeholder
+            'rgba(118, 185, 0, 0.15)',  // Trang 1: Mục lục (Xanh lá STOLY)
+            'rgba(0, 229, 255, 0.15)',  // Trang 2: Bài 1 (Xanh ngọc)
+            'rgba(163, 255, 12, 0.12)',  // Trang 3: Bài 2 (Lá mạ)
+            'rgba(118, 185, 0, 0.12)',  // Trang 4: Bài 3
+            'rgba(0, 229, 255, 0.12)',  // Trang 5: Bài 4
+            'rgba(163, 255, 12, 0.12)',  // Trang 6: Bài 5
+            'rgba(118, 185, 0, 0.12)',  // Trang 7: Bài 6
+            'rgba(0, 229, 255, 0.16)'   // Trang 8: Lời kết (Xanh ngọc ấm)
         ];
 
+        // --- ĐIỀU KHIỂN VIDEO INTRO VÀ CHUYỂN CẢNH ---
+        let isVideoSkipped = false;
+        function skipIntroVideo() {
+            if (isVideoSkipped) return;
+            isVideoSkipped = true;
+            
+            const container = document.getElementById('video-intro-container');
+            const video = document.getElementById('intro-video');
+            const glitch = document.getElementById('glitch-overlay');
+            const cinematic = document.getElementById('cinematic-container');
+            
+            // Phát âm thanh xác nhận chuyển cảnh (chime lớn)
+            playCyberConfirm();
+            
+            // Giảm âm lượng video từ từ
+            let vol = video.muted ? 0 : video.volume;
+            if (vol > 0) {
+                const fadeAudio = setInterval(() => {
+                    if (video.volume > 0.05) {
+                        video.volume -= 0.05;
+                    } else {
+                        video.volume = 0;
+                        clearInterval(fadeAudio);
+                    }
+                }, 50);
+            }
+            
+            // Hoạt ảnh phóng to, sáng lóa và nhòe hình (zoom-in glow transition)
+            container.style.transform = 'scale(1.25)';
+            container.style.filter = 'brightness(2.2) blur(8px)';
+            container.style.opacity = '0';
+            
+            // Flashing glitch overlay
+            glitch.classList.add('glitch-active');
+            glitch.style.opacity = '0.45';
+            
+            setTimeout(() => {
+                container.style.display = 'none';
+                video.pause();
+                glitch.style.opacity = '0';
+                glitch.classList.remove('glitch-active');
+                
+                // Hiển thị khung cảnh 3D thành phố giới thiệu ban đầu (giữ nguyên xe hơi và HUD giới thiệu)
+                cinematic.style.display = 'block';
+                
+                // Kích hoạt camera di chuyển lên cao và hiện tấm bảng giới thiệu (STOLY.AI billboard)
+                const sky = document.getElementById('cyber-sky');
+                const road = document.getElementById('cyber-road-plane');
+                const car = document.getElementById('cyber-car');
+                const billboard = document.getElementById('intro-billboard');
+                
+                setTimeout(() => {
+                    sky.style.transform = 'translateY(-15%)';
+                    road.style.transform = 'rotateX(52deg) translateY(18%)';
+                    car.style.transform = 'translateX(-50%) translateY(50px) scale(0.7)';
+                    car.style.opacity = '0.35';
+                    
+                    billboard.classList.add('visible');
+                    
+                    canPlayStartup = true;
+                    playStartupSound(true); // Tự động phát âm thanh khởi động máy tính
+                }, 100);
+            }, 1200);
+        }
+
+        function unmuteIntroVideo() {
+            const video = document.getElementById('intro-video');
+            const prompt = document.getElementById('video-sound-prompt');
+            video.muted = false;
+            video.volume = 1.0;
+            prompt.classList.add('hidden');
+        }
+
+        function initVideoIntro() {
+            const video = document.getElementById('intro-video');
+            
+            // Tự động chuyển cảnh khi video phát hết
+            video.addEventListener('ended', () => {
+                skipIntroVideo();
+            });
+        }
+
+        // --- 1. KHỞI CHẠY TRANG ---
+        window.addEventListener('load', () => {
+            initCyberSounds();
+            initVideoIntro();
+        });
+
+        // Đi vào biển hiệu khi bấm Tiếp Tục
+        function enterPortfolio() {
+            const container = document.getElementById('cinematic-container');
+            const glitch = document.getElementById('glitch-overlay');
+            const header = document.getElementById('hud-header');
+            const footer = document.getElementById('nav-controls');
+            const progress = document.getElementById('progress-container');
+
+            // Áp dụng zoom-in cực mạnh đi xuyên biển hiệu
+            container.style.transform = 'scale(6) translateZ(800px)';
+            container.style.opacity = '0';
+
+            // Hiệu ứng nhiễu sóng kỹ thuật số
+            glitch.classList.add('glitch-active');
+            glitch.style.opacity = '0.5';
+
+            setTimeout(() => {
+                // Tắt màn intro
+                container.style.display = 'none';
+                glitch.style.opacity = '0';
+                glitch.classList.remove('glitch-active');
+
+                // Kích hoạt hiển thị HUD portfolio chính
+                header.classList.add('visible');
+                footer.classList.add('visible');
+                progress.classList.add('visible');
+
+                // Hiển thị trang mục lục (Trang 1)
+                const menuPage = document.getElementById('page-1');
+                if (menuPage) {
+                    menuPage.classList.add('active');
+                }
+                
+                updateControls();
+                updateAmbientColor(1);
+            }, 1200);
+        }
+
+        // --- 2. HIỆU ỨNG OUTRO: TRAVEL TO THE FUTURE ---
+        function exitPortfolio() {
+            // Dừng mọi video giả lập đang phát
+            stopVideo(1);
+            stopVideo(2);
+
+            // Phát nhạc Alpha - C418 bắt đầu từ đoạn cao trào (giây thứ 435 - tức là 7:15)
+            const audio = document.getElementById('exit-audio');
+            if (audio) {
+                audio.currentTime = 435; 
+                audio.volume = 0;
+                audio.play().catch(err => {
+                    console.log("Không thể tự động phát nhạc do chính sách trình duyệt:", err);
+                });
+                
+                // Tăng dần âm lượng (Fade-in) từ 7:15 và bắt buộc phải rõ nhất (volume = 0.85) trước 7:17 (tức là trong vòng 2 giây)
+                let vol = 0;
+                const targetVol = 0.85;
+                const duration = 2000; // 2 giây
+                const stepTime = 100; // mỗi 100ms tăng âm lượng một lần
+                const steps = duration / stepTime; // 20 bước
+                const volStep = targetVol / steps; // 0.0425 mỗi bước
+                
+                const fadeIn = setInterval(() => {
+                    if (vol < targetVol) {
+                        vol += volStep;
+                        audio.volume = Math.min(vol, targetVol);
+                    } else {
+                        clearInterval(fadeIn);
+                    }
+                }, stepTime);
+            }
+
+            const container = document.getElementById('cinematic-container');
+            const sky = document.getElementById('cyber-sky');
+            const road = document.getElementById('cyber-road-plane');
+            const car = document.getElementById('cyber-car');
+            const billboard = document.getElementById('intro-billboard');
+            const header = document.getElementById('hud-header');
+            const footer = document.getElementById('nav-controls');
+            const progress = document.getElementById('progress-container');
+            const blackout = document.getElementById('outro-blackout');
+            const quote = document.getElementById('ending-quote');
+            const credits = document.getElementById('ending-credits');
+
+            // Ẩn HUD và tất cả các trang portfolio
+            header.classList.remove('visible');
+            footer.classList.remove('visible');
+            progress.classList.remove('visible');
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Màn hình đen bao phủ toàn bộ ngay lập tức (Nhạc sẽ chạy trước trong bóng tối)
+            if (blackout) {
+                blackout.style.transition = 'none';
+                blackout.style.opacity = '1';
+                blackout.style.pointerEvents = 'auto';
+            }
+
+            // Khôi phục khung cảnh 3D thành phố (ở chế độ ẩn dưới màn đen)
+            container.style.display = 'block';
+            container.style.transition = 'none';
+            container.style.transform = 'scale(1) translateZ(0)';
+            container.style.opacity = '1';
+            
+            // Ẩn biển hiệu quảng cáo để tập trung vào con đường lái xe
+            billboard.classList.remove('visible');
+            billboard.style.display = 'none';
+
+            // Thiết lập vị trí camera ban đầu cho Outro
+            sky.style.transition = 'none';
+            road.style.transition = 'none';
+            car.style.transition = 'none';
+            sky.style.transform = 'translateY(-15%)';
+            road.style.transform = 'rotateX(52deg) translateY(18%)';
+            car.style.transform = 'translateX(-50%) translateY(50px) scale(0.7)';
+            car.style.opacity = '0.35';
+
+            // Force reflow
+            void container.offsetWidth;
+
+            // --- TRÌNH TỰ ĐIỆN ẢNH (TIMELINE) ---
+            
+            // Giai đoạn 1: Sau khi nhạc chạy trong bóng tối 2.5 giây, màn hình thành phố mới từ từ hiện ra
+            setTimeout(() => {
+                if (blackout) {
+                    blackout.style.transition = 'opacity 1.5s ease';
+                    blackout.style.opacity = '0';
+                    blackout.style.pointerEvents = 'none';
+                }
+            }, 2500);
+
+            // Giai đoạn 2: Camera lao xuống đường, xe gia tốc chạy nhanh (chạy ở giây thứ 2.8)
+            setTimeout(() => {
+                sky.style.transition = 'transform 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                road.style.transition = 'transform 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                car.style.transition = 'transform 1.5s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.5s ease 1s';
+
+                sky.style.transform = 'translateY(12%)';
+                road.style.transform = 'rotateX(85deg) translateY(0%)';
+                car.style.transform = 'translateX(-50%) translateY(10px) scale(1.1)';
+                car.style.opacity = '1';
+
+                // Tăng tốc cuộn đường lưới điện tử cực nhanh
+                const grid = road.querySelector('.cyber-road-grid');
+                if (grid) grid.style.animationDuration = '0.1s';
+            }, 2800);
+
+            // Giai đoạn 3: Xe bứt tốc cực đại phóng vút lên phía chân trời (giây thứ 3.3)
+            setTimeout(() => {
+                car.style.transform = 'translateX(-50%) translateY(-360px) scale(0.05)';
+                car.style.opacity = '0';
+            }, 3300);
+
+            // Giai đoạn 4: Sau khi xe phóng đi, màn hình mờ dần chuyển sang đen hoàn toàn (giây thứ 5.5)
+            setTimeout(() => {
+                if (blackout) {
+                    blackout.style.transition = 'opacity 2.5s ease';
+                    blackout.style.opacity = '1';
+                    blackout.style.pointerEvents = 'auto';
+                }
+            }, 5500);
+
+            // Giai đoạn 5: Hiện câu quote phát sáng ở giữa màn hình đen (giây thứ 8.0)
+            setTimeout(() => {
+                if (quote) quote.style.opacity = '1';
+            }, 8000);
+
+            // Giai đoạn 6: Mờ dần câu quote đi sau khi hiển thị xong (giây thứ 15.0)
+            setTimeout(() => {
+                if (quote) quote.style.opacity = '0';
+            }, 15000);
+
+            // Giai đoạn 7: Hiện màn hình tác giả Phan Thanh Tùng cùng câu chào kết thúc (giây thứ 17.0)
+            setTimeout(() => {
+                if (credits) credits.style.opacity = '1';
+            }, 17000);
+
+            // Giai đoạn 8: Từ từ mờ dần màn hình tác giả thành màu đen hoàn toàn (giây thứ 21.0 - Sớm hơn 2 giây)
+            setTimeout(() => {
+                if (credits) {
+                    credits.style.transition = 'opacity 3.0s ease-in-out';
+                    credits.style.opacity = '0';
+                }
+            }, 21000);
+        }
+
+        // --- 3. ĐIỀU HƯỚNG SLIDE TRANG CHÍNH ---
         function updateControls() {
-            document.getElementById('btnPrev').disabled = (currentPageIndex === 0);
+            document.getElementById('btnPrev').disabled = (currentPageIndex === 1);
             document.getElementById('btnNext').disabled = (currentPageIndex === totalPages - 1);
             
-            // Cập nhật thanh tiến độ năng lượng
-            const progress = (currentPageIndex / (totalPages - 1)) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
+            // Cập nhật nút Mục Lục dưới chân trang
+            const btnMenu = document.getElementById('btnMenu');
+            if (btnMenu) {
+                btnMenu.setAttribute('onclick', 'goToPage(1)');
+                btnMenu.disabled = (currentPageIndex === 1);
+            }
+            
+            // Cập nhật thanh mana mới
+            const progress = ((currentPageIndex - 1) / (totalPages - 2)) * 100;
+            const roundedProgress = Math.round(progress);
+            
+            const manaFill = document.getElementById('mana-fill');
+            const manaPct = document.getElementById('mana-pct');
+            const btnTravel = document.getElementById('btn-travel-future');
+            
+            if (manaFill) manaFill.style.width = roundedProgress + '%';
+            if (manaPct) manaPct.innerText = roundedProgress + '%';
+            
+            if (btnTravel) {
+                const progressContainer = document.getElementById('progress-container');
+                if (roundedProgress >= 100) {
+                    btnTravel.disabled = false;
+                    btnTravel.innerText = 'TRAVEL TO FUTURE';
+                    btnTravel.classList.add('unlocked');
+                    if (progressContainer) progressContainer.classList.add('unlocked');
+                } else {
+                    btnTravel.disabled = true;
+                    btnTravel.innerText = 'LOCKED';
+                    btnTravel.classList.remove('unlocked');
+                    if (progressContainer) progressContainer.classList.remove('unlocked');
+                }
+            }
+
+            // Cập nhật trạng thái nút bấm ở thanh HUD trên cùng
+            document.querySelectorAll('.hud-nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeHudBtn = document.getElementById('nav-btn-' + currentPageIndex);
+            if (activeHudBtn) {
+                activeHudBtn.classList.add('active');
+            } else if (currentPageIndex >= 2 && currentPageIndex <= 7) {
+                // Highlight nút "Bài Học"
+                const projectsBtn = document.getElementById('nav-btn-projects');
+                if (projectsBtn) projectsBtn.classList.add('active');
+            }
+        }
+
+        function updateAmbientColor(index) {
+            document.documentElement.style.setProperty('--ambient-color', ambientColors[index]);
         }
 
         function triggerTransition(index) {
-            if (index < 0 || index >= totalPages || isAnimating || index === currentPageIndex) return;
+            if (index < 1 || index >= totalPages || isAnimating || index === currentPageIndex) return;
             isAnimating = true;
             
-            const flash = document.getElementById('flash-overlay');
-            const bgImg = document.getElementById('dynamic-bg');
+            // Phát âm thanh chuyển cảnh Hologram Glitch
+            playTransitionSound();
             
-            // Kích hoạt chớp mờ (Dark fade) làm dịu mắt
-            flash.style.background = 'rgba(0, 0, 0, 0.85)';
-            flash.style.transition = 'opacity 0.2s ease-out';
-            flash.style.opacity = '1';
+            const glitch = document.getElementById('glitch-overlay');
+            glitch.style.opacity = '0.25';
+            glitch.classList.add('glitch-active');
 
             setTimeout(() => {
-                // Đổi ảnh nền
-                bgImg.src = backgrounds[index];
-
-                // Đổi nội dung trang
                 document.querySelectorAll('.page').forEach(page => {
                     page.classList.remove('active');
                 });
                 
                 currentPageIndex = index;
-                const newPage = document.getElementById(`page-${currentPageIndex}`);
+                const newPage = document.getElementById('page-' + currentPageIndex);
+                if (newPage) {
+                    newPage.classList.add('active');
+                    newPage.scrollTop = 0;
+                }
                 
-                void newPage.offsetWidth; 
-                newPage.classList.add('active');
-                newPage.scrollTop = 0;
-                
+                updateAmbientColor(currentPageIndex);
                 updateControls();
 
-                // Tắt chớp mờ
-                flash.style.transition = 'opacity 0.4s ease-in';
-                flash.style.opacity = '0';
-                
-                setTimeout(() => { isAnimating = false; }, 400);
-            }, 200);
+                glitch.style.opacity = '0';
+                glitch.classList.remove('glitch-active');
+            }, 300);
+            
+            setTimeout(() => {
+                isAnimating = false;
+            }, 600);
         }
 
         function goToPage(index) {
@@ -590,8 +2238,207 @@
             triggerTransition(currentPageIndex + step);
         }
 
-        // Khởi tạo trạng thái ban đầu
-        updateControls();
+        // --- 4. HỆ THỐNG LIÊN KẾT NƠ-RON THẦN KINH CANVAS ---
+        const canvas = document.getElementById('ember-canvas');
+        const ctx = canvas.getContext('2d');
+        let nodes = [];
+        const maxDist = 130;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Node {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2.5 + 1.2;
+                this.color = 'rgba(0, 229, 255, '; // Các điểm nơ-ron màu xanh ngọc
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color + '0.75)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initNodes() {
+            const count = Math.min(80, Math.floor((canvas.width * canvas.height) / 20000));
+            nodes = [];
+            for (let i = 0; i < count; i++) {
+                nodes.push(new Node());
+            }
+        }
+
+        function animateNodes() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            // Vẽ các đường liên kết thần kinh (NVIDIA green / Cyber Cyan)
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if (dist < maxDist) {
+                        const alpha = (1 - dist / maxDist) * 0.22;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = 'rgba(118, 185, 0, ' + alpha + ')'; // Liên kết màu xanh lá
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateNodes);
+        }
+        
+        initNodes();
+        animateNodes();
+
+        // Ambient glow dịch chuyển theo chuột
+        window.addEventListener('mousemove', e => {
+            const glow = document.getElementById('ambient-glow');
+            if (glow) {
+                const xPercent = (e.clientX / window.innerWidth) * 100;
+                const yPercent = (e.clientY / window.innerHeight) * 100;
+                document.documentElement.style.setProperty('--glow-x', xPercent + '%');
+                document.documentElement.style.setProperty('--glow-y', yPercent + '%');
+            }
+        });
+
+        // --- 5. TIỆN ÍCH TRÌNH PHÁT VIDEO GIẢ LẬP ---
+        const videoDuration = 15;
+        let activePlayers = {};
+
+        function togglePlay(id) {
+            const poster = document.getElementById('video-poster-' + id);
+            const playBtn = document.getElementById('play-btn-' + id);
+            const progressBar = document.getElementById('progress-bar-' + id);
+            const timeLabel = document.getElementById('time-' + id);
+            const visualizer = document.getElementById('visualizer-' + id);
+
+            if (!activePlayers[id]) {
+                activePlayers[id] = {
+                    currentTime: 0,
+                    interval: null,
+                    animationFrame: null
+                };
+                
+                poster.style.opacity = '0';
+                poster.style.pointerEvents = 'none';
+                playBtn.innerText = 'PAUSE';
+                visualizer.classList.add('playing');
+
+                activePlayers[id].interval = setInterval(() => {
+                    activePlayers[id].currentTime += 0.1;
+                    if (activePlayers[id].currentTime >= videoDuration) {
+                        stopVideo(id);
+                        return;
+                    }
+                    
+                    const progressPercent = (activePlayers[id].currentTime / videoDuration) * 100;
+                    progressBar.style.width = progressPercent + '%';
+                    
+                    const curSec = Math.floor(activePlayers[id].currentTime);
+                    const curFormatted = '00:' + (curSec < 10 ? '0' + curSec : curSec);
+                    timeLabel.innerText = curFormatted + ' / 00:15';
+                }, 100);
+
+                const bars = visualizer.querySelectorAll('.visualizer-bar');
+                function animateVisualizer() {
+                    if (!activePlayers[id]) return;
+                    bars.forEach(bar => {
+                        const randomHeight = Math.random() * 85 + 10;
+                        bar.style.height = randomHeight + '%';
+                        bar.style.transition = 'height 0.1s ease';
+                    });
+                    activePlayers[id].animationFrame = setTimeout(animateVisualizer, 100);
+                }
+                animateVisualizer();
+
+            } else {
+                stopVideo(id, false);
+            }
+        }
+
+        function stopVideo(id, reset = true) {
+            if (!activePlayers[id]) return;
+
+            clearInterval(activePlayers[id].interval);
+            clearTimeout(activePlayers[id].animationFrame);
+
+            const poster = document.getElementById('video-poster-' + id);
+            const playBtn = document.getElementById('play-btn-' + id);
+            const visualizer = document.getElementById('visualizer-' + id);
+            const progressBar = document.getElementById('progress-bar-' + id);
+            const timeLabel = document.getElementById('time-' + id);
+
+            visualizer.classList.remove('playing');
+            const bars = visualizer.querySelectorAll('.visualizer-bar');
+            bars.forEach(bar => { bar.style.height = '4px'; });
+
+            if (reset) {
+                poster.style.opacity = '1';
+                poster.style.pointerEvents = 'auto';
+                progressBar.style.width = '0%';
+                timeLabel.innerText = '00:00 / 00:15';
+                playBtn.innerText = 'PLAY';
+                delete activePlayers[id];
+            } else {
+                playBtn.innerText = 'PLAY';
+                const playerState = activePlayers[id];
+                delete activePlayers[id];
+                activePlayers[id] = playerState;
+            }
+        }
+
+        function seekVideo(id, event) {
+            const progressContainer = event.currentTarget;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const width = rect.width;
+            const percent = clickX / width;
+            
+            const newTime = percent * videoDuration;
+            
+            if (activePlayers[id]) {
+                activePlayers[id].currentTime = newTime;
+            } else {
+                activePlayers[id] = {
+                    currentTime: newTime,
+                    interval: null,
+                    animationFrame: null
+                };
+                togglePlay(id);
+            }
+            
+            const progressBar = document.getElementById('progress-bar-' + id);
+            progressBar.style.width = (percent * 100) + '%';
+            
+            const curSec = Math.floor(newTime);
+            const curFormatted = '00:' + (curSec < 10 ? '0' + curSec : curSec);
+            document.getElementById('time-' + id).innerText = curFormatted + ' / 00:15';
+        }
 
         // Hiệu ứng thẻ nghiêng 3D (Tilt effect)
         document.querySelectorAll('.tilt-card').forEach(card => {
@@ -606,11 +2453,11 @@
                 const rotateX = ((y - centerY) / centerY) * -15;
                 const rotateY = ((x - centerX) / centerX) * 15;
                 
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.05, 1.05, 1.05)';
             });
             
             card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             });
         });
     </script>
