@@ -79,7 +79,6 @@
             overflow: hidden;
             perspective: 800px;
             transition: transform 1.6s cubic-bezier(0.76, 0, 0.24, 1), opacity 1.2s ease;
-            display: none; /* Ban đầu ẩn, chỉ hiển thị lại ở hoạt cảnh kết thúc (outro) */
         }
 
         .cyber-sky {
@@ -828,104 +827,12 @@
             transform-origin: center;
         }
 
-        /* === 2.5 VIDEO INTRO HOẠT CẢNH === */
-        #video-intro-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: #000;
-            z-index: 3000;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1), filter 1.2s ease, opacity 1.2s ease;
-        }
-        #intro-video {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
-        }
-        .btn-skip {
-            position: absolute;
-            bottom: 50px; right: 50px;
-            background: rgba(8, 8, 10, 0.85);
-            color: var(--neon-primary);
-            border: 1.5px solid var(--neon-primary);
-            padding: 12px 30px;
-            font-size: 16px;
-            letter-spacing: 2px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-            box-shadow: 0 0 15px rgba(118, 185, 0, 0.25);
-            z-index: 3005;
-        }
-        .btn-skip:hover {
-            background: var(--neon-primary);
-            color: #000;
-            box-shadow: 0 0 25px rgba(118, 185, 0, 0.65);
-            transform: scale(1.05);
-        }
-        /* Nút bật tiếng video */
-        #video-sound-prompt {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 3010;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            pointer-events: none;
-        }
-        #btn-unmute-video {
-            background: rgba(8, 8, 10, 0.75);
-            color: var(--neon-primary);
-            border: 1.5px solid var(--neon-primary);
-            padding: 14px 36px;
-            font-size: 15px;
-            letter-spacing: 3px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
-            box-shadow: 0 0 20px rgba(118, 185, 0, 0.35);
-            transition: all 0.3s ease;
-            pointer-events: auto;
-            animation: soundPulse 1.8s infinite ease-in-out;
-        }
-        #btn-unmute-video:hover {
-            background: var(--neon-primary);
-            color: #000;
-            box-shadow: 0 0 35px rgba(118, 185, 0, 0.75);
-        }
-        @keyframes soundPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(118, 185, 0, 0.35); }
-            50% { box-shadow: 0 0 40px rgba(118, 185, 0, 0.75); }
-        }
-        #video-sound-prompt.hidden {
-            display: none !important;
-        }
+
     </style>
 </head>
 <body>
 
-    <!-- KỊCH BẢN ĐIỆN ẢNH INTRO VIDEO.MP4 -->
-    <div id="video-intro-container">
-        <video id="intro-video" src="video.mp4" playsinline autoplay muted></video>
-        <!-- Nút bật tiếng (giữa màn hình) -->
-        <div id="video-sound-prompt">
-            <button id="btn-unmute-video" onclick="unmuteIntroVideo()">🔊 &nbsp;CLICK TO PLAY SOUND</button>
-        </div>
-        <!-- Nút Bỏ qua / Tiếp tục ở góc dưới -->
-        <button id="btn-skip-video" class="btn-skip" onclick="skipIntroVideo()">
-            TIẾP TỤC &rarr;
-        </button>
-    </div>
+
 
     <!-- NHẠC NỀN DU HÀNH (ALPHA - C418) -->
     <audio id="exit-audio" preload="auto">
@@ -1865,92 +1772,27 @@
             'rgba(0, 229, 255, 0.16)'   // Trang 8: Lời kết (Xanh ngọc ấm)
         ];
 
-        // --- ĐIỀU KHIỂN VIDEO INTRO VÀ CHUYỂN CẢNH ---
-        let isVideoSkipped = false;
-        function skipIntroVideo() {
-            if (isVideoSkipped) return;
-            isVideoSkipped = true;
-            
-            const container = document.getElementById('video-intro-container');
-            const video = document.getElementById('intro-video');
-            const glitch = document.getElementById('glitch-overlay');
-            const cinematic = document.getElementById('cinematic-container');
-            
-            // Phát âm thanh xác nhận chuyển cảnh (chime lớn)
-            playCyberConfirm();
-            
-            // Giảm âm lượng video từ từ
-            let vol = video.muted ? 0 : video.volume;
-            if (vol > 0) {
-                const fadeAudio = setInterval(() => {
-                    if (video.volume > 0.05) {
-                        video.volume -= 0.05;
-                    } else {
-                        video.volume = 0;
-                        clearInterval(fadeAudio);
-                    }
-                }, 50);
-            }
-            
-            // Hoạt ảnh phóng to, sáng lóa và nhòe hình (zoom-in glow transition)
-            container.style.transform = 'scale(1.25)';
-            container.style.filter = 'brightness(2.2) blur(8px)';
-            container.style.opacity = '0';
-            
-            // Flashing glitch overlay
-            glitch.classList.add('glitch-active');
-            glitch.style.opacity = '0.45';
-            
-            setTimeout(() => {
-                container.style.display = 'none';
-                video.pause();
-                glitch.style.opacity = '0';
-                glitch.classList.remove('glitch-active');
-                
-                // Hiển thị khung cảnh 3D thành phố giới thiệu ban đầu (giữ nguyên xe hơi và HUD giới thiệu)
-                cinematic.style.display = 'block';
-                
-                // Kích hoạt camera di chuyển lên cao và hiện tấm bảng giới thiệu (STOLY.AI billboard)
-                const sky = document.getElementById('cyber-sky');
-                const road = document.getElementById('cyber-road-plane');
-                const car = document.getElementById('cyber-car');
-                const billboard = document.getElementById('intro-billboard');
-                
-                setTimeout(() => {
-                    sky.style.transform = 'translateY(-15%)';
-                    road.style.transform = 'rotateX(52deg) translateY(18%)';
-                    car.style.transform = 'translateX(-50%) translateY(50px) scale(0.7)';
-                    car.style.opacity = '0.35';
-                    
-                    billboard.classList.add('visible');
-                    
-                    canPlayStartup = true;
-                    playStartupSound(true); // Tự động phát âm thanh khởi động máy tính
-                }, 100);
-            }, 1200);
-        }
-
-        function unmuteIntroVideo() {
-            const video = document.getElementById('intro-video');
-            const prompt = document.getElementById('video-sound-prompt');
-            video.muted = false;
-            video.volume = 1.0;
-            prompt.classList.add('hidden');
-        }
-
-        function initVideoIntro() {
-            const video = document.getElementById('intro-video');
-            
-            // Tự động chuyển cảnh khi video phát hết
-            video.addEventListener('ended', () => {
-                skipIntroVideo();
-            });
-        }
-
         // --- 1. KHỞI CHẠY TRANG ---
         window.addEventListener('load', () => {
             initCyberSounds();
-            initVideoIntro();
+            
+            // Kích hoạt camera di chuyển lên cao và hiện tấm bảng giới thiệu (STOLY.AI billboard)
+            const sky = document.getElementById('cyber-sky');
+            const road = document.getElementById('cyber-road-plane');
+            const car = document.getElementById('cyber-car');
+            const billboard = document.getElementById('intro-billboard');
+            
+            setTimeout(() => {
+                sky.style.transform = 'translateY(-15%)';
+                road.style.transform = 'rotateX(52deg) translateY(18%)';
+                car.style.transform = 'translateX(-50%) translateY(50px) scale(0.7)';
+                car.style.opacity = '0.35';
+                
+                billboard.classList.add('visible');
+                
+                canPlayStartup = true;
+                playStartupSound(true); // Tự động phát âm thanh khởi động máy tính
+            }, 100);
         });
 
         // Đi vào biển hiệu khi bấm Tiếp Tục
