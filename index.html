@@ -1,47 +1,63 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STOLY.AI // PORTFOLIO // PHAN_THANH_TUNG</title>
-    
+
     <!-- Tích hợp Font Gaming Sci-Fi -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
     <script>
         window.MathJax = {
             tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
+
     <style>
         /* === BẢNG MÀU STOLY TECH BRANDING === */
         :root {
-            --neon-primary: #76b900; /* STOLY Green */
-            --neon-secondary: #00e5ff; /* Cyber Cyan */
-            --neon-accent: #a3ff12; /* Glowing Lime */
-            --bg-dark: rgba(8, 8, 10, 0.94); /* Nền Obsidian đen tối */
-            --text-main: #f4f4f6; /* Chữ bạc kim */
-            --text-secondary: #94a3b8; /* Chữ xám phụ */
-            --ambient-color: rgba(118, 185, 0, 0.12); /* Màu bóng mờ mặc định */
+            --neon-primary: #76b900;
+            /* STOLY Green */
+            --neon-secondary: #00e5ff;
+            /* Cyber Cyan */
+            --neon-accent: #a3ff12;
+            /* Glowing Lime */
+            --bg-dark: rgba(8, 8, 10, 0.94);
+            /* Nền Obsidian đen tối */
+            --text-main: #f4f4f6;
+            /* Chữ bạc kim */
+            --text-secondary: #94a3b8;
+            /* Chữ xám phụ */
+            --ambient-color: rgba(118, 185, 0, 0.12);
+            /* Màu bóng mờ mặc định */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Rajdhani', sans-serif;
             background-color: #040405;
             color: var(--text-main);
-            overflow: hidden; 
+            overflow: hidden;
             user-select: none;
         }
 
         /* === 1. NỀN CANVAS MẠNG NƠ-RON THẦN KINH === */
         #ember-canvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: -2;
             pointer-events: none;
             filter: blur(0.5px);
@@ -49,7 +65,10 @@
 
         .ambient-glow {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), var(--ambient-color) 0%, transparent 65%);
             z-index: -3;
             pointer-events: none;
@@ -57,23 +76,36 @@
         }
 
         .scanlines {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4));
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.4));
             background-size: 100% 4px;
-            z-index: -1; pointer-events: none;
+            z-index: -1;
+            pointer-events: none;
             opacity: 0.7;
         }
 
         .vignette {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: radial-gradient(circle, transparent 40%, #000000 145%);
-            z-index: -1; pointer-events: none;
+            z-index: -1;
+            pointer-events: none;
         }
 
         /* === 2. ĐIỆN ẢNH INTRO & OUTRO: THÀNH PHỐ 3D SYNTHWAVE === */
         .cinematic-container {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: radial-gradient(circle at 50% 30%, #0c0f12 0%, #020203 100%);
             z-index: 2000;
             overflow: hidden;
@@ -83,7 +115,10 @@
 
         .cyber-sky {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 55%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 55%;
             background: linear-gradient(to bottom, #010102, #08060c 60%, #150f22 100%);
             border-bottom: 2px solid rgba(118, 185, 0, 0.25);
             overflow: hidden;
@@ -92,43 +127,70 @@
 
         /* HE THONG NGOI SAO NHAP NHAY */
         @keyframes starBlink {
-            0%, 100% { opacity: 0.25; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.25); }
+
+            0%,
+            100% {
+                opacity: 0.25;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.25);
+            }
         }
-        .star-blink-1 { animation: starBlink 3.2s infinite ease-in-out; transform-origin: center; }
-        .star-blink-2 { animation: starBlink 4.5s infinite ease-in-out 1.2s; transform-origin: center; }
-        .star-blink-3 { animation: starBlink 5.8s infinite ease-in-out 2.4s; transform-origin: center; }
+
+        .star-blink-1 {
+            animation: starBlink 3.2s infinite ease-in-out;
+            transform-origin: center;
+        }
+
+        .star-blink-2 {
+            animation: starBlink 4.5s infinite ease-in-out 1.2s;
+            transform-origin: center;
+        }
+
+        .star-blink-3 {
+            animation: starBlink 5.8s infinite ease-in-out 2.4s;
+            transform-origin: center;
+        }
 
         .cyber-sun {
             position: absolute;
-            bottom: -60px; left: 50%; transform: translateX(-50%);
-            width: 260px; height: 260px;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            height: 260px;
             border-radius: 50%;
             background: linear-gradient(to bottom, #ff5e00, #ff003c);
             box-shadow: 0 0 75px rgba(255, 40, 0, 0.65);
-            -webkit-mask-image: linear-gradient(to bottom, 
-                black 0%, black 50%, 
-                transparent 50%, transparent 55%, 
-                black 55%, black 65%, 
-                transparent 65%, transparent 72%, 
-                black 72%, black 80%, 
-                transparent 80%, transparent 88%, 
-                black 88%, black 95%, 
-                transparent 95%, transparent 100%);
-            mask-image: linear-gradient(to bottom, 
-                black 0%, black 50%, 
-                transparent 50%, transparent 55%, 
-                black 55%, black 65%, 
-                transparent 65%, transparent 72%, 
-                black 72%, black 80%, 
-                transparent 80%, transparent 88%, 
-                black 88%, black 95%, 
-                transparent 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom,
+                    black 0%, black 50%,
+                    transparent 50%, transparent 55%,
+                    black 55%, black 65%,
+                    transparent 65%, transparent 72%,
+                    black 72%, black 80%,
+                    transparent 80%, transparent 88%,
+                    black 88%, black 95%,
+                    transparent 95%, transparent 100%);
+            mask-image: linear-gradient(to bottom,
+                    black 0%, black 50%,
+                    transparent 50%, transparent 55%,
+                    black 55%, black 65%,
+                    transparent 65%, transparent 72%,
+                    black 72%, black 80%,
+                    transparent 80%, transparent 88%,
+                    black 88%, black 95%,
+                    transparent 95%, transparent 100%);
         }
 
         .cyber-skyline {
             position: absolute;
-            bottom: 0; left: 0; width: 200%; height: 90px;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 90px;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='90' viewBox='0 0 400 90'%3E%3Crect x='10' y='20' width='45' height='70' fill='%23050508' stroke='%23151522' stroke-width='1'/%3E%3Crect x='18' y='30' width='6' height='8' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='30' y='30' width='6' height='8' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='42' y='30' width='6' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='18' y='45' width='6' height='8' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='30' y='45' width='6' height='8' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='42' y='45' width='6' height='8' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='18' y='60' width='6' height='8' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='30' y='60' width='6' height='8' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='42' y='60' width='6' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='65' y='40' width='35' height='50' fill='%2308080c' stroke='%23151522' stroke-width='1'/%3E%3Crect x='72' y='50' width='5' height='6' fill='%2300e5ff' opacity='0.8'/%3E%3Crect x='82' y='50' width='5' height='6' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='72' y='62' width='5' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='82' y='62' width='5' height='6' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='72' y='74' width='5' height='6' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='82' y='74' width='5' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='110' y='5' width='30' height='85' fill='%23030306' stroke='%2310101d' stroke-width='1'/%3E%3Cline x1='125' y1='5' x2='125' y2='0' stroke='%23ff0055' stroke-width='1.5'/%3E%3Crect x='116' y='15' width='4' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='124' y='15' width='4' height='6' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='116' y='25' width='4' height='6' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='124' y='25' width='4' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='116' y='35' width='4' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='124' y='35' width='4' height='6' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='116' y='45' width='4' height='6' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='124' y='45' width='4' height='6' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='116' y='55' width='4' height='6' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='124' y='55' width='4' height='6' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='116' y='65' width='4' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='124' y='65' width='4' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='116' y='75' width='4' height='6' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='124' y='75' width='4' height='6' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='150' y='30' width='55' height='60' fill='%2306060a' stroke='%23151522' stroke-width='1'/%3E%3Crect x='158' y='40' width='6' height='7' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='168' y='40' width='6' height='7' fill='%2300e5ff' opacity='0.8'/%3E%3Crect x='178' y='40' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='188' y='40' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='158' y='52' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='168' y='52' width='6' height='7' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='178' y='52' width='6' height='7' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='188' y='52' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='158' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='168' y='64' width='6' height='7' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='178' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='188' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='215' y='50' width='40' height='40' fill='%2307070b' stroke='%23151522' stroke-width='1'/%3E%3Crect x='222' y='60' width='6' height='6' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='232' y='60' width='6' height='6' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='242' y='60' width='6' height='6' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='222' y='72' width='6' height='6' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='232' y='72' width='6' height='6' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='242' y='72' width='6' height='6' fill='%23ffaa00' opacity='0.6'/%3E%3Cpath d='M 265,35 L 295,20 L 320,20 L 320,90 L 265,90 Z' fill='%23040407' stroke='%2310101d' stroke-width='1'/%3E%3Crect x='275' y='40' width='5' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='285' y='40' width='5' height='8' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='295' y='40' width='5' height='8' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='307' y='40' width='5' height='8' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='275' y='55' width='5' height='8' fill='%23ffaa00' opacity='0.4'/%3E%3Crect x='285' y='55' width='5' height='8' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='295' y='55' width='5' height='8' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='307' y='55' width='5' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='275' y='70' width='5' height='8' fill='%2300e5ff' opacity='0.9'/%3E%3Crect x='285' y='70' width='5' height='8' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='295' y='70' width='5' height='8' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='307' y='70' width='5' height='8' fill='%2300e5ff' opacity='0.4'/%3E%3Crect x='330' y='15' width='45' height='75' fill='%23050509' stroke='%23151522' stroke-width='1'/%3E%3Crect x='338' y='25' width='6' height='7' fill='%2300e5ff' opacity='0.8'/%3E%3Crect x='350' y='25' width='6' height='7' fill='%23ffaa00' opacity='0.6'/%3E%3Crect x='362' y='25' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='338' y='38' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3Crect x='350' y='38' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='362' y='38' width='6' height='7' fill='%2300e5ff' opacity='0.7'/%3E%3Crect x='338' y='51' width='6' height='7' fill='%23ffaa00' opacity='0.9'/%3E%3Crect x='350' y='51' width='6' height='7' fill='%2300e5ff' opacity='0.4'/%3E%3Crect x='362' y='51' width='6' height='7' fill='%23ffaa00' opacity='0.7'/%3E%3Crect x='338' y='64' width='6' height='7' fill='%2300e5ff' opacity='0.6'/%3E%3Crect x='350' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.8'/%3E%3Crect x='362' y='64' width='6' height='7' fill='%23ffaa00' opacity='0.5'/%3E%3C/svg%3E");
             opacity: 0.65;
             background-size: auto 100%;
@@ -136,13 +198,21 @@
         }
 
         @keyframes skylineScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-200px); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-200px);
+            }
         }
 
         .cyber-road-plane {
             position: absolute;
-            top: 55%; left: 0; width: 100%; height: 45%;
+            top: 55%;
+            left: 0;
+            width: 100%;
+            height: 45%;
             background: #020203;
             transform-origin: top center;
             transform: rotateX(82deg);
@@ -150,8 +220,9 @@
         }
 
         .cyber-road-grid {
-            width: 100%; height: 200%;
-            background-image: 
+            width: 100%;
+            height: 200%;
+            background-image:
                 linear-gradient(to right, rgba(118, 185, 0, 0.25) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(118, 185, 0, 0.25) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -160,13 +231,20 @@
         }
 
         @keyframes roadScroll {
-            0% { transform: translateY(-50%); }
-            100% { transform: translateY(0); }
+            0% {
+                transform: translateY(-50%);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
         }
 
         .cyber-car-container {
             position: absolute;
-            bottom: 4vh; left: 50%; transform: translateX(-50%);
+            bottom: 4vh;
+            left: 50%;
+            transform: translateX(-50%);
             width: 240px;
             z-index: 10;
             filter: drop-shadow(0 0 15px rgba(118, 185, 0, 0.6));
@@ -175,13 +253,21 @@
         }
 
         @keyframes carVibrate {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-1px); }
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-1px);
+            }
         }
 
         .cyber-billboard-container {
             position: absolute;
-            top: 45%; left: 50%;
+            top: 45%;
+            left: 50%;
             transform: translate(-50%, -50%) scale(0.05) translateZ(-800px);
             opacity: 0;
             z-index: 5;
@@ -210,8 +296,11 @@
         .cyber-billboard::before {
             content: '';
             position: absolute;
-            top: -20px; left: 50%; transform: translateX(-50%);
-            width: 2px; height: 20px;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
             background: var(--neon-primary);
             box-shadow: 0 0 10px var(--neon-primary);
         }
@@ -230,7 +319,7 @@
             color: var(--neon-secondary);
             letter-spacing: 2px;
             margin-bottom: 25px;
-            text-shadow: 0 0 8px rgba(0,229,255,0.4);
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
         }
 
         .billboard-info {
@@ -256,7 +345,10 @@
         /* === 3. CHUYỂN CẢNH HOLOGRAM GLITCH === */
         #glitch-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: rgba(4, 4, 6, 0.7);
             z-index: 9999;
             opacity: 0;
@@ -264,25 +356,52 @@
             transition: opacity 0.4s ease;
             backdrop-filter: blur(2px);
         }
-        
+
         .glitch-active {
             animation: hologramGlitch 0.5s step-end infinite;
         }
 
         @keyframes hologramGlitch {
-            0% { opacity: 0.12; filter: hue-rotate(0deg); background: rgba(0, 229, 255, 0.12); }
-            20% { opacity: 0.18; filter: grayscale(0.4); background: rgba(118, 185, 0, 0.15); }
-            40% { opacity: 0.08; transform: scaleY(1.02); background: rgba(4, 4, 6, 0.4); }
-            60% { opacity: 0.15; background: rgba(0, 229, 255, 0.18); }
-            80% { opacity: 0.05; transform: skewX(-3deg); background: rgba(118, 185, 0, 0.1); }
-            100% { opacity: 0.1; }
+            0% {
+                opacity: 0.12;
+                filter: hue-rotate(0deg);
+                background: rgba(0, 229, 255, 0.12);
+            }
+
+            20% {
+                opacity: 0.18;
+                filter: grayscale(0.4);
+                background: rgba(118, 185, 0, 0.15);
+            }
+
+            40% {
+                opacity: 0.08;
+                transform: scaleY(1.02);
+                background: rgba(4, 4, 6, 0.4);
+            }
+
+            60% {
+                opacity: 0.15;
+                background: rgba(0, 229, 255, 0.18);
+            }
+
+            80% {
+                opacity: 0.05;
+                transform: skewX(-3deg);
+                background: rgba(118, 185, 0, 0.1);
+            }
+
+            100% {
+                opacity: 0.1;
+            }
         }
 
         /* === 4. THIẾT KẾ TRANG PORTFOLIO CHÍNH === */
         .page {
             display: none;
-            width: 100vw; height: 100vh;
-            padding: 95px 10% 120px 10%; 
+            width: 100vw;
+            height: 100vh;
+            padding: 95px 10% 120px 10%;
             overflow-y: auto;
             flex-direction: column;
             align-items: center;
@@ -294,22 +413,35 @@
         }
 
         @keyframes pageEnter {
-            0% { opacity: 0; transform: scale(0.97) translateY(15px); filter: blur(4px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+            0% {
+                opacity: 0;
+                transform: scale(0.97) translateY(15px);
+                filter: blur(4px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+            }
         }
 
         /* HUD TOP HEADER */
         .hud-header {
             position: fixed;
-            top: 0; left: 0; width: 100vw;
+            top: 0;
+            left: 0;
+            width: 100vw;
             height: 65px;
             background: rgba(4, 4, 5, 0.85);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(118, 185, 0, 0.3);
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 0 8vw;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
             opacity: 0;
             pointer-events: none;
             transition: opacity 1s ease;
@@ -329,70 +461,164 @@
             cursor: pointer;
             letter-spacing: 2px;
         }
+
         .hud-logo:hover {
             text-shadow: 0 0 20px var(--neon-accent);
         }
-        
-        .hud-nav-items { display: flex; gap: 10px; align-items: center; }
+
+        .hud-nav-items {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
         .hud-nav-btn {
-            background: transparent; border: none;
+            background: transparent;
+            border: none;
             color: var(--text-secondary);
             font-family: 'Orbitron', sans-serif;
-            font-size: 13px; font-weight: 700;
-            letter-spacing: 1px; padding: 8px 16px;
-            cursor: pointer; transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
             position: relative;
         }
+
         .hud-nav-btn::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px;
-            background: var(--neon-primary); transition: all 0.3s ease; transform: translateX(-50%);
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--neon-primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
-        .hud-nav-btn:hover, .hud-nav-btn.active {
-            color: #fff; text-shadow: 0 0 8px var(--neon-primary);
+
+        .hud-nav-btn:hover,
+        .hud-nav-btn.active {
+            color: #fff;
+            text-shadow: 0 0 8px var(--neon-primary);
         }
-        .hud-nav-btn:hover::after, .hud-nav-btn.active::after { width: 80%; }
-        
+
+        .hud-nav-btn:hover::after,
+        .hud-nav-btn.active::after {
+            width: 80%;
+        }
+
         /* Dropdown */
-        .hud-dropdown { position: relative; display: inline-block; }
+        .hud-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
         .hud-dropdown-content {
-            display: none; position: absolute; top: 100%; left: 50%;
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
             transform: translateX(-50%) translateY(10px);
             background: rgba(6, 6, 8, 0.98);
             border: 1px solid var(--neon-primary);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(118, 185, 0, 0.2);
-            min-width: 220px; z-index: 1001; border-radius: 4px; overflow: hidden;
-            opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none;
+            min-width: 220px;
+            z-index: 1001;
+            border-radius: 4px;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
         }
+
         .hud-dropdown:hover .hud-dropdown-content {
-            display: block; opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto;
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
         }
+
         .hud-dropdown-content a {
-            color: var(--text-secondary); padding: 12px 18px; text-decoration: none; display: block;
-            font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 600;
-            cursor: pointer; transition: all 0.2s; border-bottom: 1px solid rgba(118, 185, 0, 0.1);
+            color: var(--text-secondary);
+            padding: 12px 18px;
+            text-decoration: none;
+            display: block;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(118, 185, 0, 0.1);
         }
+
         .hud-dropdown-content a:hover {
-            background: rgba(118, 185, 0, 0.15); color: #fff; padding-left: 24px; text-shadow: 0 0 5px var(--neon-primary);
+            background: rgba(118, 185, 0, 0.15);
+            color: #fff;
+            padding-left: 24px;
+            text-shadow: 0 0 5px var(--neon-primary);
         }
 
         /* TEXT AND CONTENT WRAPPER */
-        h1, h2, .section-tag { font-family: 'Orbitron', sans-serif; text-transform: uppercase; }
-        .section-tag { 
-            font-size: 14px; color: var(--neon-accent); letter-spacing: 4px; 
-            margin-bottom: 15px; text-shadow: 0 0 10px rgba(163, 255, 18, 0.5);
-            display: inline-block; border-bottom: 2px solid var(--neon-accent); padding-bottom: 5px;
+        h1,
+        h2,
+        .section-tag {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
         }
-        h1 { 
-            font-size: 40px; color: #fff; letter-spacing: 2px; margin-bottom: 30px; text-align: center; 
+
+        .section-tag {
+            font-size: 14px;
+            color: var(--neon-accent);
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(163, 255, 18, 0.5);
+            display: inline-block;
+            border-bottom: 2px solid var(--neon-accent);
+            padding-bottom: 5px;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-align: center;
             text-shadow: 2px 2px 0px var(--neon-primary), -2px -2px 0px var(--neon-secondary);
         }
-        h2 { font-size: 30px; color: var(--neon-primary); margin: 35px 0 15px 0; text-shadow: 0 0 15px rgba(118, 185, 0, 0.3); }
-        h3 { font-size: 23px; font-weight: 700; margin-bottom: 12px; color: #fff; border-left: 4px solid var(--neon-primary); padding-left: 10px; }
-        p, ul { font-size: 20px; line-height: 1.6; text-shadow: 0 2px 4px rgba(0,0,0,0.9); text-align: justify; }
-        li { margin-bottom: 8px; }
 
-        .content-wrapper { 
-            max-width: 1100px; width: 100%; 
+        h2 {
+            font-size: 30px;
+            color: var(--neon-primary);
+            margin: 35px 0 15px 0;
+            text-shadow: 0 0 15px rgba(118, 185, 0, 0.3);
+        }
+
+        h3 {
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+            border-left: 4px solid var(--neon-primary);
+            padding-left: 10px;
+        }
+
+        p,
+        ul {
+            font-size: 20px;
+            line-height: 1.6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+            text-align: justify;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .content-wrapper {
+            max-width: 1100px;
+            width: 100%;
             background: var(--bg-dark);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(118, 185, 0, 0.25);
@@ -401,67 +627,143 @@
             box-shadow: 0 0 35px rgba(118, 185, 0, 0.08);
             position: relative;
         }
+
         .content-wrapper::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 150px; height: 5px; background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
         }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; width: 100%; margin-top: 24px; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+            width: 100%;
+            margin-top: 24px;
+        }
 
         /* INTERACTIVE CARDS */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; width: 100%; margin-top: 30px; }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
         .card {
             background: linear-gradient(135deg, rgba(10, 15, 10, 0.95) 0%, rgba(4, 5, 6, 0.95) 100%);
             border: 2px solid rgba(118, 185, 0, 0.15);
             clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%);
-            padding: 35px 20px; cursor: pointer;
-            display: flex; flex-direction: column; justify-content: center; text-align: center;
+            padding: 35px 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
         }
+
         .card::after {
             content: '[ KÍCH HOẠT MÔ-ĐUN ]';
-            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-            font-family: 'Orbitron'; font-size: 10px; color: var(--neon-primary); opacity: 0; transition: opacity 0.3s;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Orbitron';
+            font-size: 10px;
+            color: var(--neon-primary);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-        .card:hover { 
+
+        .card:hover {
             border-color: var(--neon-primary);
             background: linear-gradient(135deg, rgba(118, 185, 0, 0.12) 0%, rgba(4, 5, 6, 0.95) 100%);
             box-shadow: 0 0 25px rgba(118, 185, 0, 0.35);
         }
-        .card:hover::after { opacity: 1; }
-        .card h3 { color: var(--neon-primary); margin-bottom: 10px; font-size: 24px; font-family: 'Orbitron'; transition: color 0.3s; }
-        .card:hover h3 { color: var(--neon-accent); text-shadow: 0 0 10px rgba(163, 255, 18, 0.4); }
-        .card p { color: var(--text-secondary); font-size: 17px; margin: 0; font-family: 'Rajdhani'; font-weight: 600; }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card h3 {
+            color: var(--neon-primary);
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-family: 'Orbitron';
+            transition: color 0.3s;
+        }
+
+        .card:hover h3 {
+            color: var(--neon-accent);
+            text-shadow: 0 0 10px rgba(163, 255, 18, 0.4);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            margin: 0;
+            font-family: 'Rajdhani';
+            font-weight: 600;
+        }
 
         /* IMAGES & MOCKUP CONSOLES */
         .img-box {
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(118, 185, 0, 0.2);
             clip-path: polygon(0 0, 100% 0, 100% 92%, 92% 100%, 0 100%);
-            padding: 10px; text-align: center; margin-bottom: 24px;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 24px;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
-        .img-box:hover { 
-            border-color: var(--neon-primary); 
-            box-shadow: 0 0 25px rgba(118, 185, 0, 0.3); 
-            transform: scale(1.02); 
+
+        .img-box:hover {
+            border-color: var(--neon-primary);
+            box-shadow: 0 0 25px rgba(118, 185, 0, 0.3);
+            transform: scale(1.02);
         }
-        .img-box img { width: 100%; height: auto; display: block; filter: contrast(1.05) saturate(110%); }
-        .img-caption { font-size: 15px; color: var(--neon-accent); margin-top: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        
+
+        .img-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: contrast(1.05) saturate(110%);
+        }
+
+        .img-caption {
+            font-size: 15px;
+            color: var(--neon-accent);
+            margin-top: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         .tech-box {
             background: rgba(118, 185, 0, 0.03);
             border: 1px solid rgba(118, 185, 0, 0.25);
             border-left: 6px solid var(--neon-primary);
-            padding: 22px; margin-bottom: 24px;
+            padding: 22px;
+            margin-bottom: 24px;
             box-shadow: inset 0 0 20px rgba(118, 185, 0, 0.05);
         }
+
         .code-inline {
             background-color: #08080a;
             color: var(--neon-accent);
-            padding: 2px 8px; border-radius: 4px;
-            font-family: "Consolas", monospace; font-size: 17px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: "Consolas", monospace;
+            font-size: 17px;
             border: 1px solid rgba(163, 255, 18, 0.3);
         }
 
@@ -476,68 +778,181 @@
             font-size: 15px;
             color: #00e5ff;
         }
+
         .console-header {
-            display: flex; justify-content: space-between;
+            display: flex;
+            justify-content: space-between;
             border-bottom: 1px solid rgba(0, 229, 255, 0.2);
-            padding-bottom: 8px; margin-bottom: 12px;
-            font-weight: bold; font-family: 'Orbitron';
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            font-weight: bold;
+            font-family: 'Orbitron';
         }
-        .console-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .console-bar-bg { width: 100px; height: 12px; background: #1a1a24; border-radius: 2px; overflow: hidden; display: inline-block; vertical-align: middle; }
-        .console-bar-fill { height: 100%; width: 0; background: var(--neon-primary); transition: width 0.3s ease; }
+
+        .console-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .console-bar-bg {
+            width: 100px;
+            height: 12px;
+            background: #1a1a24;
+            border-radius: 2px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .console-bar-fill {
+            height: 100%;
+            width: 0;
+            background: var(--neon-primary);
+            transition: width 0.3s ease;
+        }
 
         /* VIDEO PLAYER GIẢ LẬP */
         .video-container {
             background: #020202;
             border: 1px solid rgba(118, 185, 0, 0.2);
-            border-radius: 6px; overflow: hidden;
-            position: relative; width: 100%; margin-top: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
         }
+
         .video-player {
-            position: relative; width: 100%; padding-top: 56.25%; background: #000;
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
         }
+
         .video-poster {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            display: flex; justify-content: center; align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             transition: opacity 0.5s ease;
         }
+
         .video-play-btn {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: rgba(118, 185, 0, 0.95); border: none;
-            color: white; font-size: 26px; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(118, 185, 0, 0.95);
+            border: none;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             box-shadow: 0 0 25px rgba(118, 185, 0, 0.7);
-            transition: all 0.3s; z-index: 2;
+            transition: all 0.3s;
+            z-index: 2;
         }
+
         .video-play-btn:hover {
-            transform: scale(1.15); background: var(--neon-accent);
+            transform: scale(1.15);
+            background: var(--neon-accent);
             box-shadow: 0 0 35px rgba(163, 255, 18, 1);
         }
+
         .video-controls {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 18px; background: rgba(8, 8, 10, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 18px;
+            background: rgba(8, 8, 10, 0.95);
             border-top: 1px solid rgba(118, 185, 0, 0.15);
         }
-        .video-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 15px; }
-        .video-btn:hover { color: var(--neon-primary); }
-        .video-progress-container { flex-grow: 1; height: 6px; background: rgba(255, 255, 255, 0.08); margin: 0 15px; border-radius: 3px; position: relative; cursor: pointer; }
-        .video-progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon-primary), var(--neon-accent)); border-radius: 3px; position: absolute; left: 0; top: 0; }
-        .video-time { font-family: 'Orbitron', monospace; font-size: 12px; color: var(--text-secondary); }
-        .video-visualizer {
-            position: absolute; bottom: 20px; left: 20px; right: 20px;
-            height: 45px; display: flex; align-items: flex-end; gap: 4px; pointer-events: none; opacity: 0.1;
+
+        .video-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 15px;
         }
-        .video-visualizer.playing { opacity: 0.7; }
-        .visualizer-bar { flex-grow: 1; background: linear-gradient(to top, var(--neon-primary), var(--neon-accent)); height: 4px; border-radius: 2px; }
+
+        .video-btn:hover {
+            color: var(--neon-primary);
+        }
+
+        .video-progress-container {
+            flex-grow: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 0 15px;
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .video-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-primary), var(--neon-accent));
+            border-radius: 3px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .video-time {
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .video-visualizer {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            height: 45px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .video-visualizer.playing {
+            opacity: 0.7;
+        }
+
+        .visualizer-bar {
+            flex-grow: 1;
+            background: linear-gradient(to top, var(--neon-primary), var(--neon-accent));
+            height: 4px;
+            border-radius: 2px;
+        }
 
         /* NAVIGATION CONTROLS BOTTOM */
         .nav-controls {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 20px; z-index: 100; opacity: 0; pointer-events: none;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
             transition: opacity 1s ease;
         }
+
         .nav-controls.visible {
             opacity: 1;
             pointer-events: auto;
@@ -547,25 +962,41 @@
             background: rgba(10, 10, 12, 0.95);
             color: var(--neon-primary);
             border: 2px solid var(--neon-primary);
-            padding: 12px 30px; font-size: 18px; letter-spacing: 2px;
+            padding: 12px 30px;
+            font-size: 18px;
+            letter-spacing: 2px;
             font-family: 'Orbitron', sans-serif;
-            cursor: pointer; transition: all 0.2s ease;
+            cursor: pointer;
+            transition: all 0.2s ease;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
             box-shadow: 0 0 10px rgba(118, 185, 0, 0.15);
         }
-        .btn:hover:not(:disabled) { 
-            background: var(--neon-primary); color: #000;
+
+        .btn:hover:not(:disabled) {
+            background: var(--neon-primary);
+            color: #000;
             box-shadow: 0 0 20px rgba(118, 185, 0, 0.6);
             transform: scale(1.05);
         }
-        .btn:disabled { border-color: #22251a; color: #444838; cursor: not-allowed; box-shadow: none; }
-        
-        .btn-primary { 
-            background: var(--neon-primary); color: #000; border-color: var(--neon-primary);
+
+        .btn:disabled {
+            border-color: #22251a;
+            color: #444838;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background: var(--neon-primary);
+            color: #000;
+            border-color: var(--neon-primary);
             font-weight: 700;
         }
-        .btn-primary:hover:not(:disabled) { 
-            background: #fff; color: var(--neon-primary); box-shadow: 0 0 25px rgba(118, 185, 0, 0.8);
+
+        .btn-primary:hover:not(:disabled) {
+            background: #fff;
+            color: var(--neon-primary);
+            box-shadow: 0 0 25px rgba(118, 185, 0, 0.8);
         }
 
         /* DOCK ĐIỀU KHỂN HÀNH TRÌNH BÊN PHẢI CHÍNH GIỮA MÀN HÌNH */
@@ -590,31 +1021,39 @@
             transition: opacity 1s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease;
             clip-path: polygon(0 0, 100% 0, 100% 92%, 88% 100%, 0 100%);
         }
+
         .cyber-drive-dock.visible {
             opacity: 1;
             pointer-events: auto;
             transform: translateY(-50%) scale(1);
         }
+
         .cyber-drive-dock.unlocked {
             border-color: rgba(255, 94, 0, 0.85);
             animation: dockGlowPulse 2.5s infinite ease-in-out;
         }
+
         @keyframes dockGlowPulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 35px rgba(255, 94, 0, 0.4), inset 0 0 15px rgba(255, 94, 0, 0.15);
                 border-color: rgba(255, 94, 0, 0.7);
             }
+
             50% {
                 box-shadow: 0 0 60px rgba(255, 0, 60, 0.85), inset 0 0 30px rgba(255, 0, 60, 0.35);
                 border-color: rgba(255, 0, 60, 1);
             }
         }
+
         .mana-container {
             display: flex;
             flex-direction: column;
             gap: 10px;
             width: 240px;
         }
+
         .mana-label {
             font-family: 'Orbitron';
             font-size: 13px;
@@ -625,10 +1064,12 @@
             text-align: center;
             transition: color 0.5s ease, text-shadow 0.5s ease;
         }
+
         .cyber-drive-dock.unlocked .mana-label {
             color: #ffaa00;
             text-shadow: 0 0 10px rgba(255, 170, 0, 0.8);
         }
+
         .mana-bar-outer {
             width: 100%;
             height: 22px;
@@ -640,10 +1081,12 @@
             box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.25);
             transition: border-color 0.5s ease, box-shadow 0.5s ease;
         }
+
         .cyber-drive-dock.unlocked .mana-bar-outer {
             border-color: rgba(255, 94, 0, 0.6);
             box-shadow: inset 0 0 15px rgba(255, 94, 0, 0.4);
         }
+
         .mana-bar-fill {
             height: 100%;
             width: 0%;
@@ -651,23 +1094,38 @@
             box-shadow: 0 0 15px #00e5ff;
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease, box-shadow 0.5s ease;
         }
+
         .cyber-drive-dock.unlocked .mana-bar-fill {
             background: linear-gradient(90deg, #ff5e00, #ff003c, #ffaa00);
             background-size: 200% 200%;
             animation: gradientShift 2s infinite ease-in-out;
             box-shadow: 0 0 20px #ff5e00;
         }
+
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
+
         .mana-bar-glare {
             position: absolute;
-            top: 1px; left: 0; right: 0; height: 3px;
+            top: 1px;
+            left: 0;
+            right: 0;
+            height: 3px;
             background: rgba(255, 255, 255, 0.3);
             pointer-events: none;
         }
+
         .btn-travel {
             background: rgba(255, 255, 255, 0.03);
             color: #555;
@@ -685,6 +1143,7 @@
             width: 100%;
             text-align: center;
         }
+
         .btn-travel.unlocked {
             background: linear-gradient(135deg, #ff5e00 0%, #ff003c 100%);
             color: #fff;
@@ -693,15 +1152,20 @@
             text-shadow: 0 0 8px #fff, 0 0 15px rgba(255, 255, 255, 0.6);
             animation: travelPulse 1.5s infinite ease-in-out;
         }
+
         .btn-travel.unlocked:hover {
             box-shadow: 0 0 40px rgba(255, 94, 0, 0.95);
         }
+
         @keyframes travelPulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 box-shadow: 0 0 25px rgba(255, 94, 0, 0.6), 0 0 10px rgba(255, 0, 60, 0.4);
                 background: linear-gradient(135deg, #ff5e00 0%, #ff003c 100%);
             }
+
             50% {
                 transform: scale(1.06);
                 box-shadow: 0 0 50px rgba(255, 94, 0, 0.95), 0 0 25px rgba(255, 0, 60, 0.7);
@@ -710,15 +1174,33 @@
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(4,4,5,0.95); }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--neon-primary), var(--neon-accent)); }
-        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(4, 4, 5, 0.95);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--neon-primary), var(--neon-accent));
+        }
+
         /* Pulse Animation */
         @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(118,185,0,0.5); }
-            50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(118,185,0,0.8); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(118, 185, 0, 0.5);
+            }
+
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 0 25px rgba(118, 185, 0, 0.8);
+            }
         }
+
         .pulse-btn {
             animation: pulse 2s infinite ease-in-out;
         }
@@ -726,7 +1208,10 @@
         /* OUTRO FADE TO BLACK OVERLAY */
         #outro-blackout {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: #000;
             z-index: 2999;
             opacity: 0;
@@ -737,7 +1222,9 @@
         /* OUTRO SCREENS */
         .ending-quote-container {
             position: fixed;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
             z-index: 3005;
             opacity: 0;
@@ -746,6 +1233,7 @@
             width: 80%;
             max-width: 750px;
         }
+
         .quote-text {
             font-family: 'Rajdhani', sans-serif;
             font-size: 26px;
@@ -757,6 +1245,7 @@
             text-align: center;
             margin-bottom: 20px;
         }
+
         .quote-author {
             font-family: 'Orbitron', sans-serif;
             font-size: 18px;
@@ -767,7 +1256,9 @@
 
         .ending-credits-new {
             position: fixed;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
             z-index: 3005;
             opacity: 0;
@@ -780,6 +1271,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .credits-author {
             font-family: 'Orbitron', sans-serif;
             font-size: 42px;
@@ -790,6 +1282,7 @@
             white-space: nowrap;
             text-align: center;
         }
+
         .credits-goodbye {
             font-family: 'Rajdhani', sans-serif;
             font-size: 24px;
@@ -803,33 +1296,64 @@
 
         /* === HIỆU ỨNG TIA LỬA VÀ HOVER CHO XE BAY 3D === */
         @keyframes flameFlickerLeft {
-            0%, 100% { transform: scaleY(0.95) scaleX(0.95) skewX(-1deg); opacity: 0.85; }
-            50% { transform: scaleY(1.15) scaleX(1.05) skewX(1deg); opacity: 1; }
+
+            0%,
+            100% {
+                transform: scaleY(0.95) scaleX(0.95) skewX(-1deg);
+                opacity: 0.85;
+            }
+
+            50% {
+                transform: scaleY(1.15) scaleX(1.05) skewX(1deg);
+                opacity: 1;
+            }
         }
+
         @keyframes flameFlickerRight {
-            0%, 100% { transform: scaleY(1.12) scaleX(1.03) skewX(1deg); opacity: 0.9; }
-            50% { transform: scaleY(0.92) scaleX(0.97) skewX(-1deg); opacity: 1; }
+
+            0%,
+            100% {
+                transform: scaleY(1.12) scaleX(1.03) skewX(1deg);
+                opacity: 0.9;
+            }
+
+            50% {
+                transform: scaleY(0.92) scaleX(0.97) skewX(-1deg);
+                opacity: 1;
+            }
         }
+
         @keyframes thrusterPulse {
-            0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6)); opacity: 0.6; }
-            50% { filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.95)); opacity: 0.8; }
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6));
+                opacity: 0.6;
+            }
+
+            50% {
+                filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.95));
+                opacity: 0.8;
+            }
         }
+
         .cyber-flame-left {
             animation: flameFlickerLeft 0.08s infinite ease-in-out alternate;
             transform-origin: 56px 104px;
         }
+
         .cyber-flame-right {
             animation: flameFlickerRight 0.09s infinite ease-in-out alternate;
             transform-origin: 104px 104px;
         }
+
         .hover-glow {
             animation: thrusterPulse 0.8s infinite ease-in-out;
             transform-origin: center;
         }
-
-
     </style>
 </head>
+
 <body>
 
 
@@ -837,7 +1361,8 @@
     <!-- NHẠC NỀN DU HÀNH (ALPHA - C418) -->
     <audio id="exit-audio" preload="auto">
         <source src="alpha.mp3" type="audio/mpeg">
-        <source src="https://archive.org/download/minecraft-volume-beta/Minecraft%20Volume%20Beta/02.%20Alpha.mp3" type="audio/mpeg">
+        <source src="https://archive.org/download/minecraft-volume-beta/Minecraft%20Volume%20Beta/02.%20Alpha.mp3"
+            type="audio/mpeg">
     </audio>
 
     <!-- NỀN CANVAS MẠNG NƠ-RON THẦN KINH -->
@@ -848,18 +1373,20 @@
 
     <!-- MÀN HÌNH CHUYỂN CẢNH HOLOGRAM GLITCH -->
     <div id="glitch-overlay"></div>
-    
+
     <!-- MÀN HÌNH KẾT THÚC ĐEN KỊT -->
     <div id="outro-blackout"></div>
-    
+
     <!-- MÀN HÌNH CÂU QUOTE KẾT THÚC -->
     <div id="ending-quote" class="ending-quote-container">
         <p class="quote-text">
-            "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover."
+            "Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you
+            did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails.
+            Explore. Dream. Discover."
         </p>
         <span class="quote-author">-Unknown-</span>
     </div>
-    
+
     <!-- CHỮ KÝ KẾT THÚC -->
     <div id="ending-credits" class="ending-credits-new">
         <h2 class="credits-author">Author: Phan Thanh Tùng</h2>
@@ -870,7 +1397,8 @@
     <div id="cinematic-container" class="cinematic-container">
         <div class="cyber-sky" id="cyber-sky">
             <!-- HE THONG SAO LAP LANH -->
-            <svg class="cyber-stars" viewBox="0 0 800 300" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+            <svg class="cyber-stars" viewBox="0 0 800 300"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
                 <circle cx="50" cy="40" r="1.2" fill="#fff" class="star-blink-1" />
                 <circle cx="120" cy="80" r="1.8" fill="#00e5ff" class="star-blink-2" />
                 <circle cx="200" cy="30" r="1.2" fill="#76b900" class="star-blink-3" opacity="0.7" />
@@ -898,7 +1426,7 @@
         <div class="cyber-road-plane" id="cyber-road-plane">
             <div class="cyber-road-grid"></div>
         </div>
-        
+
         <!-- XE TƯƠNG LAI SVG (3D REAR VIEW PERSPECTIVE - PHIÊN BẢN XE BAY 3D) -->
         <div class="cyber-car-container" id="cyber-car">
             <svg class="cyber-car" viewBox="0 0 160 145" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -945,21 +1473,21 @@
                         <stop offset="50%" stop-color="rgba(0, 229, 255, 0.15)" />
                         <stop offset="100%" stop-color="rgba(0, 229, 255, 0.02)" />
                     </linearGradient>
-                    
+
                     <linearGradient id="flame-grad-left" x1="0%" y1="0%" x2="0%" y2="100%">
                         <stop offset="0%" stop-color="#ffffff" />
                         <stop offset="20%" stop-color="#00e5ff" stop-opacity="0.95" />
                         <stop offset="65%" stop-color="#76b900" stop-opacity="0.7" />
                         <stop offset="100%" stop-color="#76b900" stop-opacity="0" />
                     </linearGradient>
-                    
+
                     <linearGradient id="flame-grad-right" x1="0%" y1="0%" x2="0%" y2="100%">
                         <stop offset="0%" stop-color="#ffffff" />
                         <stop offset="20%" stop-color="#00e5ff" stop-opacity="0.95" />
                         <stop offset="65%" stop-color="#76b900" stop-opacity="0.7" />
                         <stop offset="100%" stop-color="#76b900" stop-opacity="0" />
                     </linearGradient>
-                    
+
                     <linearGradient id="hover-glow-grad" x1="0%" y1="0%" x2="0%" y2="100%">
                         <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.8" />
                         <stop offset="100%" stop-color="#00e5ff" stop-opacity="0" />
@@ -970,45 +1498,56 @@
                 <!-- Jet Flame Left -->
                 <g class="cyber-flame-left">
                     <!-- Plume ngoài -->
-                    <path d="M 47,104 Q 28,124 56,143 Q 84,124 65,104 Z" fill="url(#flame-grad-left)" filter="url(#flame-glow)" />
+                    <path d="M 47,104 Q 28,124 56,143 Q 84,124 65,104 Z" fill="url(#flame-grad-left)"
+                        filter="url(#flame-glow)" />
                     <!-- Lõi lửa siêu nóng màu trắng -->
-                    <path d="M 51,104 Q 40,118 56,128 Q 72,118 61,104 Z" fill="#ffffff" filter="url(#flame-glow)" opacity="0.9" />
+                    <path d="M 51,104 Q 40,118 56,128 Q 72,118 61,104 Z" fill="#ffffff" filter="url(#flame-glow)"
+                        opacity="0.9" />
                 </g>
-                
+
                 <!-- Jet Flame Right -->
                 <g class="cyber-flame-right">
                     <!-- Plume ngoài -->
-                    <path d="M 95,104 Q 76,124 104,143 Q 132,124 113,104 Z" fill="url(#flame-grad-right)" filter="url(#flame-glow)" />
+                    <path d="M 95,104 Q 76,124 104,143 Q 132,124 113,104 Z" fill="url(#flame-grad-right)"
+                        filter="url(#flame-glow)" />
                     <!-- Lõi lửa siêu nóng màu trắng -->
-                    <path d="M 99,104 Q 88,118 104,128 Q 120,118 109,104 Z" fill="#ffffff" filter="url(#flame-glow)" opacity="0.9" />
+                    <path d="M 99,104 Q 88,118 104,128 Q 120,118 109,104 Z" fill="#ffffff" filter="url(#flame-glow)"
+                        opacity="0.9" />
                 </g>
 
                 <!-- CÁNH ỔN ĐỊNH HAI BÊN - WINGS CHO XE BAY 3D -->
                 <!-- Left Wing -->
                 <path d="M 28,70 L 4,78 L 10,88 L 32,80 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
-                <path d="M 28,73 L 7,80 L 11,85 L 30,79 Z" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
-                
+                <path d="M 28,73 L 7,80 L 11,85 L 30,79 Z" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff"
+                    stroke-width="1" filter="url(#neon-glow-cyan)" />
+
                 <!-- Right Wing -->
-                <path d="M 132,70 L 156,78 L 150,88 L 128,80 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
-                <path d="M 132,73 L 153,80 L 149,85 L 130,79 Z" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+                <path d="M 132,70 L 156,78 L 150,88 L 128,80 Z" fill="url(#body-grad)" stroke="#76b900"
+                    stroke-width="1.5" />
+                <path d="M 132,73 L 153,80 L 149,85 L 130,79 Z" fill="rgba(0, 229, 255, 0.2)" stroke="#00e5ff"
+                    stroke-width="1" filter="url(#neon-glow-cyan)" />
 
                 <!-- CƠ CẤU BÁNH XE GẬP NGANG TRẠNG THÁI BAY HOVER -->
                 <!-- Hover Pad Left (Folded flat, glowing repulsor field) -->
                 <path d="M 14,84 L 28,84 L 24,96 L 10,96 Z" fill="#0b0d14" stroke="#76b900" stroke-width="1.5" />
                 <ellipse cx="19" cy="90" rx="6" ry="2" fill="#00e5ff" filter="url(#neon-glow-cyan)" />
-                <polygon points="13,90 25,90 29,115 9,115" fill="url(#hover-glow-grad)" class="hover-glow" opacity="0.5" />
-                
+                <polygon points="13,90 25,90 29,115 9,115" fill="url(#hover-glow-grad)" class="hover-glow"
+                    opacity="0.5" />
+
                 <!-- Hover Pad Right (Folded flat, glowing repulsor field) -->
                 <path d="M 132,84 L 146,84 L 150,96 L 136,96 Z" fill="#0b0d14" stroke="#76b900" stroke-width="1.5" />
                 <ellipse cx="141" cy="90" rx="6" ry="2" fill="#00e5ff" filter="url(#neon-glow-cyan)" />
-                <polygon points="135,90 147,90 151,115 131,115" fill="url(#hover-glow-grad)" class="hover-glow" opacity="0.5" />
-                
+                <polygon points="135,90 147,90 151,115 131,115" fill="url(#hover-glow-grad)" class="hover-glow"
+                    opacity="0.5" />
+
                 <!-- KHUNG GẦM DƯỚI & KHUẾCH TÁN KHÍ ĐỘNG HỌC -->
                 <path d="M 28,96 L 132,96 L 126,108 L 34,108 Z" fill="#040407" stroke="#76b900" stroke-width="1.5" />
                 <line x1="42" y1="96" x2="40" y2="108" stroke="#76b900" stroke-width="1.5" />
                 <line x1="58" y1="96" x2="57" y2="108" stroke="#76b900" stroke-width="1.5" />
-                <line x1="74" y1="96" x2="74" y2="108" stroke="#00e5ff" stroke-width="1.5" filter="url(#neon-glow-cyan)" />
-                <line x1="86" y1="96" x2="86" y2="108" stroke="#00e5ff" stroke-width="1.5" filter="url(#neon-glow-cyan)" />
+                <line x1="74" y1="96" x2="74" y2="108" stroke="#00e5ff" stroke-width="1.5"
+                    filter="url(#neon-glow-cyan)" />
+                <line x1="86" y1="96" x2="86" y2="108" stroke="#00e5ff" stroke-width="1.5"
+                    filter="url(#neon-glow-cyan)" />
                 <line x1="102" y1="96" x2="103" y2="108" stroke="#76b900" stroke-width="1.5" />
                 <line x1="118" y1="96" x2="120" y2="108" stroke="#76b900" stroke-width="1.5" />
 
@@ -1016,37 +1555,46 @@
                 <!-- Left Nozzle -->
                 <path d="M 48,93 L 64,93 L 66,104 L 46,104 Z" fill="#181a24" stroke="#00e5ff" stroke-width="1.5" />
                 <ellipse cx="56" cy="104" rx="9" ry="3.5" fill="#030305" stroke="#00e5ff" stroke-width="1.2" />
-                
+
                 <!-- Right Nozzle -->
                 <path d="M 96,93 L 112,93 L 114,104 L 94,104 Z" fill="#181a24" stroke="#00e5ff" stroke-width="1.5" />
                 <ellipse cx="104" cy="104" rx="9" ry="3.5" fill="#030305" stroke="#00e5ff" stroke-width="1.2" />
-                
+
                 <!-- CẢN SAU (REAR BUMPER - 3D BEVEL) -->
-                <path d="M 20,77 L 140,77 L 145,96 L 15,96 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="2" filter="url(#neon-glow-green)" />
+                <path d="M 20,77 L 140,77 L 145,96 L 15,96 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="2"
+                    filter="url(#neon-glow-green)" />
                 <path d="M 24,85 L 44,85 L 41,92 L 22,92 Z" fill="#030305" stroke="#76b900" stroke-width="1.2" />
                 <path d="M 116,85 L 136,85 L 138,92 L 119,92 Z" fill="#030305" stroke="#76b900" stroke-width="1.2" />
-                
+
                 <!-- GƯƠNG CHIẾU HẬU HAI BÊN (Futuristic mirrors) -->
-                <path d="M 32,58 L 20,56 L 22,52 L 34,54 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
-                <path d="M 128,58 L 140,56 L 138,52 L 126,54 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
+                <path d="M 32,58 L 20,56 L 22,52 L 34,54 Z" fill="url(#body-grad)" stroke="#76b900"
+                    stroke-width="1.5" />
+                <path d="M 128,58 L 140,56 L 138,52 L 126,54 Z" fill="url(#body-grad)" stroke="#76b900"
+                    stroke-width="1.5" />
 
                 <!-- DẢI ĐÈN LED CHIẾU HẬU MATRIX ĐỎ NEON CHẠY NGANG (3D Wrap-around) -->
-                <path d="M 22,81 L 138,81" stroke="#ff0055" stroke-width="4.5" stroke-linecap="round" filter="url(#neon-glow-red)" />
+                <path d="M 22,81 L 138,81" stroke="#ff0055" stroke-width="4.5" stroke-linecap="round"
+                    filter="url(#neon-glow-red)" />
                 <path d="M 24,81 L 136,81" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.95" />
                 <path d="M 22,81 L 18,85 L 23,87 Z" fill="#ff0055" opacity="0.9" />
                 <path d="M 138,81 L 142,85 L 137,87 Z" fill="#ff0055" opacity="0.9" />
 
                 <!-- BẢNG LICENSE / LÕI NĂNG LƯỢNG HOLOGRAPHIC -->
-                <rect x="66" y="84" width="28" height="8" fill="#020204" stroke="#00e5ff" stroke-width="1.2" filter="url(#neon-glow-cyan)" />
-                <text x="80" y="90.5" font-family="'Orbitron'" font-size="6" font-weight="900" fill="#00e5ff" text-anchor="middle" letter-spacing="1">STOLY</text>
+                <rect x="66" y="84" width="28" height="8" fill="#020204" stroke="#00e5ff" stroke-width="1.2"
+                    filter="url(#neon-glow-cyan)" />
+                <text x="80" y="90.5" font-family="'Orbitron'" font-size="6" font-weight="900" fill="#00e5ff"
+                    text-anchor="middle" letter-spacing="1">STOLY</text>
 
                 <!-- KHU VỰC ĐỘNG CƠ / COP SAU (Rear Deck Lid) -->
-                <path d="M 28,77 L 36,60 L 124,60 L 132,77 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
-                <path d="M 46,73 L 114,73 L 111,69 L 49,69 Z" fill="#040407" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+                <path d="M 28,77 L 36,60 L 124,60 L 132,77 Z" fill="url(#body-grad)" stroke="#76b900"
+                    stroke-width="1.5" />
+                <path d="M 46,73 L 114,73 L 111,69 L 49,69 Z" fill="#040407" stroke="#00e5ff" stroke-width="1"
+                    filter="url(#neon-glow-cyan)" />
                 <path d="M 50,67 L 110,67 L 108,63 L 52,63 Z" fill="#040407" stroke="#76b900" stroke-width="1" />
 
                 <!-- KÍNH CHẮN GIÓ SAU GÓC CẠNH (Slanted Cabin Windshield with reflections) -->
-                <path d="M 36,60 L 54,32 L 106,32 L 124,60 Z" fill="url(#glass-grad)" stroke="#00e5ff" stroke-width="1.8" filter="url(#neon-glow-cyan)" />
+                <path d="M 36,60 L 54,32 L 106,32 L 124,60 Z" fill="url(#glass-grad)" stroke="#00e5ff"
+                    stroke-width="1.8" filter="url(#neon-glow-cyan)" />
                 <line x1="54" y1="32" x2="44" y2="60" stroke="rgba(0, 229, 255, 0.5)" stroke-width="1.5" />
                 <line x1="80" y1="32" x2="80" y2="60" stroke="rgba(0, 229, 255, 0.6)" stroke-width="2" />
                 <line x1="106" y1="32" x2="116" y2="60" stroke="rgba(0, 229, 255, 0.5)" stroke-width="1.5" />
@@ -1054,16 +1602,22 @@
                 <path d="M 82,34 L 94,34 L 104,58 L 94,58 Z" fill="rgba(255,255,255,0.08)" />
 
                 <!-- MÙI XE / MÁI XE (Roof) -->
-                <path d="M 54,32 L 63,22 L 97,22 L 106,32 Z" fill="url(#body-grad)" stroke="#76b900" stroke-width="1.5" />
-                <path d="M 64,25 L 96,25" stroke="#00e5ff" stroke-width="1.2" opacity="0.6" filter="url(#neon-glow-cyan)" />
-                
+                <path d="M 54,32 L 63,22 L 97,22 L 106,32 Z" fill="url(#body-grad)" stroke="#76b900"
+                    stroke-width="1.5" />
+                <path d="M 64,25 L 96,25" stroke="#00e5ff" stroke-width="1.2" opacity="0.6"
+                    filter="url(#neon-glow-cyan)" />
+
                 <!-- CÁNH GIÓ THỂ THAO ĐUÔI SIÊU XE (Active 3D Rear Wing Spoiler) -->
                 <!-- Spoiler Support Struts -->
-                <path d="M 40,60 L 34,44 L 38,44 L 44,60 Z" fill="#0e111a" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
-                <path d="M 120,60 L 126,44 L 122,44 L 116,60 Z" fill="#0e111a" stroke="#00e5ff" stroke-width="1" filter="url(#neon-glow-cyan)" />
+                <path d="M 40,60 L 34,44 L 38,44 L 44,60 Z" fill="#0e111a" stroke="#00e5ff" stroke-width="1"
+                    filter="url(#neon-glow-cyan)" />
+                <path d="M 120,60 L 126,44 L 122,44 L 116,60 Z" fill="#0e111a" stroke="#00e5ff" stroke-width="1"
+                    filter="url(#neon-glow-cyan)" />
                 <!-- Spoiler Blades -->
-                <path d="M 18,44 L 142,44 L 140,40 L 20,40 Z" fill="url(#body-grad)" stroke="#00e5ff" stroke-width="1.5" filter="url(#neon-glow-cyan)" />
-                <path d="M 14,40 L 146,40 L 148,35 L 12,35 Z" fill="#0f111a" stroke="#76b900" stroke-width="1.5" filter="url(#neon-glow-green)" />
+                <path d="M 18,44 L 142,44 L 140,40 L 20,40 Z" fill="url(#body-grad)" stroke="#00e5ff" stroke-width="1.5"
+                    filter="url(#neon-glow-cyan)" />
+                <path d="M 14,40 L 146,40 L 148,35 L 12,35 Z" fill="#0f111a" stroke="#76b900" stroke-width="1.5"
+                    filter="url(#neon-glow-green)" />
                 <path d="M 12,32 L 16,32 L 12,44 L 8,44 Z" fill="#76b900" filter="url(#neon-glow-green)" />
                 <path d="M 148,32 L 144,32 L 148,44 L 152,44 Z" fill="#76b900" filter="url(#neon-glow-green)" />
             </svg>
@@ -1076,16 +1630,18 @@
                 <div class="section-tag">WELCOME // ARCHIVE 2026</div>
                 <h1 class="billboard-title">PHAN THANH TÙNG</h1>
                 <div class="billboard-sub">CÔNG NGHỆ SỐ & AI</div>
-                
+
                 <div class="billboard-info">
                     <p><strong>MSSV:</strong> 25021466 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Khóa học:</strong> K70</p>
                     <p><strong>Đơn vị đào tạo:</strong> Khoa Cơ học Kỹ thuật và Tự động hóa</p>
                 </div>
-                
+
                 <p class="billboard-desc">
-                    Portfolio này tổng hợp lại các kỹ năng số hóa và ứng dụng công nghệ tôi đã học được. Mục tiêu là cho thấy cách tôi sắp xếp dữ liệu khoa học, tìm kiếm tài liệu chuẩn xác và dùng AI giải quyết các bài toán thực tế thay vì theo bản năng.
+                    Portfolio này tổng hợp lại các kỹ năng số hóa và ứng dụng công nghệ tôi đã học được. Mục tiêu là cho
+                    thấy cách tôi sắp xếp dữ liệu khoa học, tìm kiếm tài liệu chuẩn xác và dùng AI giải quyết các bài
+                    toán thực tế thay vì theo bản năng.
                 </p>
-                
+
                 <button class="btn btn-primary pulse-btn" id="btn-enter" onclick="enterPortfolio()">
                     TIẾP TỤC ĐI ĐẾN PORTFOLIO &rarr;
                 </button>
@@ -1118,8 +1674,9 @@
         <div class="content-wrapper">
             <div class="section-tag" style="text-align: center; display: block;">Mục Lục</div>
             <h1>Danh Sách Mô-đun</h1>
-            <p style="text-align: center; color: var(--neon-primary); font-size: 19px;">Chọn một mô-đun để xem chi tiết cách thực hiện.</p>
-            
+            <p style="text-align: center; color: var(--neon-primary); font-size: 19px;">Chọn một mô-đun để xem chi tiết
+                cách thực hiện.</p>
+
             <div class="menu-grid">
                 <div class="card tilt-card" onclick="goToPage(2)">
                     <h3>Mô-đun 1</h3>
@@ -1154,19 +1711,31 @@
         <div class="content-wrapper">
             <div class="section-tag">Mô-đun 1</div>
             <h1>Cấu trúc Thư mục & Đặt tên Tệp</h1>
-            
+
             <div class="grid-2">
                 <div>
                     <h3>Phân cấp thư mục hình cây</h3>
-                    <p>Khi làm code cho server Minecraft, tôi chia rõ các thư mục chức năng. Những file code cũ hoặc bị lỗi được đưa riêng vào thư mục <span class="code-inline">old_versions</span> hoặc <span class="code-inline">not fixed lang</span>. Việc này giúp hệ thống gọn gàng và server không bị lỗi do đọc nhầm file code đang viết dở.</p>
-                    <p style="margin-top: 15px;">Việc sắp xếp khoa học đặc biệt quan trọng khi vận hành trên nền tảng máy chủ Linux, nơi mọi đường dẫn cần sự chính xác tuyệt đối. Khi hệ thống được phân nhóm rõ ràng, tôi có thể dễ dàng khoanh vùng để tìm và sửa lỗi (debug) mà không phải bới tung hàng trăm file lên.</p>
-                    
+                    <p>Khi làm code cho server Minecraft, tôi chia rõ các thư mục chức năng. Những file code cũ hoặc bị
+                        lỗi được đưa riêng vào thư mục <span class="code-inline">old_versions</span> hoặc <span
+                            class="code-inline">not fixed lang</span>. Việc này giúp hệ thống gọn gàng và server không
+                        bị lỗi do đọc nhầm file code đang viết dở.</p>
+                    <p style="margin-top: 15px;">Việc sắp xếp khoa học đặc biệt quan trọng khi vận hành trên nền tảng
+                        máy chủ Linux, nơi mọi đường dẫn cần sự chính xác tuyệt đối. Khi hệ thống được phân nhóm rõ
+                        ràng, tôi có thể dễ dàng khoanh vùng để tìm và sửa lỗi (debug) mà không phải bới tung hàng trăm
+                        file lên.</p>
+
                     <h3 style="margin-top: 25px;">Quy tắc đặt tên và Đánh số thư mục</h3>
-                    <p>Thay vì đặt tên tùy hứng, tôi áp dụng quy chuẩn đặt tên file thống nhất gồm 4 thành phần: <strong>Ngày tháng_Tên mô tả_Phiên bản</strong> (Ví dụ: <span class="code-inline">2024-05-15_BrandGuide_v01.pdf</span>). Cách làm này giải quyết được 3 vấn đề cốt lõi:</p>
+                    <p>Thay vì đặt tên tùy hứng, tôi áp dụng quy chuẩn đặt tên file thống nhất gồm 4 thành phần:
+                        <strong>Ngày tháng_Tên mô tả_Phiên bản</strong> (Ví dụ: <span
+                            class="code-inline">2024-05-15_BrandGuide_v01.pdf</span>). Cách làm này giải quyết được 3
+                        vấn đề cốt lõi:</p>
                     <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li><strong>Định dạng Năm-Tháng-Ngày:</strong> Giúp hệ điều hành tự động sắp xếp file theo đúng thứ tự thời gian.</li>
-                        <li><strong>Dùng dấu gạch dưới (_) thay cho dấu cách:</strong> Dấu cách sẽ biến thành ký tự %20 trên web và gây lỗi đường dẫn khi chạy code.</li>
-                        <li><strong>Quản lý phiên bản (v01, v02...):</strong> Khi cập nhật tiến độ, ta tạo bản (v02) thay vì lưu đè lên bản (v01), tránh mất dữ liệu cũ.</li>
+                        <li><strong>Định dạng Năm-Tháng-Ngày:</strong> Giúp hệ điều hành tự động sắp xếp file theo đúng
+                            thứ tự thời gian.</li>
+                        <li><strong>Dùng dấu gạch dưới (_) thay cho dấu cách:</strong> Dấu cách sẽ biến thành ký tự %20
+                            trên web và gây lỗi đường dẫn khi chạy code.</li>
+                        <li><strong>Quản lý phiên bản (v01, v02...):</strong> Khi cập nhật tiến độ, ta tạo bản (v02)
+                            thay vì lưu đè lên bản (v01), tránh mất dữ liệu cũ.</li>
                     </ul>
                 </div>
                 <div>
@@ -1176,7 +1745,8 @@
                     </div>
                     <div class="img-box">
                         <img src="image_8b6747.png" alt="Quy tắc đặt tên file">
-                        <div class="img-caption">Cấu trúc thư mục tối ưu và quy tắc đặt tên file rõ ràng từng thành phần.</div>
+                        <div class="img-caption">Cấu trúc thư mục tối ưu và quy tắc đặt tên file rõ ràng từng thành
+                            phần.</div>
                     </div>
                 </div>
             </div>
@@ -1188,7 +1758,7 @@
         <div class="content-wrapper">
             <div class="section-tag">Mô-đun 2</div>
             <h1>Tìm kiếm Học thuật Nâng cao</h1>
-            
+
             <div class="grid-2">
                 <div class="img-box">
                     <img src="image_8cd41a.png" alt="Tìm kiếm nâng cao Google Scholar">
@@ -1196,20 +1766,29 @@
                 </div>
                 <div>
                     <h3>Cách lọc tài liệu trên Google</h3>
-                    <p>Nếu chỉ gõ từ khóa bình thường, Google sẽ trả về rất nhiều bài viết rác hoặc thông tin thiếu kiểm chứng. Để tìm đúng tài liệu báo cáo khoa học, tôi kết hợp các toán tử để thu hẹp phạm vi:</p>
-                    
+                    <p>Nếu chỉ gõ từ khóa bình thường, Google sẽ trả về rất nhiều bài viết rác hoặc thông tin thiếu kiểm
+                        chứng. Để tìm đúng tài liệu báo cáo khoa học, tôi kết hợp các toán tử để thu hẹp phạm vi:</p>
+
                     <div class="tech-box" style="margin-top: 15px;">
-                        <p style="margin:0; font-family: monospace; font-size: 14px; color: var(--neon-accent);">"khoa học vật liệu" AND (nanomaterials OR composites) - "carbon nanotubes" author:"nguyễn" filetype:pdf</p>
+                        <p style="margin:0; font-family: monospace; font-size: 14px; color: var(--neon-accent);">"khoa
+                            học vật liệu" AND (nanomaterials OR composites) - "carbon nanotubes" author:"nguyễn"
+                            filetype:pdf</p>
                     </div>
- 
+
                     <ul style="margin-left: 20px; margin-top: 15px;">
-                        <li><strong>Ngoặc kép (" "):</strong> Bắt buộc Google tìm đúng cụm từ "khoa học vật liệu", không được tách rời các chữ.</li>
-                        <li><strong>Dấu trừ (-):</strong> Bỏ qua các bài viết về ống nano carbon để tập trung vào các vật liệu khác.</li>
-                        <li><strong>filetype:pdf:</strong> Chỉ tìm file PDF (thường là báo cáo, tài liệu chuẩn), loại bỏ các bài viết trên web hay diễn đàn.</li>
+                        <li><strong>Ngoặc kép (" "):</strong> Bắt buộc Google tìm đúng cụm từ "khoa học vật liệu", không
+                            được tách rời các chữ.</li>
+                        <li><strong>Dấu trừ (-):</strong> Bỏ qua các bài viết về ống nano carbon để tập trung vào các
+                            vật liệu khác.</li>
+                        <li><strong>filetype:pdf:</strong> Chỉ tìm file PDF (thường là báo cáo, tài liệu chuẩn), loại bỏ
+                            các bài viết trên web hay diễn đàn.</li>
                     </ul>
- 
+
                     <h3 style="margin-top: 25px;">Đánh giá độ tin cậy của tài liệu</h3>
-                    <p>Sau khi dùng toán tử để lọc ra được các bài báo cáo, bước tiếp theo là đánh giá chất lượng nguồn tin. Một bài báo khoa học tốt cần có tác giả rõ ràng, thuộc các trường đại học hoặc viện nghiên cứu uy tín. Ngoài ra, tôi luôn chú ý đến năm xuất bản, ưu tiên các tài liệu được viết trong thời gian gần đây để đảm bảo kiến thức về vật liệu và công nghệ không bị lạc hậu.</p>
+                    <p>Sau khi dùng toán tử để lọc ra được các bài báo cáo, bước tiếp theo là đánh giá chất lượng nguồn
+                        tin. Một bài báo khoa học tốt cần có tác giả rõ ràng, thuộc các trường đại học hoặc viện nghiên
+                        cứu uy tín. Ngoài ra, tôi luôn chú ý đến năm xuất bản, ưu tiên các tài liệu được viết trong thời
+                        gian gần đây để đảm bảo kiến thức về vật liệu và công nghệ không bị lạc hậu.</p>
                 </div>
             </div>
         </div>
@@ -1220,22 +1799,28 @@
         <div class="content-wrapper">
             <div class="section-tag">Mô-đun 3</div>
             <h1>Kỹ năng Viết Prompt Hiệu quả</h1>
-            <p style="margin-bottom: 20px;">Khi dùng AI để sửa code, nếu ta mô tả chung chung, AI sẽ đoán mò và tự ý sửa lung tung khiến code bị hỏng. Mình phải đưa ra yêu cầu cụ thể (ràng buộc rõ ràng).</p>
-            
+            <p style="margin-bottom: 20px;">Khi dùng AI để sửa code, nếu ta mô tả chung chung, AI sẽ đoán mò và tự ý sửa
+                lung tung khiến code bị hỏng. Mình phải đưa ra yêu cầu cụ thể (ràng buộc rõ ràng).</p>
+
             <div class="grid-2">
                 <div>
                     <h3>Lúc chưa tối ưu (AI sửa sai)</h3>
                     <div class="img-box" style="margin-top: 10px;">
                         <img src="image_8cd3ff.png" alt="Lỗi AI">
                     </div>
-                    <p>Tôi chỉ bảo AI "sửa lại hết đi", AI không hiểu cấu trúc giao diện túi đồ (Inventory) nên tự ý tạo ra một vòng lặp <span class="code-inline">loop {teams::*}:</span> kiểm tra toàn bộ server. Điều này gây lỗi nặng và làm tính năng nạp đồ bị hỏng.</p>
+                    <p>Tôi chỉ bảo AI "sửa lại hết đi", AI không hiểu cấu trúc giao diện túi đồ (Inventory) nên tự ý tạo
+                        ra một vòng lặp <span class="code-inline">loop {teams::*}:</span> kiểm tra toàn bộ server. Điều
+                        này gây lỗi nặng và làm tính năng nạp đồ bị hỏng.</p>
                 </div>
                 <div>
                     <h3>Lúc tối ưu (AI sửa đúng)</h3>
                     <div class="img-box" style="margin-top: 10px;">
                         <img src="image_8cd3fc.png" alt="AI chính xác">
                     </div>
-                    <p>Tôi ra lệnh chi tiết: chỉ định rõ giao diện có 6 hàng (<span class="code-inline">6 rows</span>) và quy định cụ thể vị trí từng ô đồ (<span class="code-inline">set {_s::1} to 10</span>). Khi nhận được cấu trúc cụ thể này, AI hiểu ngay vấn đề và sửa chuẩn xác đoạn code cấu hình giao diện.</p>
+                    <p>Tôi ra lệnh chi tiết: chỉ định rõ giao diện có 6 hàng (<span class="code-inline">6 rows</span>)
+                        và quy định cụ thể vị trí từng ô đồ (<span class="code-inline">set {_s::1} to 10</span>). Khi
+                        nhận được cấu trúc cụ thể này, AI hiểu ngay vấn đề và sửa chuẩn xác đoạn code cấu hình giao
+                        diện.</p>
                 </div>
             </div>
         </div>
@@ -1246,22 +1831,29 @@
         <div class="content-wrapper">
             <div class="section-tag">Mô-đun 4</div>
             <h1>Công cụ Làm việc Nhóm Trực tuyến</h1>
-            
+
             <div class="grid-2">
                 <div>
                     <h3>Quản lý tiến độ và luồng công việc</h3>
-                    <p>Làm việc nhóm trong các dự án kỹ thuật thường rất dễ rối loạn nếu không có công cụ điều phối. Sự cố lớn nhất không phải là làm sai, mà là hai người cùng sửa một file rồi lưu đè lên nhau làm mất toàn bộ dữ liệu. Việc dùng công cụ giúp nhóm phân chia rõ ràng trách nhiệm và tiến độ:</p>
-                    
+                    <p>Làm việc nhóm trong các dự án kỹ thuật thường rất dễ rối loạn nếu không có công cụ điều phối. Sự
+                        cố lớn nhất không phải là làm sai, mà là hai người cùng sửa một file rồi lưu đè lên nhau làm mất
+                        toàn bộ dữ liệu. Việc dùng công cụ giúp nhóm phân chia rõ ràng trách nhiệm và tiến độ:</p>
+
                     <ul style="margin-top: 16px; margin-left: 20px;">
-                        <li><strong>Bảng công việc Trello:</strong> Nhóm chia cột rõ ràng (Cần làm, Đang làm, Đã xong). Khi một thành viên kéo thẻ công việc của mình sang cột "Đang làm", những người khác sẽ biết để không làm trùng vào phần đó.</li>
-                        <li><strong>Mạng lưới an toàn GitHub:</strong> Khi làm việc với code, mỗi người viết code trên một "nhánh" riêng biệt. Khi làm xong, code phải được kiểm tra chéo (Pull Request) trước khi gộp chung.</li>
+                        <li><strong>Bảng công việc Trello:</strong> Nhóm chia cột rõ ràng (Cần làm, Đang làm, Đã xong).
+                            Khi một thành viên kéo thẻ công việc của mình sang cột "Đang làm", những người khác sẽ biết
+                            để không làm trùng vào phần đó.</li>
+                        <li><strong>Mạng lưới an toàn GitHub:</strong> Khi làm việc với code, mỗi người viết code trên
+                            một "nhánh" riêng biệt. Khi làm xong, code phải được kiểm tra chéo (Pull Request) trước khi
+                            gộp chung.</li>
                     </ul>
-                    
+
                     <!-- VIDEO MINH HỌA GIẢ LẬP CHO BÀI 4 -->
                     <h3 style="margin-top: 25px;">Video minh họa quy trình</h3>
                     <div class="video-container" style="margin-top: 15px;">
                         <div class="video-player" id="video-player-1">
-                            <div class="video-poster" id="video-poster-1" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image_8cd3e4.png');">
+                            <div class="video-poster" id="video-poster-1"
+                                style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image_8cd3e4.png');">
                                 <button class="video-play-btn" onclick="togglePlay(1)">&#9658;</button>
                             </div>
                             <div class="video-visualizer" id="visualizer-1">
@@ -1289,7 +1881,8 @@
                 <div>
                     <div class="img-box">
                         <img src="image_8cd3e4.png" alt="Công cụ hợp tác">
-                        <div class="img-caption">Các công cụ hỗ trợ chia việc và quản lý dữ liệu nhóm một cách khoa học.</div>
+                        <div class="img-caption">Các công cụ hỗ trợ chia việc và quản lý dữ liệu nhóm một cách khoa học.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1301,31 +1894,39 @@
         <div class="content-wrapper">
             <div class="section-tag">Mô-đun 5</div>
             <h1>Dùng AI Hỗ trợ Học tập</h1>
-            <p style="margin-bottom: 20px;">Trong môn Giải tích đa biến hay Vật lý đại cương, việc tưởng tượng các hình khối không gian 3D để giải toán là rất khó. Tôi dùng AI để vẽ các hình này ra, giúp việc lập công thức tính toán trở nên đơn giản hơn.</p>
-            
+            <p style="margin-bottom: 20px;">Trong môn Giải tích đa biến hay Vật lý đại cương, việc tưởng tượng các hình
+                khối không gian 3D để giải toán là rất khó. Tôi dùng AI để vẽ các hình này ra, giúp việc lập công thức
+                tính toán trở nên đơn giản hơn.</p>
+
             <div class="grid-2">
                 <div>
                     <div class="img-box">
                         <img src="image_8cd3e0.png" alt="Trực quan hình học">
                     </div>
                     <h3>Tìm phần giao nhau</h3>
-                    <p>Ví dụ muốn tính diện tích, ta phải tưởng tượng mặt cầu cắt mặt trụ như thế nào. Nhìn vào hình vẽ 3D, tôi dễ dàng thấy phần hình chiếu dưới mặt đất là một hình tròn lệch, từ đó biết cách chọn hệ tọa độ cực để giải bài.</p>
+                    <p>Ví dụ muốn tính diện tích, ta phải tưởng tượng mặt cầu cắt mặt trụ như thế nào. Nhìn vào hình vẽ
+                        3D, tôi dễ dàng thấy phần hình chiếu dưới mặt đất là một hình tròn lệch, từ đó biết cách chọn hệ
+                        tọa độ cực để giải bài.</p>
                 </div>
                 <div>
                     <div class="img-box">
                         <img src="image_8cd3dd.png" alt="Vi phân diện tích">
                     </div>
                     <h3>Hiểu công thức vi phân</h3>
-                    <p>AI giúp hệ thống lại các phần tử diện tích $dS$ cho từng hình (trụ, cầu, nón). Tuy nhiên, tôi vẫn phải tự kiểm tra lại xem AI dùng công thức $dS = |\vec{r}_u \times \vec{r}_v| du dv$ có đúng không (ví dụ $dS = R^2 \sin\theta \, d\theta \, d\varphi$) chứ không chép mù quáng.</p>
+                    <p>AI giúp hệ thống lại các phần tử diện tích $dS$ cho từng hình (trụ, cầu, nón). Tuy nhiên, tôi vẫn
+                        phải tự kiểm tra lại xem AI dùng công thức $dS = |\vec{r}_u \times \vec{r}_v| du dv$ có đúng
+                        không (ví dụ $dS = R^2 \sin\theta \, d\theta \, d\varphi$) chứ không chép mù quáng.</p>
                 </div>
             </div>
 
             <!-- VIDEO MINH HỌA GIẢ LẬP CHO BÀI 5 -->
             <div style="margin-top: 30px;">
                 <h3>Video mô phỏng vẽ đồ thị 3D</h3>
-                <div class="video-container" style="margin-top: 15px; max-width: 650px; margin-left: auto; margin-right: auto;">
+                <div class="video-container"
+                    style="margin-top: 15px; max-width: 650px; margin-left: auto; margin-right: auto;">
                     <div class="video-player" id="video-player-2">
-                        <div class="video-poster" id="video-poster-2" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('image_8cd3e0.png');">
+                        <div class="video-poster" id="video-poster-2"
+                            style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('image_8cd3e0.png');">
                             <button class="video-play-btn" onclick="togglePlay(2)">&#9658;</button>
                         </div>
                         <div class="video-visualizer" id="visualizer-2">
@@ -1358,24 +1959,36 @@
         <div class="content-wrapper">
             <div class="section-tag">Mô-đun 6</div>
             <h1>Sử dụng AI Có trách nhiệm</h1>
-            
+
             <div class="grid-2">
                 <div>
                     <div class="tech-box">
-                        <p>AI rất thông minh nhưng nó chỉ học từ dữ liệu có sẵn trên mạng, vì vậy đôi khi nó sẽ trả lời sai hoặc thiên vị. Trong bối cảnh công nghệ phát triển nhanh, việc giữ sự kỷ luật để tự kiểm duyệt và chịu trách nhiệm cho hành động của mình là cực kỳ quan trọng. Khi dùng AI, tôi luôn tuân thủ các nguyên tắc sau:</p>
+                        <p>AI rất thông minh nhưng nó chỉ học từ dữ liệu có sẵn trên mạng, vì vậy đôi khi nó sẽ trả lời
+                            sai hoặc thiên vị. Trong bối cảnh công nghệ phát triển nhanh, việc giữ sự kỷ luật để tự kiểm
+                            duyệt và chịu trách nhiệm cho hành động của mình là cực kỳ quan trọng. Khi dùng AI, tôi luôn
+                            tuân thủ các nguyên tắc sau:</p>
                     </div>
-                    
+
                     <ul style="margin-left: 20px; margin-top: 15px;">
-                        <li><strong>Kiểm tra chéo thông tin:</strong> Không bao giờ tin AI 100%. Nếu AI gợi ý dùng một hàm code hoặc một công thức toán học nào đó, tôi luôn phải tra lại tài liệu gốc xem nó có thực sự tồn tại và chính xác không.</li>
-                        <li><strong>Bảo mật thông tin dự án:</strong> Tuyệt đối không copy code quan trọng của nhóm, hoặc các dữ liệu bảo mật cá nhân nạp vào ChatGPT để nhờ sửa lỗi, tránh việc AI thu thập và làm rò rỉ dữ liệu.</li>
-                        <li><strong>Nhận biết khi AI "đoán mò":</strong> Khi đối mặt với các bài toán khó, AI hay ưu tiên đưa ra các đoạn code phổ biến trên mạng thay vì thuật toán tối ưu nhất. Mình phải là người tự suy nghĩ và đánh giá lại chất lượng.</li>
-                        <li><strong>Tự chịu trách nhiệm:</strong> AI chỉ là một công cụ hỗ trợ. Nếu code chạy lỗi hay báo cáo bị sai lệch, người chịu trách nhiệm cuối cùng về chất lượng công việc là bản thân mình chứ không phải là cỗ máy.</li>
+                        <li><strong>Kiểm tra chéo thông tin:</strong> Không bao giờ tin AI 100%. Nếu AI gợi ý dùng một
+                            hàm code hoặc một công thức toán học nào đó, tôi luôn phải tra lại tài liệu gốc xem nó có
+                            thực sự tồn tại và chính xác không.</li>
+                        <li><strong>Bảo mật thông tin dự án:</strong> Tuyệt đối không copy code quan trọng của nhóm,
+                            hoặc các dữ liệu bảo mật cá nhân nạp vào ChatGPT để nhờ sửa lỗi, tránh việc AI thu thập và
+                            làm rò rỉ dữ liệu.</li>
+                        <li><strong>Nhận biết khi AI "đoán mò":</strong> Khi đối mặt với các bài toán khó, AI hay ưu
+                            tiên đưa ra các đoạn code phổ biến trên mạng thay vì thuật toán tối ưu nhất. Mình phải là
+                            người tự suy nghĩ và đánh giá lại chất lượng.</li>
+                        <li><strong>Tự chịu trách nhiệm:</strong> AI chỉ là một công cụ hỗ trợ. Nếu code chạy lỗi hay
+                            báo cáo bị sai lệch, người chịu trách nhiệm cuối cùng về chất lượng công việc là bản thân
+                            mình chứ không phải là cỗ máy.</li>
                     </ul>
                 </div>
-                
+
                 <div class="img-box">
                     <img src="image_bai6_ai.png" alt="Sử dụng AI có trách nhiệm">
-                    <div class="img-caption">Luôn kiểm tra chéo (Cross-check) thông tin do AI tạo ra để đảm bảo độ tin cậy.</div>
+                    <div class="img-caption">Luôn kiểm tra chéo (Cross-check) thông tin do AI tạo ra để đảm bảo độ tin
+                        cậy.</div>
                 </div>
             </div>
         </div>
@@ -1386,22 +1999,33 @@
         <div class="content-wrapper">
             <div class="section-tag" style="text-align: center; display: block;">Phần III</div>
             <h1 style="font-size: 52px; text-align: center; margin-bottom: 20px;">Lời kết</h1>
-            
-            <div style="text-align: left; max-width: 850px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 20px;">
+
+            <div
+                style="text-align: left; max-width: 850px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 20px;">
                 <div class="tech-box">
                     <h3>1. Trải nghiệm và cảm nhận</h3>
-                    <p>Quá trình xây dựng Portfolio này thực sự giúp tôi hệ thống lại cách làm việc của mình. Thay vì thao tác trên máy tính một cách tự phát, bây giờ mọi thứ từ việc lưu file, đặt tên cho đến phân chia công việc đều có quy củ. Điều này giúp tôi tiết kiệm được rất nhiều thời gian khi cần tìm lại tài liệu cũ hoặc sửa code.</p>
+                    <p>Quá trình xây dựng Portfolio này thực sự giúp tôi hệ thống lại cách làm việc của mình. Thay vì
+                        thao tác trên máy tính một cách tự phát, bây giờ mọi thứ từ việc lưu file, đặt tên cho đến phân
+                        chia công việc đều có quy củ. Điều này giúp tôi tiết kiệm được rất nhiều thời gian khi cần tìm
+                        lại tài liệu cũ hoặc sửa code.</p>
                 </div>
 
                 <div class="tech-box">
                     <h3>2. Kiến thức và kỹ năng quan trọng nhất</h3>
-                    <p>Kỹ năng quan trọng nhất mà tôi học được là <strong>Prompt Engineering</strong> (cách ra lệnh cho AI) và <strong>Sử dụng Git/GitHub</strong>. Tôi hiểu rằng AI sẽ chỉ làm tốt nếu mình đưa ra yêu cầu cụ thể, rõ ràng. Còn Git giúp tôi tự tin làm việc nhóm mà không sợ ấn nhầm nút xóa mất công sức của cả đội.</p>
+                    <p>Kỹ năng quan trọng nhất mà tôi học được là <strong>Prompt Engineering</strong> (cách ra lệnh cho
+                        AI) và <strong>Sử dụng Git/GitHub</strong>. Tôi hiểu rằng AI sẽ chỉ làm tốt nếu mình đưa ra yêu
+                        cầu cụ thể, rõ ràng. Còn Git giúp tôi tự tin làm việc nhóm mà không sợ ấn nhầm nút xóa mất công
+                        sức của cả đội.</p>
                 </div>
 
                 <div class="tech-box">
                     <h3>3. Điểm tâm đắc và Thách thức</h3>
-                    <p><strong>Điểm tâm đắc:</strong> Tôi rất thích ứng dụng AI vào việc vẽ các hình học không gian 3D phức tạp trong môn Giải tích. Nó giúp một môn học toàn công thức khô khan trở nên cực kỳ trực quan và dễ hình dung.</p>
-                    <p style="margin-top: 6px;"><strong>Thách thức:</strong> Lúc đầu giao việc cho AI, nó thường xuyên đoán mò và sửa code sai ý tôi. Tôi đã phải mất khá nhiều thời gian để hiểu cách đưa ra các ràng buộc cụ thể để ép AI đi đúng hướng.</p>
+                    <p><strong>Điểm tâm đắc:</strong> Tôi rất thích ứng dụng AI vào việc vẽ các hình học không gian 3D
+                        phức tạp trong môn Giải tích. Nó giúp một môn học toàn công thức khô khan trở nên cực kỳ trực
+                        quan và dễ hình dung.</p>
+                    <p style="margin-top: 6px;"><strong>Thách thức:</strong> Lúc đầu giao việc cho AI, nó thường xuyên
+                        đoán mò và sửa code sai ý tôi. Tôi đã phải mất khá nhiều thời gian để hiểu cách đưa ra các ràng
+                        buộc cụ thể để ép AI đi đúng hướng.</p>
                 </div>
             </div>
         </div>
@@ -1451,14 +2075,14 @@
                 const now = ctx.currentTime;
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
+
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(1100, now);
                 osc.frequency.exponentialRampToValueAtTime(1700, now + 0.025);
-                
+
                 gain.gain.setValueAtTime(0.012, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
-                
+
                 osc.connect(gain);
                 gain.connect(ctx.destination);
                 osc.start(now);
@@ -1472,28 +2096,28 @@
                 const osc1 = ctx.createOscillator();
                 const osc2 = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
+
                 osc1.type = 'sine';
                 osc1.frequency.setValueAtTime(800, now);
                 osc1.frequency.exponentialRampToValueAtTime(300, now + 0.06);
-                
+
                 osc2.type = 'square';
                 osc2.frequency.setValueAtTime(1500, now);
                 osc2.frequency.exponentialRampToValueAtTime(700, now + 0.04);
-                
+
                 const filter = ctx.createBiquadFilter();
                 filter.type = 'bandpass';
                 filter.frequency.value = 1100;
                 filter.Q.value = 4;
-                
+
                 gain.gain.setValueAtTime(0.07, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-                
+
                 osc1.connect(filter);
                 osc2.connect(filter);
                 filter.connect(gain);
                 gain.connect(ctx.destination);
-                
+
                 osc1.start(now);
                 osc2.start(now);
                 osc1.stop(now + 0.06);
@@ -1504,7 +2128,7 @@
         function playCyberConfirm() {
             runWithAudio((ctx) => {
                 const now = ctx.currentTime;
-                
+
                 // Sub rumble
                 const osc1 = ctx.createOscillator();
                 const gain1 = ctx.createGain();
@@ -1517,18 +2141,18 @@
                 gain1.connect(ctx.destination);
                 osc1.start(now);
                 osc1.stop(now + 0.35);
-                
+
                 // Synth sweep
                 const osc2 = ctx.createOscillator();
                 const gain2 = ctx.createGain();
                 osc2.type = 'sawtooth';
                 osc2.frequency.setValueAtTime(130, now);
                 osc2.frequency.exponentialRampToValueAtTime(450, now + 0.22);
-                
+
                 const filter2 = ctx.createBiquadFilter();
                 filter2.type = 'lowpass';
                 filter2.frequency.value = 900;
-                
+
                 gain2.gain.setValueAtTime(0.08, now);
                 gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
                 osc2.connect(filter2);
@@ -1536,7 +2160,7 @@
                 gain2.connect(ctx.destination);
                 osc2.start(now);
                 osc2.stop(now + 0.22);
-                
+
                 // High chime/laser
                 const osc3 = ctx.createOscillator();
                 const gain3 = ctx.createGain();
@@ -1557,18 +2181,18 @@
                 const now = ctx.currentTime;
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
+
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(95, now);
-                
+
                 const filter = ctx.createBiquadFilter();
                 filter.type = 'bandpass';
                 filter.frequency.value = 110;
                 filter.Q.value = 5;
-                
+
                 gain.gain.setValueAtTime(0.12, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-                
+
                 osc.connect(filter);
                 filter.connect(gain);
                 gain.connect(ctx.destination);
@@ -1581,71 +2205,71 @@
         let canPlayStartup = false;
         function playStartupSound(force = false) {
             if (startupSoundPlayed || !canPlayStartup) return;
-            
+
             // If not forced and context is suspended (meaning no gesture occurred yet), return
             if (!force && audioCtx && audioCtx.state === 'suspended') return;
-            
+
             runWithAudio((ctx) => {
                 if (startupSoundPlayed) return;
                 startupSoundPlayed = true;
-                
+
                 const now = ctx.currentTime;
-                
+
                 // 1. Futuristic Software Power-Up Swell (Tải phần mềm & chuẩn bị hiện Hologram)
                 const oscSwell = ctx.createOscillator();
                 const gainSwell = ctx.createGain();
                 const filterSwell = ctx.createBiquadFilter();
-                
+
                 oscSwell.type = 'triangle';
                 // Tần số quét tăng dần từ 150Hz lên 320Hz tạo hiệu ứng kích hoạt
                 oscSwell.frequency.setValueAtTime(150, now);
                 oscSwell.frequency.exponentialRampToValueAtTime(320, now + 1.2);
-                
+
                 filterSwell.type = 'lowpass';
                 // Bộ lọc quét mở rộng từ 100Hz lên 1600Hz tạo cảm giác giao diện mở ra
                 filterSwell.frequency.setValueAtTime(100, now);
                 filterSwell.frequency.exponentialRampToValueAtTime(1600, now + 1.2);
-                
+
                 gainSwell.gain.setValueAtTime(0, now);
                 gainSwell.gain.linearRampToValueAtTime(0.08, now + 0.6); // tăng âm lượng từ từ
                 gainSwell.gain.linearRampToValueAtTime(0.01, now + 1.2);  // giảm nhẹ khi hợp âm chuông ngân lên
-                
+
                 oscSwell.connect(filterSwell);
                 filterSwell.connect(gainSwell);
                 gainSwell.connect(ctx.destination);
-                
+
                 oscSwell.start(now);
                 oscSwell.stop(now + 1.5);
-                
+
                 // 2. Futuristic Digital Hologram Reveal Chime (Hợp âm C major 9 ngân vang khi giao diện hiện ra)
                 const freqs = [196.00, 261.63, 329.63, 392.00, 493.88, 587.33, 783.99]; // G3, C4, E4, G4, B4, D5, G5
-                
+
                 const filterChime = ctx.createBiquadFilter();
                 filterChime.type = 'lowpass';
                 filterChime.frequency.setValueAtTime(2000, now);
                 filterChime.frequency.exponentialRampToValueAtTime(800, now + 3.0);
                 filterChime.connect(ctx.destination);
-                
+
                 freqs.forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
-                    
+
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(freq, now);
-                    
+
                     // Rải hợp âm ngược lên theo đỉnh cao trào của tiếng Swell (bắt đầu từ giây 0.5)
                     const noteDelay = 0.5 + idx * 0.07;
                     const startTime = now + noteDelay;
-                    
+
                     gain.gain.setValueAtTime(0, now);
                     gain.gain.linearRampToValueAtTime(0, startTime);
                     const noteVol = (idx === freqs.length - 1) ? 0.025 : 0.035;
-                    gain.gain.linearRampToValueAtTime(noteVol, startTime + 0.2); 
+                    gain.gain.linearRampToValueAtTime(noteVol, startTime + 0.2);
                     gain.gain.exponentialRampToValueAtTime(0.001, startTime + 2.0); // tiếng chuông ngân tắt chậm rãi
-                    
+
                     osc.connect(gain);
                     gain.connect(filterChime);
-                    
+
                     osc.start(startTime);
                     osc.stop(startTime + 2.4);
                 });
@@ -1656,12 +2280,12 @@
                 sparkleOsc.type = 'sine';
                 sparkleOsc.frequency.setValueAtTime(1500, now + 0.8);
                 sparkleOsc.frequency.exponentialRampToValueAtTime(3500, now + 1.4);
-                
+
                 sparkleGain.gain.setValueAtTime(0, now);
                 sparkleGain.gain.linearRampToValueAtTime(0, now + 0.8);
                 sparkleGain.gain.linearRampToValueAtTime(0.012, now + 1.1);
                 sparkleGain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
-                
+
                 sparkleOsc.connect(sparkleGain);
                 sparkleGain.connect(ctx.destination);
                 sparkleOsc.start(now + 0.8);
@@ -1672,27 +2296,27 @@
         function playTransitionSound() {
             runWithAudio((ctx) => {
                 const now = ctx.currentTime;
-                
+
                 // Cyberpunk glitch sweep (Whoosh kỹ thuật số)
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
+
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(140, now);
                 osc.frequency.exponentialRampToValueAtTime(550, now + 0.35);
-                
+
                 const filter = ctx.createBiquadFilter();
                 filter.type = 'lowpass';
                 filter.frequency.setValueAtTime(250, now);
                 filter.frequency.exponentialRampToValueAtTime(1100, now + 0.35);
-                
+
                 gain.gain.setValueAtTime(0.05, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-                
+
                 osc.connect(filter);
                 filter.connect(gain);
                 gain.connect(ctx.destination);
-                
+
                 osc.start(now);
                 osc.stop(now + 0.35);
             });
@@ -1702,14 +2326,14 @@
             const selectAllInteractive = () => {
                 return document.querySelectorAll('.btn, .hud-nav-btn, .tilt-card, .card, .hud-dropdown-content a, .hud-logo, .video-play-btn, .video-btn, .btn-travel');
             };
-            
+
             selectAllInteractive().forEach(el => {
                 el.addEventListener('mouseenter', () => {
                     if (!el.disabled && !el.classList.contains('disabled')) {
                         playCyberHover();
                     }
                 });
-                
+
                 el.addEventListener('click', () => {
                     if (el.disabled || el.classList.contains('disabled') || el.getAttribute('disabled') !== null) {
                         playCyberError();
@@ -1729,7 +2353,7 @@
                 if (audioCtx.state === 'suspended') {
                     audioCtx.resume();
                 }
-                
+
                 if (canPlayStartup && !startupSoundPlayed) {
                     if (e.target && (e.target.id === 'btn-enter' || e.target.closest('#btn-enter'))) {
                         startupSoundPlayed = true;
@@ -1775,21 +2399,21 @@
         // --- 1. KHỞI CHẠY TRANG ---
         window.addEventListener('load', () => {
             initCyberSounds();
-            
+
             // Kích hoạt camera di chuyển lên cao và hiện tấm bảng giới thiệu (STOLY.AI billboard)
             const sky = document.getElementById('cyber-sky');
             const road = document.getElementById('cyber-road-plane');
             const car = document.getElementById('cyber-car');
             const billboard = document.getElementById('intro-billboard');
-            
+
             setTimeout(() => {
                 sky.style.transform = 'translateY(-15%)';
                 road.style.transform = 'rotateX(52deg) translateY(18%)';
                 car.style.transform = 'translateX(-50%) translateY(50px) scale(0.7)';
                 car.style.opacity = '0.35';
-                
+
                 billboard.classList.add('visible');
-                
+
                 canPlayStartup = true;
                 playStartupSound(true); // Tự động phát âm thanh khởi động máy tính
             }, 100);
@@ -1827,7 +2451,7 @@
                 if (menuPage) {
                     menuPage.classList.add('active');
                 }
-                
+
                 updateControls();
                 updateAmbientColor(1);
             }, 1200);
@@ -1842,12 +2466,12 @@
             // Phát nhạc Alpha - C418 bắt đầu từ đoạn cao trào (giây thứ 435 - tức là 7:15)
             const audio = document.getElementById('exit-audio');
             if (audio) {
-                audio.currentTime = 435; 
+                audio.currentTime = 435;
                 audio.volume = 0;
                 audio.play().catch(err => {
                     console.log("Không thể tự động phát nhạc do chính sách trình duyệt:", err);
                 });
-                
+
                 // Tăng dần âm lượng (Fade-in) từ 7:15 và bắt buộc phải rõ nhất (volume = 0.85) trước 7:17 (tức là trong vòng 2 giây)
                 let vol = 0;
                 const targetVol = 0.85;
@@ -1855,7 +2479,7 @@
                 const stepTime = 100; // mỗi 100ms tăng âm lượng một lần
                 const steps = duration / stepTime; // 20 bước
                 const volStep = targetVol / steps; // 0.0425 mỗi bước
-                
+
                 const fadeIn = setInterval(() => {
                     if (vol < targetVol) {
                         vol += volStep;
@@ -1898,7 +2522,7 @@
             container.style.transition = 'none';
             container.style.transform = 'scale(1) translateZ(0)';
             container.style.opacity = '1';
-            
+
             // Ẩn biển hiệu quảng cáo để tập trung vào con đường lái xe
             billboard.classList.remove('visible');
             billboard.style.display = 'none';
@@ -1916,7 +2540,7 @@
             void container.offsetWidth;
 
             // --- TRÌNH TỰ ĐIỆN ẢNH (TIMELINE) ---
-            
+
             // Giai đoạn 1: Sau khi nhạc chạy trong bóng tối 2.5 giây, màn hình thành phố mới từ từ hiện ra
             setTimeout(() => {
                 if (blackout) {
@@ -1985,25 +2609,25 @@
         function updateControls() {
             document.getElementById('btnPrev').disabled = (currentPageIndex === 1);
             document.getElementById('btnNext').disabled = (currentPageIndex === totalPages - 1);
-            
+
             // Cập nhật nút Mục Lục dưới chân trang
             const btnMenu = document.getElementById('btnMenu');
             if (btnMenu) {
                 btnMenu.setAttribute('onclick', 'goToPage(1)');
                 btnMenu.disabled = (currentPageIndex === 1);
             }
-            
+
             // Cập nhật thanh mana mới
             const progress = ((currentPageIndex - 1) / (totalPages - 2)) * 100;
             const roundedProgress = Math.round(progress);
-            
+
             const manaFill = document.getElementById('mana-fill');
             const manaPct = document.getElementById('mana-pct');
             const btnTravel = document.getElementById('btn-travel-future');
-            
+
             if (manaFill) manaFill.style.width = roundedProgress + '%';
             if (manaPct) manaPct.innerText = roundedProgress + '%';
-            
+
             if (btnTravel) {
                 const progressContainer = document.getElementById('progress-container');
                 if (roundedProgress >= 100) {
@@ -2040,10 +2664,10 @@
         function triggerTransition(index) {
             if (index < 1 || index >= totalPages || isAnimating || index === currentPageIndex) return;
             isAnimating = true;
-            
+
             // Phát âm thanh chuyển cảnh Hologram Glitch
             playTransitionSound();
-            
+
             const glitch = document.getElementById('glitch-overlay');
             glitch.style.opacity = '0.25';
             glitch.classList.add('glitch-active');
@@ -2052,21 +2676,21 @@
                 document.querySelectorAll('.page').forEach(page => {
                     page.classList.remove('active');
                 });
-                
+
                 currentPageIndex = index;
                 const newPage = document.getElementById('page-' + currentPageIndex);
                 if (newPage) {
                     newPage.classList.add('active');
                     newPage.scrollTop = 0;
                 }
-                
+
                 updateAmbientColor(currentPageIndex);
                 updateControls();
 
                 glitch.style.opacity = '0';
                 glitch.classList.remove('glitch-active');
             }, 300);
-            
+
             setTimeout(() => {
                 isAnimating = false;
             }, 600);
@@ -2105,7 +2729,7 @@
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                
+
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
             }
@@ -2127,7 +2751,7 @@
 
         function animateNodes() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             nodes.forEach(node => {
                 node.update();
                 node.draw();
@@ -2138,8 +2762,8 @@
                 for (let j = i + 1; j < nodes.length; j++) {
                     const dx = nodes[i].x - nodes[j].x;
                     const dy = nodes[i].y - nodes[j].y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
                     if (dist < maxDist) {
                         const alpha = (1 - dist / maxDist) * 0.22;
                         ctx.beginPath();
@@ -2153,7 +2777,7 @@
             }
             requestAnimationFrame(animateNodes);
         }
-        
+
         initNodes();
         animateNodes();
 
@@ -2185,7 +2809,7 @@
                     interval: null,
                     animationFrame: null
                 };
-                
+
                 poster.style.opacity = '0';
                 poster.style.pointerEvents = 'none';
                 playBtn.innerText = 'PAUSE';
@@ -2197,10 +2821,10 @@
                         stopVideo(id);
                         return;
                     }
-                    
+
                     const progressPercent = (activePlayers[id].currentTime / videoDuration) * 100;
                     progressBar.style.width = progressPercent + '%';
-                    
+
                     const curSec = Math.floor(activePlayers[id].currentTime);
                     const curFormatted = '00:' + (curSec < 10 ? '0' + curSec : curSec);
                     timeLabel.innerText = curFormatted + ' / 00:15';
@@ -2260,9 +2884,9 @@
             const clickX = event.clientX - rect.left;
             const width = rect.width;
             const percent = clickX / width;
-            
+
             const newTime = percent * videoDuration;
-            
+
             if (activePlayers[id]) {
                 activePlayers[id].currentTime = newTime;
             } else {
@@ -2273,10 +2897,10 @@
                 };
                 togglePlay(id);
             }
-            
+
             const progressBar = document.getElementById('progress-bar-' + id);
             progressBar.style.width = (percent * 100) + '%';
-            
+
             const curSec = Math.floor(newTime);
             const curFormatted = '00:' + (curSec < 10 ? '0' + curSec : curSec);
             document.getElementById('time-' + id).innerText = curFormatted + ' / 00:15';
@@ -2288,20 +2912,21 @@
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
+
                 const rotateX = ((y - centerY) / centerY) * -15;
                 const rotateY = ((x - centerX) / centerX) * 15;
-                
+
                 card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.05, 1.05, 1.05)';
             });
-            
+
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
             });
         });
     </script>
 </body>
+
 </html>
